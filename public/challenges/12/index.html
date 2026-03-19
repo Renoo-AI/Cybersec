@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 12 - Disabled Button</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container { border: 1px solid #00ff41; padding: 2rem; }
+        button { background: #00ff41; color: #000; border: none; padding: 15px 30px; cursor: pointer; font-weight: bold; font-size: 1.2rem; }
+        button:disabled { background: #333; color: #666; cursor: not-allowed; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ADMIN PANEL</h1>
+        <p>Only administrators can click the button below.</p>
+        <button id="adminBtn" disabled onclick="getFlag()">GET ADMIN FLAG</button>
+        <div id="msg" style="margin-top: 2rem;"></div>
+    </div>
+
+    <script>
+        function getFlag() {
+            document.getElementById('msg').innerHTML = '<span style="color: #ff4444; font-size: 1.5rem;">FLAG{FRONTEND_IS_NOT_SECURITY}</span>';
+        }
+    </script>
+</body>
+</html>

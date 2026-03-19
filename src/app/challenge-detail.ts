@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
 import {ActivatedRoute, RouterModule} from '@angular/router';
+import {DomSanitizer} from '@angular/platform-browser';
 import {CHALLENGES, GameStateService} from './game-state';
 
 @Component({
@@ -16,6 +17,7 @@ import {CHALLENGES, GameStateService} from './game-state';
 export class ChallengeDetail {
   route = inject(ActivatedRoute);
   gameState = inject(GameStateService);
+  sanitizer = inject(DomSanitizer);
   challenges = CHALLENGES;
   
   challengeSlug = signal<string>('');
@@ -24,22 +26,31 @@ export class ChallengeDetail {
     this.challenges.find(c => c.slug === this.challengeSlug())!
   );
 
-  // Challenge specific states
-  userInput = signal('');
-  userPassword = signal('');
-  userPrice = signal(100);
-  userRole = signal('guest');
-  userCookie = signal('cm9sZT11c2Vy'); // Base64 for role=user
-  showSecretPage = signal(false);
-  pathInput = signal('');
-  searchQuery = signal('');
-  commentList = signal<string[]>([]);
-  newComment = signal('');
-  
+  targetUrl = computed(() => {
+    const challenge = this.currentChallenge();
+    if (!challenge) return this.sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+    return this.sanitizer.bypassSecurityTrustResourceUrl(`/challenges/${challenge.id}/index.html`);
+  });
+
+  openTarget() {
+    const challenge = this.currentChallenge();
+    if (challenge) {
+      window.open(`/challenges/${challenge.id}/index.html`, '_blank');
+    }
+  }
+
+  viewCode() {
+    const challenge = this.currentChallenge();
+    if (challenge) {
+      // Open the index.html file directly in a new tab
+      window.open(`/challenges/${challenge.id}/index.html`, '_blank');
+    }
+  }
+
   // UI States
   activeHintIndex = signal(-1);
   showExplanation = signal(false);
-  flagInput = signal('');
+  flagInput = '';
   confetti = signal(false);
 
   constructor() {
@@ -65,17 +76,9 @@ export class ChallengeDetail {
   }
 
   resetChallengeState() {
-    this.userInput.set('');
-    this.userPassword.set('');
-    this.userPrice.set(100);
-    this.userRole.set('guest');
-    this.userCookie.set('cm9sZT11c2Vy');
-    this.showSecretPage.set(false);
-    this.pathInput.set('');
-    this.searchQuery.set('');
     this.activeHintIndex.set(-1);
     this.showExplanation.set(false);
-    this.flagInput.set('');
+    this.flagInput = '';
   }
 
   showNextHint() {
@@ -89,7 +92,7 @@ export class ChallengeDetail {
   }
 
   submitFlag() {
-    if (this.flagInput().trim() === this.currentChallenge().flag) {
+    if (this.flagInput.trim() === this.currentChallenge().flag) {
       this.gameState.solve(this.currentChallenge().id);
       this.gameState.byteMessage.set('BOOM! Flag secured! You\'re a natural! 🔥');
       this.gameState.byteMood.set('excited');
@@ -99,71 +102,6 @@ export class ChallengeDetail {
     } else {
       this.gameState.byteMessage.set('Hmm, that flag doesn\'t look right. Try again!');
       this.gameState.byteMood.set('thinking');
-    }
-  }
-
-  // Challenge Actions
-  loginSqli() {
-    if (this.userInput().includes("' OR '1'='1")) {
-      this.gameState.byteMessage.set('SQL Injection successful! You bypassed the login.');
-      this.gameState.byteMood.set('happy');
-    }
-  }
-
-  checkPath() {
-    const path = this.pathInput().toLowerCase();
-    if (this.currentChallenge().id === 5 && (path === '/admin-login' || path === 'admin-login')) {
-      this.showSecretPage.set(true);
-    } else if (this.currentChallenge().id === 4 && (path === '/robots.txt' || path === 'robots.txt')) {
-      this.showSecretPage.set(true);
-    } else if (this.currentChallenge().id === 16 && (path === 'db.txt' || path === '/db.txt')) {
-      this.showSecretPage.set(true);
-    } else if (this.currentChallenge().id === 20 && (path === '/admin-vault' || path === 'admin-vault')) {
-      this.showSecretPage.set(true);
-    }
-  }
-
-  manipulatePrice() {
-    if (this.userPrice() <= 1) {
-      this.gameState.byteMessage.set('Price manipulated! The checkout is now free.');
-      this.gameState.byteMood.set('happy');
-    }
-  }
-
-  updateCookie() {
-    if (this.userRole() === 'admin') {
-      this.gameState.byteMessage.set('Role escalated to admin! Refresh to see the change.');
-      this.gameState.byteMood.set('happy');
-    }
-  }
-
-  decodeCookie() {
-    try {
-      const decoded = atob(this.userCookie());
-      if (decoded === 'role=admin') {
-        this.gameState.byteMessage.set('Base64 cookie updated correctly!');
-        this.gameState.byteMood.set('happy');
-      }
-    } catch(error) {
-      console.error('Cookie decode error:', error);
-    }
-  }
-
-  submitSearch() {
-    if (this.searchQuery().includes('<script>alert')) {
-      this.gameState.byteMessage.set('XSS Triggered! Alert(1) would have fired here.');
-      this.gameState.byteMood.set('excited');
-    }
-  }
-
-  addComment() {
-    if (this.newComment()) {
-      this.commentList.update(list => [...list, this.newComment()]);
-      if (this.newComment().includes('<script>alert')) {
-        this.gameState.byteMessage.set('Stored XSS payload saved! Every visitor will now see your alert.');
-        this.gameState.byteMood.set('excited');
-      }
-      this.newComment.set('');
     }
   }
 }

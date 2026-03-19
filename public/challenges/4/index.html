@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 4 - Robots.txt</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container { border: 1px solid #00ff41; padding: 2rem; }
+        .terminal { background: #000; padding: 1rem; border-radius: 4px; text-align: left; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ROBOTS ONLY</h1>
+        <p>Search engines are forbidden from seeing the good stuff.</p>
+        <p>Can you find the robots.txt file?</p>
+        <div id="result" style="display:none; margin-top: 2rem;">
+            <div class="terminal">
+                User-agent: *<br>
+                Disallow: /super-secret-area-51<br><br>
+                # Found it! FLAG{ROBOTS_KNOW_SECRETS}
+            </div>
+        </div>
+    </div>
+    <script>
+        // In a real app, the user would navigate to /robots.txt
+        // Here we simulate it by checking the URL or just providing a hint
+        if (window.location.search.includes('file=robots.txt')) {
+            document.getElementById('result').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

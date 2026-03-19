@@ -23,11 +23,11 @@ export const CHALLENGES: Challenge[] = [
     title: "View Source Hunt",
     level: "Super Beginner",
     objective: "The flag is hidden somewhere in the page structure. Can you find it?",
-    flag: "THM{view_the_source}",
+    flag: "FLAG{SOURCE_CODE_IS_NOT_HIDDEN}",
     skill: "Inspecting Page Source",
     hints: [
       "Right-click anywhere on the page and select \"Inspect\" or \"View Page Source\".",
-      "Look for a div with a suspicious ID or just search for \"THM{\" in the elements tab.",
+      "Look for a comment or a hidden element in the HTML.",
       "Check the very bottom of the HTML body!"
     ],
     explanation: {
@@ -38,40 +38,40 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 2,
-    slug: "hidden-comment",
-    title: "Hidden Comment Finder",
-    level: "Super Beginner",
-    objective: "Developers use comments to leave notes. Sometimes they forget to remove them.",
-    flag: "THM{comments_are_useful}",
-    skill: "Reading HTML Comments",
+    slug: "simple-sqli",
+    title: "Simple Login Bypass",
+    level: "Easy",
+    objective: "The login form is poorly coded. Can you trick it into letting you in without a password?",
+    flag: "FLAG{ALWAYS_SANITIZE_INPUTS}",
+    skill: "SQL Injection Basics",
     hints: [
-      "Open DevTools (F12 or Right-click -> Inspect).",
-      "Look for green text in the Elements tab starting with <!--.",
-      "It is usually near the main content area."
+      "SQL queries often look like: SELECT * FROM users WHERE username = '...' AND password = '...'",
+      "Try using a single quote (') to break the query.",
+      "The classic payload is: ' OR '1'='1"
     ],
     explanation: {
-      bug: "Sensitive Information in Comments.",
-      why: "Comments are visible to anyone who views the source. They can reveal logic, passwords, or hidden paths.",
-      prevention: "Strip comments during the build process or manually remove sensitive notes."
+      bug: "SQL Injection (SQLi).",
+      why: "The application directly includes user input in a database query without sanitizing it.",
+      prevention: "Use Prepared Statements or Parameterized Queries."
     }
   },
   {
     id: 3,
-    slug: "broken-image",
-    title: "Broken Image Clue",
-    level: "Super Beginner",
-    objective: "An image failed to load. Maybe its source path tells a story?",
-    flag: "THM{follow_the_path}",
-    skill: "Analyzing File Paths",
+    slug: "broken-auth",
+    title: "Broken Auth",
+    level: "Medium",
+    objective: "Can you bypass the authentication check?",
+    flag: "FLAG{BROKEN_AUTH_BYPASS}",
+    skill: "Authentication Bypass",
     hints: [
-      "Inspect the broken image icon.",
-      "Look at the \"src\" attribute. Where is it trying to point?",
-      "Try navigating to the directory mentioned in the path (e.g., /secret-vault)."
+      "Check the URL parameters.",
+      "What happens if you set authenticated=true?",
+      "Sometimes simple logic can be bypassed with URL parameters."
     ],
     explanation: {
-      bug: "Information Leakage via File Paths.",
-      why: "Broken links or specific naming conventions can reveal the existence of hidden directories.",
-      prevention: "Use generic naming conventions and ensure 404 pages don't leak directory structures."
+      bug: "Broken Authentication.",
+      why: "The application relies on client-side parameters to verify authentication.",
+      prevention: "Always verify authentication on the server using secure sessions."
     }
   },
   {
@@ -80,10 +80,10 @@ export const CHALLENGES: Challenge[] = [
     title: "Robots.txt Discovery",
     level: "Super Beginner",
     objective: "Search engines use a special file to know what NOT to index. Hackers love it.",
-    flag: "THM{robots_know_secrets}",
+    flag: "FLAG{ROBOTS_KNOW_SECRETS}",
     skill: "Checking Common Files",
     hints: [
-      "Try adding \"/robots.txt\" to the end of the URL in your mind, or look for a \"Virtual Robots\" button.",
+      "Try adding \"?file=robots.txt\" to the end of the URL.",
       "Robots.txt often lists \"Disallow\" paths which are meant to be hidden.",
       "Check the Disallow entry for a secret path."
     ],
@@ -99,12 +99,12 @@ export const CHALLENGES: Challenge[] = [
     title: "Hidden Page Guessing",
     level: "Super Beginner",
     objective: "Some pages aren't linked anywhere. Can you guess where the admin hides?",
-    flag: "THM{hidden_pages_exist}",
+    flag: "FLAG{HIDDEN_PAGES_EXIST}",
     skill: "Directory Enumeration",
     hints: [
       "Think of common names for administrative areas.",
       "Try paths like /admin, /login, /config, or /dashboard.",
-      "In this game, look for a \"Go to Path\" input box."
+      "In this lab, finding the page is the goal."
     ],
     explanation: {
       bug: "Unprotected Hidden Pages.",
@@ -114,185 +114,14 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 6,
-    slug: "simple-sqli",
-    title: "Simple Login Bypass",
-    level: "Easy",
-    objective: "The login form is poorly coded. Can you trick it into letting you in without a password?",
-    flag: "THM{first_sqli}",
-    skill: "SQL Injection Basics",
-    hints: [
-      "SQL queries often look like: SELECT * FROM users WHERE username = '...' AND password = '...'",
-      "Try using a single quote (') to break the query.",
-      "The classic payload is: ' OR '1'='1"
-    ],
-    explanation: {
-      bug: "SQL Injection (SQLi).",
-      why: "The application directly includes user input in a database query without sanitizing it.",
-      prevention: "Use Prepared Statements or Parameterized Queries."
-    }
-  },
-  {
-    id: 7,
-    slug: "url-tampering",
-    title: "URL Parameter Tampering",
-    level: "Easy",
-    objective: "The URL says you are a \"guest\". What if you were someone else?",
-    flag: "THM{change_the_parameter}",
-    skill: "Parameter Tampering",
-    hints: [
-      "Look at the URL parameters (the part after the ?).",
-      "Change \"user=guest\" to something more powerful.",
-      "Try \"admin\"."
-    ],
-    explanation: {
-      bug: "Insecure Parameter Handling.",
-      why: "The server trusts the client to define its own identity via URL parameters.",
-      prevention: "Use secure, server-side sessions to track user roles."
-    }
-  },
-  {
-    id: 8,
-    slug: "price-manipulation",
-    title: "Price Manipulation",
-    level: "Easy",
-    objective: "This item is too expensive. Can you \"negotiate\" the price in the URL?",
-    flag: "THM{never_trust_user_input}",
-    skill: "Business Logic Vulnerability",
-    hints: [
-      "Check the URL for a \"price\" parameter.",
-      "What happens if you change it to 1 or 0?",
-      "Edit the URL and press Enter."
-    ],
-    explanation: {
-      bug: "Client-Side Trust.",
-      why: "The application trusts the price sent from the browser instead of looking it up in a database.",
-      prevention: "Never trust sensitive data (like prices) provided by the client."
-    }
-  },
-  {
-    id: 9,
-    slug: "cookie-role",
-    title: "Cookie Role Escalation",
-    level: "Easy",
-    objective: "Your browser is holding a cookie that says you are a \"user\". Change it!",
-    flag: "THM{cookies_can_lie}",
-    skill: "Cookie Tampering",
-    hints: [
-      "Open DevTools -> Application tab -> Cookies.",
-      "Find the cookie named \"role\".",
-      "Double-click the value and change it to \"admin\", then refresh the challenge."
-    ],
-    explanation: {
-      bug: "Insecure Cookie Storage.",
-      why: "Cookies are stored on the user's machine and can be edited easily.",
-      prevention: "Use signed or encrypted cookies, or store roles only on the server."
-    }
-  },
-  {
-    id: 10,
-    slug: "base64-cookie",
-    title: "Base64 Cookie Decode",
-    level: "Easy",
-    objective: "The cookie value looks like gibberish. It's actually just encoded.",
-    flag: "THM{decode_then_edit}",
-    skill: "Base64 Encoding/Decoding",
-    hints: [
-      "The value \"cm9sZT11c2Vy\" is Base64. Try decoding it online or in the console using atob().",
-      "It decodes to \"role=user\". Change it to \"role=admin\" and encode it back using btoa().",
-      "The new value should be \"cm9sZT1hZG1pbg==\"."
-    ],
-    explanation: {
-      bug: "Encoding is NOT Encryption.",
-      why: "Base64 is a way to represent data, not hide it. It is trivial to reverse.",
-      prevention: "Use strong encryption for sensitive data stored on the client."
-    }
-  },
-  {
-    id: 11,
-    slug: "js-leak",
-    title: "JavaScript Password Leak",
-    level: "Easy",
-    objective: "The login button calls a function. Maybe the password is right there?",
-    flag: "THM{js_leaks_secrets}",
-    skill: "Analyzing Client-Side Logic",
-    hints: [
-      "Inspect the \"Login\" button to see what function it calls.",
-      "Look at the \"Sources\" tab in DevTools for a .js file.",
-      "Search for \"if (password === ...)\" in the code."
-    ],
-    explanation: {
-      bug: "Hardcoded Credentials in JS.",
-      why: "Anything in JavaScript is sent to the user's browser and can be read.",
-      prevention: "Always verify passwords on the server side."
-    }
-  },
-  {
-    id: 12,
-    slug: "disabled-button",
-    title: "Disabled Button Trick",
-    level: "Easy",
-    objective: "The \"Get Flag\" button is grayed out. Can you force it to work?",
-    flag: "THM{frontend_is_not_security}",
-    skill: "Bypassing UI Restrictions",
-    hints: [
-      "Right-click the disabled button and select \"Inspect\".",
-      "Look for the \"disabled\" attribute in the HTML tag.",
-      "Double-click the word \"disabled\" and delete it, then click the button."
-    ],
-    explanation: {
-      bug: "Client-Side Only Restriction.",
-      why: "Disabling a button in HTML only stops the UI, not the underlying action.",
-      prevention: "Verify permissions on the server before performing the action."
-    }
-  },
-  {
-    id: 13,
-    slug: "validation-bypass",
-    title: "Client-Side Validation Bypass",
-    level: "Easy",
-    objective: "The form says your username must be exactly 1337 characters. That's annoying.",
-    flag: "THM{validation_bypassed}",
-    skill: "Bypassing Client-Side Checks",
-    hints: [
-      "The check is happening in JavaScript before the form is sent.",
-      "You can find the validation function and change its logic in the console.",
-      "Or just edit the HTML to remove the \"maxlength\" or \"pattern\" attributes."
-    ],
-    explanation: {
-      bug: "Lack of Server-Side Validation.",
-      why: "Client-side validation is for user experience, not security.",
-      prevention: "Always re-validate all input on the server."
-    }
-  },
-  {
-    id: 14,
-    slug: "hidden-input",
-    title: "Hidden Input Field",
-    level: "Easy",
-    objective: "There is a secret field in this form that you can't see, but the server can.",
-    flag: "THM{hidden_is_not_safe}",
-    skill: "Manipulating Hidden Inputs",
-    hints: [
-      "Inspect the form elements.",
-      "Look for `<input type=\"hidden\" ...>`.",
-      "Change the value of \"isAdmin\" from \"false\" to \"true\" and submit."
-    ],
-    explanation: {
-      bug: "Trusting Hidden Form Fields.",
-      why: "Hidden fields are just as editable as visible ones.",
-      prevention: "Store state like \"isAdmin\" in a secure session on the server."
-    }
-  },
-  {
-    id: 15,
-    slug: "idor-lab",
+    slug: "idor",
     title: "IDOR Beginner Lab",
     level: "Easy",
     objective: "You are viewing your profile (ID 1). Can you see ID 2?",
-    flag: "THM{idor_found}",
+    flag: "FLAG{IDOR_FOUND_YOU}",
     skill: "Insecure Direct Object Reference",
     hints: [
-      "Look at the URL: /profile?id=1.",
+      "Look at the URL: ?id=1.",
       "Change the number 1 to 2.",
       "This is called IDOR - accessing data you shouldn't by changing an ID."
     ],
@@ -303,31 +132,12 @@ export const CHALLENGES: Challenge[] = [
     }
   },
   {
-    id: 16,
-    slug: "file-guessing",
-    title: "File Name Guessing",
-    level: "Easy",
-    objective: "The developer left a backup of the database somewhere. Can you find it?",
-    flag: "THM{backup_files_matter}",
-    skill: "Predictable Resource Location",
-    hints: [
-      "Common backup names include backup.zip, config.old, or db.sql.",
-      "Try guessing common filenames in the \"Go to Path\" box.",
-      "Try \"db.txt\"."
-    ],
-    explanation: {
-      bug: "Sensitive Files Exposed.",
-      why: "Leaving backups or configuration files in the web root is a major risk.",
-      prevention: "Store backups outside the web root and disable directory listing."
-    }
-  },
-  {
-    id: 17,
-    slug: "reflected-xss",
+    id: 7,
+    slug: "xss",
     title: "Search Box XSS Intro",
     level: "Medium",
     objective: "The search box repeats whatever you type. Can you make it run code?",
-    flag: "THM{xss_is_real}",
+    flag: "FLAG{XSS_IS_REAL_POWER}",
     skill: "Reflected XSS",
     hints: [
       "Try typing something like `<h1>Hello</h1>`. Does it render as a heading?",
@@ -341,34 +151,15 @@ export const CHALLENGES: Challenge[] = [
     }
   },
   {
-    id: 18,
-    slug: "stored-xss",
-    title: "Profile Message Stored XSS",
-    level: "Medium",
-    objective: "Your bio is saved and shown to everyone. Can you \"infect\" the page?",
-    flag: "THM{stored_xss_master}",
-    skill: "Stored XSS",
-    hints: [
-      "This is like the search box, but the payload is saved in the database.",
-      "Enter `<script>alert(1)</script>` as your bio.",
-      "Refresh the page to see if it triggers."
-    ],
-    explanation: {
-      bug: "Stored Cross-Site Scripting (XSS).",
-      why: "Malicious scripts are saved on the server and executed in every visitor's browser.",
-      prevention: "Use a Content Security Policy (CSP) and sanitize all stored input."
-    }
-  },
-  {
-    id: 19,
+    id: 8,
     slug: "path-traversal",
     title: "Path Traversal Lite",
     level: "Medium",
     objective: "The page viewer loads files from a folder. Can you go \"up\" a level?",
-    flag: "THM{dot_dot_slash}",
+    flag: "FLAG{DOT_DOT_SLASH_WIN}",
     skill: "Path Traversal",
     hints: [
-      "The URL looks like `?file=welcome.html`.",
+      "The URL looks like `?file=welcome.txt`.",
       "Try using `../` to go up one directory.",
       "Try `../secret/flag.txt`."
     ],
@@ -379,22 +170,231 @@ export const CHALLENGES: Challenge[] = [
     }
   },
   {
-    id: 20,
-    slug: "final-vault",
-    title: "Final Multi-Step Challenge",
-    level: "Medium",
-    objective: "Combine everything you've learned to break into the ultimate vault.",
-    flag: "THM{web_beginner_complete}",
-    skill: "Chaining Vulnerabilities",
+    id: 9,
+    slug: "cookie-role",
+    title: "Cookie Role Tampering",
+    level: "Easy",
+    objective: "Your role is stored in a cookie. Can you become an admin?",
+    flag: "FLAG{COOKIES_ARE_NOT_VAULTS}",
+    skill: "Cookie Manipulation",
     hints: [
-      "Step 1: Find the hidden admin page (/admin-vault).",
-      "Step 2: Inspect the source code for a hidden password hint.",
-      "Step 3: Change your cookie \"access_level\" to \"9999\"."
+      "Open DevTools -> Application -> Cookies.",
+      "Look for the 'role' cookie.",
+      "Change 'user' to 'admin' and refresh (or use the ?role=admin parameter in this sim)."
     ],
     explanation: {
-      bug: "Vulnerability Chaining.",
-      why: "Often, one small bug isn't enough, but combining them leads to a full compromise.",
-      prevention: "Defense in Depth: Secure every layer of the application."
+      bug: "Insecure Cookie Management.",
+      why: "Cookies are client-side and can be easily modified by the user.",
+      prevention: "Use signed session cookies or store roles server-side."
+    }
+  },
+  {
+    id: 10,
+    slug: "base64-cookie",
+    title: "Base64 Cookie Decode",
+    level: "Easy",
+    objective: "The cookie is encoded. Can you decode it, change it, and re-encode it?",
+    flag: "FLAG{DECODE_THEN_EDIT_WIN}",
+    skill: "Base64 Encoding",
+    hints: [
+      "The value looks like Base64. Try decoding it.",
+      "Change 'user' to 'admin' in the decoded string.",
+      "Encode the new string back to Base64 and use it as the token parameter."
+    ],
+    explanation: {
+      bug: "Security by Obscurity (Encoding).",
+      why: "Encoding is not encryption. It's easily reversible.",
+      prevention: "Use strong encryption for any sensitive data stored on the client."
+    }
+  },
+  {
+    id: 11,
+    slug: "js-leak",
+    title: "JavaScript Secret Leak",
+    level: "Easy",
+    objective: "The password check happens in the browser. Can you find the secret?",
+    flag: "FLAG{JS_LEAKS_SECRETS_2026}",
+    skill: "Client-Side Code Analysis",
+    hints: [
+      "Right-click -> View Page Source.",
+      "Look for the script tag at the bottom.",
+      "Find the SECRET_KEY variable."
+    ],
+    explanation: {
+      bug: "Hardcoded Secrets in Client-Side Code.",
+      why: "Anything sent to the browser is public knowledge.",
+      prevention: "Never store secrets or perform sensitive validation in client-side JavaScript."
+    }
+  },
+  {
+    id: 12,
+    slug: "disabled-button",
+    title: "Disabled Button Bypass",
+    level: "Easy",
+    objective: "The button is disabled. Can you force it to click?",
+    flag: "FLAG{FRONTEND_IS_NOT_SECURITY}",
+    skill: "Bypassing UI Controls",
+    hints: [
+      "Inspect the button element.",
+      "Remove the 'disabled' attribute from the HTML tag.",
+      "Click the now-enabled button."
+    ],
+    explanation: {
+      bug: "Client-Side Only UI Restrictions.",
+      why: "UI states like 'disabled' are for UX, not security.",
+      prevention: "Always verify permissions on the server before executing an action."
+    }
+  },
+  {
+    id: 13,
+    slug: "validation-bypass",
+    title: "Validation Bypass",
+    level: "Easy",
+    objective: "The form has a silly length requirement. Can you bypass it?",
+    flag: "FLAG{VALIDATION_BYPASSED_WIN}",
+    skill: "Client-Side Validation Bypass",
+    hints: [
+      "The check happens in the validateAndSubmit() function.",
+      "You can call the success logic directly from the console.",
+      "Or just edit the JS function in the browser."
+    ],
+    explanation: {
+      bug: "Lack of Server-Side Validation.",
+      why: "Client-side checks can be easily bypassed or ignored.",
+      prevention: "Always perform critical validation on the server."
+    }
+  },
+  {
+    id: 14,
+    slug: "hidden-input",
+    title: "Hidden Input Manipulation",
+    level: "Easy",
+    objective: "There's a hidden field that says you're not an admin. Change it!",
+    flag: "FLAG{HIDDEN_IS_NOT_SAFE_WIN}",
+    skill: "Hidden Field Tampering",
+    hints: [
+      "Inspect the form elements.",
+      "Look for <input type=\"hidden\">.",
+      "Change the value from 'false' to 'true' before submitting."
+    ],
+    explanation: {
+      bug: "Trusting Hidden Form Inputs.",
+      why: "Hidden inputs are just as editable as regular ones.",
+      prevention: "Never use hidden fields for sensitive state or permissions."
+    }
+  },
+  {
+    id: 15,
+    slug: "price-manipulation",
+    title: "Price Manipulation",
+    level: "Easy",
+    objective: "The price is in the URL. Can you get it for free?",
+    flag: "FLAG{NEVER_TRUST_USER_INPUT_WIN}",
+    skill: "Business Logic Flaw",
+    hints: [
+      "Look at the URL parameters: ?price=1000000.",
+      "Change the price to 0.",
+      "Click 'BUY NOW'."
+    ],
+    explanation: {
+      bug: "Client-Side Price Definition.",
+      why: "Trusting the client to define the price of an item is a major logic flaw.",
+      prevention: "Always look up prices in a secure server-side database."
+    }
+  },
+  {
+    id: 16,
+    slug: "file-guessing",
+    title: "Predictable File Names",
+    level: "Easy",
+    objective: "Can you guess the name of the database backup?",
+    flag: "FLAG{BACKUP_FILES_MATTER_WIN}",
+    skill: "Resource Enumeration",
+    hints: [
+      "Try common backup extensions like .sql, .zip, or .bak.",
+      "Try filenames like 'db', 'backup', or 'config'.",
+      "Try ?file=db.sql."
+    ],
+    explanation: {
+      bug: "Sensitive Files in Web Root.",
+      why: "Predictable filenames allow attackers to find sensitive data.",
+      prevention: "Use random filenames or store sensitive files outside the web root."
+    }
+  },
+  {
+    id: 17,
+    slug: "stored-xss",
+    title: "Stored XSS Lab",
+    level: "Medium",
+    objective: "Can you leave a comment that executes code for everyone?",
+    flag: "FLAG{STORED_XSS_MASTER_WIN}",
+    skill: "Stored XSS",
+    hints: [
+      "Try a basic payload: <script>alert(1)</script>.",
+      "The comment list uses innerHTML, which is dangerous.",
+      "In this sim, triggering the alert shows the flag."
+    ],
+    explanation: {
+      bug: "Stored Cross-Site Scripting (XSS).",
+      why: "User input is saved and rendered without sanitization.",
+      prevention: "Always sanitize user input and use safe APIs like textContent."
+    }
+  },
+  {
+    id: 18,
+    slug: "url-tampering",
+    title: "URL Parameter Tampering",
+    level: "Easy",
+    objective: "The URL defines who you are. Can you be the admin?",
+    flag: "FLAG{CHANGE_THE_PARAMETER_WIN}",
+    skill: "Parameter Tampering",
+    hints: [
+      "Look at the URL: ?user=guest.",
+      "Change 'guest' to 'admin'.",
+      "This is a common way to test for authorization flaws."
+    ],
+    explanation: {
+      bug: "Insecure Authorization.",
+      why: "The server trusts the URL parameter to define the user's identity.",
+      prevention: "Use secure, server-side sessions."
+    }
+  },
+  {
+    id: 19,
+    slug: "command-injection",
+    title: "Command Injection Intro",
+    level: "Medium",
+    objective: "The ping tool is vulnerable. Can you run a second command?",
+    flag: "FLAG{COMMAND_INJECTION_MASTER}",
+    skill: "Command Injection",
+    hints: [
+      "Try using a semicolon (;) to chain commands.",
+      "Try: 8.8.8.8; ls",
+      "Command injection happens when user input is passed to a shell."
+    ],
+    explanation: {
+      bug: "Command Injection.",
+      why: "User input is directly concatenated into a system command.",
+      prevention: "Avoid shell execution or use strict input whitelisting."
+    }
+  },
+  {
+    id: 20,
+    slug: "final-vault",
+    title: "The Ultimate Vault",
+    level: "Medium",
+    objective: "Combine your skills to unlock the final vault.",
+    flag: "FLAG{WEB_BEGINNER_MASTER_COMPLETE}",
+    skill: "Chaining Vulnerabilities",
+    hints: [
+      "Step 1: Check the source for the master key.",
+      "Step 2: Use the URL parameter ?level=9999 to bypass the level check.",
+      "Step 3: Enter the key and unlock the vault."
+    ],
+    explanation: {
+      bug: "Multiple Vulnerabilities.",
+      why: "Real attacks often involve chaining several small bugs.",
+      prevention: "Implement Defense in Depth."
     }
   }
 ];

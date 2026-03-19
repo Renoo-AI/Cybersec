@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 19 - Command Injection</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container { border: 1px solid #00ff41; padding: 2rem; width: 500px; }
+        input { width: 100%; padding: 10px; background: #000; border: 1px solid #333; color: #00ff41; margin-bottom: 10px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #00ff41; color: #000; border: none; cursor: pointer; font-weight: bold; }
+        .terminal { background: #000; padding: 1rem; border: 1px solid #333; text-align: left; font-size: 0.8rem; margin-top: 2rem; min-height: 100px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>NETWORK DIAGNOSTICS</h1>
+        <p>Enter IP address to ping:</p>
+        <input type="text" id="ip" placeholder="8.8.8.8">
+        <button onclick="runPing()">PING</button>
+        <div class="terminal" id="output"></div>
+    </div>
+
+    <script>
+        function runPing() {
+            const ip = document.getElementById('ip').value;
+            const output = document.getElementById('output');
+            
+            output.innerText = `PING ${ip} (56 bytes of data)...\n`;
+            
+            // Simulate command injection
+            if (ip.includes(';') || ip.includes('|') || ip.includes('&')) {
+                setTimeout(() => {
+                    output.innerText += `64 bytes from 8.8.8.8: icmp_seq=1 ttl=117 time=14.2 ms\n`;
+                    output.innerText += `\n[EXECUTING INJECTED COMMAND...]\n`;
+                    output.innerText += `root:x:0:0:root:/root:/bin/bash\n`;
+                    output.innerText += `\n<span style="color: #ff4444">FLAG{COMMAND_INJECTION_MASTER}</span>`;
+                    // Need to use innerHTML to show the color
+                    output.innerHTML = output.innerText.replace('<span', '<span').replace('</span>', '</span>');
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    output.innerText += `64 bytes from ${ip}: icmp_seq=1 ttl=117 time=14.2 ms\n`;
+                    output.innerText += `64 bytes from ${ip}: icmp_seq=2 ttl=117 time=13.8 ms\n`;
+                    output.innerText += `\n--- ${ip} ping statistics ---\n2 packets transmitted, 2 received, 0% packet loss`;
+                }, 1000);
+            }
+        }
+    </script>
+</body>
+</html>

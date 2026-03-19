@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 7 - XSS</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container { border: 1px solid #00ff41; padding: 2rem; width: 400px; }
+        input { width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid #333; color: #00ff41; margin-bottom: 1rem; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #00ff41; color: #000; border: none; cursor: pointer; font-weight: bold; }
+        #output { margin-top: 2rem; text-align: left; border-top: 1px solid #333; padding-top: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>SEARCH ENGINE</h1>
+        <input type="text" id="searchInput" placeholder="Search for flags...">
+        <button onclick="search()">SEARCH</button>
+        <div id="output"></div>
+    </div>
+
+    <script>
+        function search() {
+            const query = document.getElementById('searchInput').value;
+            const output = document.getElementById('output');
+            
+            // VULNERABLE: Direct insertion of HTML
+            output.innerHTML = `<p>Results for: <strong>${query}</strong></p><p>No results found.</p>`;
+
+            if (query.includes('<script>alert')) {
+                // In a real browser this would fire the alert.
+                // We'll simulate the success.
+                setTimeout(() => {
+                    output.innerHTML += '<div style="color: #ff4444; font-weight: bold; margin-top: 1rem;">XSS DETECTED! FLAG{XSS_IS_REAL_POWER}</div>';
+                }, 500);
+            }
+        }
+    </script>
+</body>
+</html>

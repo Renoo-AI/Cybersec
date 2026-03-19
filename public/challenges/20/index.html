@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 20 - Final Vault</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container { border: 2px solid #00ff41; padding: 3rem; background: rgba(0, 255, 65, 0.05); box-shadow: 0 0 20px rgba(0, 255, 65, 0.2); }
+        .vault-door { font-size: 5rem; margin-bottom: 2rem; }
+        .input-group { margin-bottom: 1.5rem; text-align: left; }
+        label { display: block; font-size: 0.7rem; opacity: 0.6; margin-bottom: 5px; }
+        input { width: 100%; padding: 12px; background: #000; border: 1px solid #333; color: #00ff41; box-sizing: border-box; }
+        button { width: 100%; padding: 15px; background: #00ff41; color: #000; border: none; cursor: pointer; font-weight: bold; font-size: 1.1rem; margin-top: 1rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="vault-door">🔒</div>
+        <h1>THE ULTIMATE VAULT</h1>
+        <div class="input-group">
+            <label>ACCESS LEVEL (URL: ?level=...)</label>
+            <div id="currentLevel" style="background: #000; border: 1px solid #333; padding: 12px; color: #ff4444;">Current Level: 1</div>
+        </div>
+        <div class="input-group">
+            <label>VAULT MASTER KEY (CHECK SOURCE!)</label>
+            <input type="password" id="key" placeholder="Enter key">
+        </div>
+        <button onclick="unlock()">UNLOCK VAULT</button>
+        <div id="msg" style="margin-top: 2rem;"></div>
+    </div>
+
+    <script>
+        // MASTER KEY: vault_master_2026_final
+        function checkLevel() {
+            const params = new URLSearchParams(window.location.search);
+            const level = params.get('level') || '1';
+            const levelDisplay = document.getElementById('currentLevel');
+            levelDisplay.innerText = `Current Level: ${level}`;
+            if (level === '9999') {
+                levelDisplay.style.color = '#00ff41';
+                levelDisplay.style.borderColor = '#00ff41';
+            }
+        }
+
+        function unlock() {
+            const params = new URLSearchParams(window.location.search);
+            const level = params.get('level') || '1';
+            const key = document.getElementById('key').value;
+            const msg = document.getElementById('msg');
+            
+            if (level === '9999' && key === 'vault_master_2026_final') {
+                msg.innerHTML = `
+                    <div style="color: #ff4444; font-size: 1.5rem; border: 2px solid #ff4444; padding: 1rem; background: rgba(255, 68, 68, 0.1);">
+                        VAULT UNLOCKED!<br>
+                        FLAG{WEB_BEGINNER_MASTER_COMPLETE}
+                    </div>
+                `;
+                document.querySelector('.vault-door').innerText = '🔓';
+            } else {
+                msg.innerText = "Access Denied. Check your level and master key.";
+                msg.style.color = "red";
+            }
+        }
+
+        checkLevel();
+    </script>
+</body>
+</html>

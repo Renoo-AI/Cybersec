@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 13 - Validation Bypass</title>
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #00ff41;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        .container { border: 1px solid #00ff41; padding: 2rem; width: 400px; }
+        input { width: 100%; padding: 10px; background: #000; border: 1px solid #00ff41; color: #00ff41; margin-bottom: 1rem; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #00ff41; color: #000; border: none; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>USER REGISTRATION</h1>
+        <p>Username must be exactly 1337 characters long.</p>
+        <input type="text" id="username" placeholder="Enter username...">
+        <button onclick="validateAndSubmit()">REGISTER</button>
+        <div id="msg" style="margin-top: 1rem;"></div>
+    </div>
+
+    <script>
+        function validateAndSubmit() {
+            const user = document.getElementById('username').value;
+            const msg = document.getElementById('msg');
+            
+            if (user.length !== 1337) {
+                msg.innerText = "Error: Username must be exactly 1337 characters! Current length: " + user.length;
+                msg.style.color = "red";
+            } else {
+                msg.innerHTML = '<span style="color: #ff4444">SUCCESS! FLAG{VALIDATION_BYPASSED_WIN}</span>';
+            }
+        }
+    </script>
+</body>
+</html>
