@@ -65,7 +65,7 @@ import {CHALLENGES, GameStateService} from './game-state';
       </div>
 
       <div class="mt-12 text-center">
-        <a routerLink="/challenge/1" class="hacker-button px-12 py-4 text-lg">START FIRST CHALLENGE</a>
+        <a routerLink="/challenge/view-source" class="hacker-button px-12 py-4 text-lg">START FIRST CHALLENGE</a>
       </div>
     </div>
   `

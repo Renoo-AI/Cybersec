@@ -2,6 +2,7 @@ import { signal, computed } from '@angular/core';
 
 export interface Challenge {
   id: number;
+  slug: string;
   title: string;
   level: 'Super Beginner' | 'Easy' | 'Medium';
   objective: string;
@@ -18,6 +19,7 @@ export interface Challenge {
 export const CHALLENGES: Challenge[] = [
   {
     id: 1,
+    slug: "view-source",
     title: "View Source Hunt",
     level: "Super Beginner",
     objective: "The flag is hidden somewhere in the page structure. Can you find it?",
@@ -36,6 +38,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 2,
+    slug: "hidden-comment",
     title: "Hidden Comment Finder",
     level: "Super Beginner",
     objective: "Developers use comments to leave notes. Sometimes they forget to remove them.",
@@ -54,6 +57,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 3,
+    slug: "broken-image",
     title: "Broken Image Clue",
     level: "Super Beginner",
     objective: "An image failed to load. Maybe its source path tells a story?",
@@ -72,6 +76,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 4,
+    slug: "robots-txt",
     title: "Robots.txt Discovery",
     level: "Super Beginner",
     objective: "Search engines use a special file to know what NOT to index. Hackers love it.",
@@ -90,6 +95,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 5,
+    slug: "hidden-page",
     title: "Hidden Page Guessing",
     level: "Super Beginner",
     objective: "Some pages aren't linked anywhere. Can you guess where the admin hides?",
@@ -108,6 +114,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 6,
+    slug: "simple-sqli",
     title: "Simple Login Bypass",
     level: "Easy",
     objective: "The login form is poorly coded. Can you trick it into letting you in without a password?",
@@ -126,6 +133,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 7,
+    slug: "url-tampering",
     title: "URL Parameter Tampering",
     level: "Easy",
     objective: "The URL says you are a \"guest\". What if you were someone else?",
@@ -144,6 +152,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 8,
+    slug: "price-manipulation",
     title: "Price Manipulation",
     level: "Easy",
     objective: "This item is too expensive. Can you \"negotiate\" the price in the URL?",
@@ -162,6 +171,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 9,
+    slug: "cookie-role",
     title: "Cookie Role Escalation",
     level: "Easy",
     objective: "Your browser is holding a cookie that says you are a \"user\". Change it!",
@@ -180,6 +190,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 10,
+    slug: "base64-cookie",
     title: "Base64 Cookie Decode",
     level: "Easy",
     objective: "The cookie value looks like gibberish. It's actually just encoded.",
@@ -198,6 +209,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 11,
+    slug: "js-leak",
     title: "JavaScript Password Leak",
     level: "Easy",
     objective: "The login button calls a function. Maybe the password is right there?",
@@ -216,6 +228,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 12,
+    slug: "disabled-button",
     title: "Disabled Button Trick",
     level: "Easy",
     objective: "The \"Get Flag\" button is grayed out. Can you force it to work?",
@@ -234,6 +247,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 13,
+    slug: "validation-bypass",
     title: "Client-Side Validation Bypass",
     level: "Easy",
     objective: "The form says your username must be exactly 1337 characters. That's annoying.",
@@ -252,6 +266,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 14,
+    slug: "hidden-input",
     title: "Hidden Input Field",
     level: "Easy",
     objective: "There is a secret field in this form that you can't see, but the server can.",
@@ -270,6 +285,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 15,
+    slug: "idor-lab",
     title: "IDOR Beginner Lab",
     level: "Easy",
     objective: "You are viewing your profile (ID 1). Can you see ID 2?",
@@ -288,6 +304,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 16,
+    slug: "file-guessing",
     title: "File Name Guessing",
     level: "Easy",
     objective: "The developer left a backup of the database somewhere. Can you find it?",
@@ -306,6 +323,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 17,
+    slug: "reflected-xss",
     title: "Search Box XSS Intro",
     level: "Medium",
     objective: "The search box repeats whatever you type. Can you make it run code?",
@@ -324,6 +342,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 18,
+    slug: "stored-xss",
     title: "Profile Message Stored XSS",
     level: "Medium",
     objective: "Your bio is saved and shown to everyone. Can you \"infect\" the page?",
@@ -342,6 +361,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 19,
+    slug: "path-traversal",
     title: "Path Traversal Lite",
     level: "Medium",
     objective: "The page viewer loads files from a folder. Can you go \"up\" a level?",
@@ -360,6 +380,7 @@ export const CHALLENGES: Challenge[] = [
   },
   {
     id: 20,
+    slug: "final-vault",
     title: "Final Multi-Step Challenge",
     level: "Medium",
     objective: "Combine everything you've learned to break into the ultimate vault.",

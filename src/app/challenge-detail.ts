@@ -18,10 +18,10 @@ export class ChallengeDetail {
   gameState = inject(GameStateService);
   challenges = CHALLENGES;
   
-  challengeId = signal<number>(1);
+  challengeSlug = signal<string>('');
   
   currentChallenge = computed(() => 
-    this.challenges.find(c => c.id === this.challengeId())!
+    this.challenges.find(c => c.slug === this.challengeSlug())!
   );
 
   // Challenge specific states
@@ -45,11 +45,14 @@ export class ChallengeDetail {
   constructor() {
     // React to route params
     this.route.params.subscribe(params => {
-      const id = +params['id'];
-      if (id) {
-        this.challengeId.set(id);
-        this.gameState.setCurrent(id);
-        this.resetChallengeState();
+      const slug = params['id'];
+      if (slug) {
+        this.challengeSlug.set(slug);
+        const challenge = this.challenges.find(c => c.slug === slug);
+        if (challenge) {
+          this.gameState.setCurrent(challenge.id);
+          this.resetChallengeState();
+        }
       }
     });
 
