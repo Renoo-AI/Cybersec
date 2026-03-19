@@ -26,11 +26,11 @@
 }
 
 .hacker-button {
-  @apply px-4 py-2 bg-hacker-green/10 border border-hacker-green/30 text-hacker-green rounded-lg hover:bg-hacker-green/20 transition-all duration-200 font-mono text-sm;
+  @apply px-4 py-2 bg-hacker-green/10 border border-hacker-green/30 text-hacker-green rounded-lg hover:bg-hacker-green/20 transition-all duration-200 font-mono text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-hacker-green/50 focus-visible:ring-offset-2 focus-visible:ring-offset-hacker-dark;
 }
 
 .hacker-input {
-  @apply w-full bg-black/50 border border-hacker-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-hacker-green/50 transition-all;
+  @apply w-full bg-black/50 border border-hacker-border rounded-lg px-4 py-2 text-white focus:outline-none focus:border-hacker-green/50 focus-visible:ring-2 focus-visible:ring-hacker-green/50 transition-all;
 }
 
 .terminal-text {
