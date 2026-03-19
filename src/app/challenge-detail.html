@@ -67,7 +67,7 @@
   <div class="mt-8 hacker-card">
     <label for="flag-input" class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 block cursor-pointer">Submit Flag</label>
     <div class="flex gap-3">
-      <input id="flag-input" [(ngModel)]="flagInput" (keyup.enter)="submitFlag()" placeholder="THM{{ '{' }}...{{ '}' }}" class="hacker-input font-mono">
+      <input id="flag-input" [(ngModel)]="flagInput" (keyup.enter)="submitFlag()" placeholder="FLAG{{ '{' }}...{{ '}' }}" class="hacker-input font-mono">
       <button (click)="submitFlag()" [disabled]="!flagInput" [title]="!flagInput ? 'Enter a flag first' : 'Submit flag'" class="hacker-button whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed">SUBMIT FLAG</button>
     </div>
   </div>

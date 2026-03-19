@@ -32,12 +32,16 @@ import {CHALLENGES, GameStateService} from './game-state';
         <nav class="flex-1 p-4 space-y-6">
           <!-- Level Groups -->
           @for (group of [
-            { name: 'SUPER BEGINNER', range: [1, 5], color: 'text-blue-400' },
-            { name: 'EASY', range: [6, 12], color: 'text-yellow-400' },
-            { name: 'EASY/MEDIUM', range: [13, 20], color: 'text-orange-400' }
+            { name: 'LEVEL 1 — VERY EASY', range: [1, 20], color: 'text-blue-400', icon: 'looks_one' },
+            { name: 'LEVEL 2 — EASY', range: [21, 40], color: 'text-green-400', icon: 'looks_two' },
+            { name: 'LEVEL 3 — EASY → MEDIUM', range: [41, 60], color: 'text-yellow-400', icon: 'looks_3' },
+            { name: 'LEVEL 4 — MEDIUM', range: [61, 80], color: 'text-orange-400', icon: 'looks_4' }
           ]; track group.name) {
             <div>
-              <h3 class="text-[10px] uppercase tracking-widest font-bold mb-3 opacity-50">{{ group.name }}</h3>
+              <h3 class="text-[10px] uppercase tracking-widest font-bold mb-3 flex items-center gap-2" [ngClass]="group.color">
+                <mat-icon class="scale-75">{{ group.icon }}</mat-icon>
+                {{ group.name }}
+              </h3>
               <div class="space-y-1">
                 @for (c of challenges.slice(group.range[0]-1, group.range[1]); track c.id) {
                   <a 
