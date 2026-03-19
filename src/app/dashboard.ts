@@ -47,7 +47,7 @@ import {CHALLENGES, GameStateService} from './game-state';
             </li>
             <li class="flex gap-2">
               <span class="text-hacker-green font-bold">03.</span>
-              Find the flag (THM{{ '{' }}...{{ '}' }}) and submit it.
+              Find the flag (FLAG{{ '{' }}...{{ '}' }}) and submit it.
             </li>
           </ul>
         </div>
