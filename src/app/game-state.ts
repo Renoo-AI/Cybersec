@@ -382,6 +382,10 @@ export class GameStateService {
   solvedChallenges = signal<number[]>([]);
   currentChallengeId = signal<number>(1);
   
+  // Byte AI Companion State
+  byteMessage = signal('Welcome, teammate! I\'m Byte. Ready to hack some systems?');
+  byteMood = signal<'idle' | 'happy' | 'thinking' | 'excited'>('idle');
+  
   totalFlags = computed(() => this.solvedChallenges().length);
   
   isSolved(id: number) {
