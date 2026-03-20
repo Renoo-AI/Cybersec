@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 38 - Insecure Direct Object Reference</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>User Profile</h1>
+            <p>You are logged in as User ID: <span id="user-id" class="highlight">101</span></p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Profile:</strong> <span id="profile-name">John Doe</span>
+                </div>
+            </div>
+            <button class="modern-button" onclick="viewNext()">View Next Profile</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Admin Profile!</strong> The flag is: <span class="flag">FLAG{IDOR_ACCESS_CONTROL_FAILURE}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to access other user profiles.</p>
+        </div>
+    </div>
+    <script>
+        const profiles = {
+            '101': 'John Doe',
+            '102': 'Jane Smith',
+            '100': 'ADMINISTRATOR'
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '101';
+        
+        document.getElementById('user-id').textContent = id;
+        document.getElementById('profile-name').textContent = profiles[id] || 'Unknown User';
+
+        if (id === '100') {
+            document.getElementById('result').classList.remove('hidden');
+        }
+
+        function viewNext() {
+            const currentId = parseInt(id);
+            window.location.search = `?id=${currentId + 1}`;
+        }
+    </script>
+</body>
+</html>

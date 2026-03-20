@@ -3,19 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 1 - View Source</title>
+    <title>Challenge 1 - Admin Parameter</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>TARGET ACQUIRED</h1>
-        <p>The information you seek is hidden in plain sight.</p>
-        <p>Can you find the secret flag?</p>
+        <div id="status-card" class="card">
+            <h1>System Status</h1>
+            <p id="user-info">Current User: <span id="username" class="highlight">guest</span></p>
+            <div id="admin-panel" class="hidden">
+                <div class="alert success">
+                    <strong>Access Granted!</strong> You have successfully escalated your privileges.
+                </div>
+                <p>The secret flag is: <span class="flag">FLAG{PARAMETER_TAMPERING_BASIC}</span></p>
+            </div>
+            <div id="guest-panel">
+                <div class="alert info">
+                    <strong>Access Restricted.</strong> Only administrators can view the secret flag.
+                </div>
+                <p>Try to find a way to become an admin.</p>
+            </div>
+        </div>
     </div>
 
-    <!-- 
-        HINT: Sometimes developers leave sensitive information in comments.
-        FLAG{SOURCE_CODE_IS_NOT_HIDDEN}
-    -->
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const user = urlParams.get('user');
+        const usernameEl = document.getElementById('username');
+        const adminPanel = document.getElementById('admin-panel');
+        const guestPanel = document.getElementById('guest-panel');
+
+        if (user === 'admin') {
+            usernameEl.textContent = 'admin';
+            usernameEl.classList.remove('highlight');
+            usernameEl.classList.add('admin-highlight');
+            adminPanel.classList.remove('hidden');
+            guestPanel.classList.add('hidden');
+        } else if (user) {
+            usernameEl.textContent = user;
+        }
+    </script>
 </body>
 </html>

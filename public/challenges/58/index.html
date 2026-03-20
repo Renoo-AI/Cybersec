@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 58 - SSTI Basic</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Template Renderer</h1>
+            <p>This service renders templates with your input. Can you execute code through the template engine?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Engine:</strong> <span class="highlight">Jinja2</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="template">Template Input</label>
+                <input type="text" id="template" class="modern-input" placeholder="Enter template input...">
+            </div>
+            <button class="modern-button" onclick="renderTemplate()">Render Template</button>
+            <div id="output" class="output-box hidden">
+                <!-- Rendered output will appear here -->
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>SSTI Successful!</strong> The flag is: <span class="flag">FLAG{SSTI_TEMPLATE_INJECTION_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try using template expressions like <code>{{ 7*7 }}</code> or <code>{{ config }}</code> to see if they are evaluated.</p>
+        </div>
+    </div>
+    <script>
+        function renderTemplate() {
+            const input = document.getElementById('template').value;
+            const output = document.getElementById('output');
+            const result = document.getElementById('result');
+            
+            output.classList.remove('hidden');
+            
+            if (input.includes('{{') && input.includes('}}')) {
+                if (input.includes('7*7')) {
+                    output.textContent = "Rendered: 49";
+                } else if (input.includes('config')) {
+                    output.textContent = "Rendered: {SECRET_FLAG: 'FLAG{SSTI_TEMPLATE_INJECTION_VULNERABILITY}'}";
+                    result.classList.remove('hidden');
+                } else {
+                    output.textContent = "Rendered: " + input.replace(/{{|}}/g, '');
+                }
+            } else {
+                output.textContent = "Rendered: " + input;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 59 - Open Redirect</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Login Redirect</h1>
+            <p>After logging in, you will be redirected to the specified URL. Can you redirect to an external site?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Redirect URL:</strong> <span id="redirect-val" class="highlight">/dashboard</span>
+                </div>
+            </div>
+            <button class="modern-button" onclick="login()">Login & Redirect</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Redirect Successful!</strong> The flag is: <span class="flag">FLAG{OPEN_REDIRECT_PHISHING_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>next</code> parameter in the URL to an external site, like <code>?next=https://google.com</code>.</p>
+        </div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const next = urlParams.get('next') || '/dashboard';
+        document.getElementById('redirect-val').textContent = next;
+
+        function login() {
+            const result = document.getElementById('result');
+            
+            if (next.startsWith('http')) {
+                result.classList.remove('hidden');
+                alert("Success: Redirecting to external site: " + next);
+            } else {
+                alert("Redirecting to: " + next);
+            }
+        }
+    </script>
+</body>
+</html>

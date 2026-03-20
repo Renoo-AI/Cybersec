@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 78 - Insecure Direct Object Reference (IDOR) - User Notifications</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Notifications</h1>
+            <p>View your notifications. Can you access other users' notifications?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Logged in as:</strong> <span class="highlight">User_1001</span>
+                </div>
+            </div>
+            <div class="notification-list">
+                <div class="info-item">
+                    <span class="label">Notification ID:</span>
+                    <span id="notif-id" class="value">NOTIF-3001</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Message:</span>
+                    <span id="notif-msg" class="value">Your profile was updated.</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Date:</span>
+                    <span id="notif-date" class="value">2023-10-15</span>
+                </div>
+                <div id="secret-flag" class="info-item hidden">
+                    <span class="label">Admin Flag:</span>
+                    <span class="value">FLAG{IDOR_USER_NOTIFICATIONS_LEAK_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>1</code> to access the admin's notifications.</p>
+        </div>
+    </div>
+    <script>
+        const notifications = {
+            '3001': { msg: 'Your profile was updated.', date: '2023-10-15' },
+            '3002': { msg: 'New login from Chrome.', date: '2023-10-16' },
+            '1': { msg: 'SYSTEM_ALERT: FLAG{IDOR_USER_NOTIFICATIONS_LEAK_VULNERABILITY}', date: '2020-01-01' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '3001';
+        
+        const notif = notifications[id] || { msg: 'Unknown', date: 'N/A' };
+        document.getElementById('notif-id').textContent = "NOTIF-" + id;
+        document.getElementById('notif-msg').textContent = notif.msg;
+        document.getElementById('notif-date').textContent = notif.date;
+
+        if (id === '1') {
+            document.getElementById('secret-flag').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+{
+    "status": "success",
+    "message": "Configuration found",
+    "flag": "FLAG{FILE_ENUMERATION_BASIC}",
+    "debug": true
+}

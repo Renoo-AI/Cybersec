@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 25 - Referer Check</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Referer Validation</h1>
+            <p>This page only shows the flag if you come from 'https://trusted-site.com'.</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Current Referer:</strong> <span id="referer-val" class="highlight">None</span>
+                </div>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Trusted!</strong> The flag is: <span class="flag">FLAG{REFERER_HEADER_SPOOF}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: You can spoof the Referer header using browser extensions or by creating a local HTML file that redirects here.</p>
+        </div>
+    </div>
+    <script>
+        // In a real scenario, the server checks the header.
+        // We simulate this by checking document.referrer
+        const referer = document.referrer;
+        const refererVal = document.getElementById('referer-val');
+        const result = document.getElementById('result');
+
+        if (referer) {
+            refererVal.textContent = referer;
+            if (referer.includes('trusted-site.com')) {
+                result.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

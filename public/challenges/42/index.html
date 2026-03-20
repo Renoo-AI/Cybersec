@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 42 - Insecure Deserialization</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>User Session</h1>
+            <p>This application uses serialized objects for session management. Can you manipulate the object?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Current Session:</strong> <span id="session-val" class="highlight">{"user":"guest","role":"user"}</span>
+                </div>
+            </div>
+            <button class="modern-button" onclick="updateSession()">Update Session</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Admin Session!</strong> The flag is: <span class="flag">FLAG{INSECURE_DESERIALIZATION_OBJECT_INJECTION}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>role</code> to <code>admin</code> in the serialized session object.</p>
+        </div>
+    </div>
+    <script>
+        function updateSession() {
+            const sessionStr = prompt("Enter new session object (JSON):", '{"user":"guest","role":"user"}');
+            if (sessionStr) {
+                try {
+                    const session = JSON.parse(sessionStr);
+                    document.getElementById('session-val').textContent = sessionStr;
+                    if (session.role === 'admin') {
+                        document.getElementById('result').classList.remove('hidden');
+                    }
+                } catch (e) {
+                    alert("Invalid JSON format.");
+                }
+            }
+        }
+    </script>
+</body>
+</html>

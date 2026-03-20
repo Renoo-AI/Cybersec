@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 29 - Path Traversal</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>File Viewer</h1>
+            <p>You can view files on the server. Can you read the secret flag file?</p>
+            <div class="form-group">
+                <input type="text" id="file-input" placeholder="Enter file name (e.g., welcome.txt)" value="welcome.txt">
+            </div>
+            <button class="modern-button" onclick="viewFile()">View File</button>
+            <div id="file-content" class="file-content">
+                <div class="alert info">
+                    <strong>Content:</strong> <span id="content-text">Welcome to the file viewer!</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to traverse the directory using <code>../</code>. The flag is in <code>/etc/flag.txt</code>.</p>
+        </div>
+    </div>
+    <script>
+        function viewFile() {
+            const fileName = document.getElementById('file-input').value;
+            const contentText = document.getElementById('content-text');
+            
+            if (fileName.includes('../etc/flag.txt') || fileName === '/etc/flag.txt') {
+                contentText.innerHTML = `
+                    <div class="alert success">
+                        <strong>Secret Found!</strong> The flag is: <span class="flag">FLAG{PATH_TRAVERSAL_DISCOVERY}</span>
+                    </div>
+                `;
+            } else if (fileName === 'welcome.txt') {
+                contentText.textContent = "Welcome to the file viewer!";
+            } else {
+                contentText.textContent = "Error: File '" + fileName + "' not found.";
+            }
+        }
+    </script>
+</body>
+</html>

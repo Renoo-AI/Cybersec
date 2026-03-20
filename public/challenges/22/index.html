@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 22 - SessionStorage Flag</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Session Secrets</h1>
+            <p>The application stores a secret in your browser's session storage. Can you find it?</p>
+            <div class="alert info">
+                <strong>Check SessionStorage!</strong> Open DevTools (F12), go to the 'Application' tab, and look under 'Session Storage'.
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Found!</strong> The flag is: <span class="flag">FLAG{SESSION_STORAGE_SECRET}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Session storage is similar to local storage but only lasts for the duration of the page session.</p>
+        </div>
+    </div>
+    <script>
+        sessionStorage.setItem('flag', 'FLAG{SESSION_STORAGE_SECRET}');
+    </script>
+</body>
+</html>

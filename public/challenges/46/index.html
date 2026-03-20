@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 46 - XXE Basic</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>XML Parser</h1>
+            <p>This service parses XML data. Can you read internal files using external entities?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Target File:</strong> <span class="highlight">/etc/passwd</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="xml">XML Data</label>
+                <textarea id="xml" class="modern-textarea" placeholder="Enter XML data..."></textarea>
+            </div>
+            <button class="modern-button" onclick="parseXML()">Parse XML</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>XXE Successful!</strong> The flag is: <span class="flag">FLAG{XXE_FILE_READ_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try using a <code>DOCTYPE</code> declaration with an <code>ENTITY</code> that references a file.</p>
+        </div>
+    </div>
+    <script>
+        function parseXML() {
+            const xml = document.getElementById('xml').value;
+            const result = document.getElementById('result');
+            
+            if (xml.includes('SYSTEM') && xml.includes('/etc/passwd')) {
+                result.classList.remove('hidden');
+            } else {
+                alert("XML parsed successfully, but no sensitive data found.");
+            }
+        }
+    </script>
+</body>
+</html>

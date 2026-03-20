@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 65 - Weak Session ID</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>User Session</h1>
+            <p>Your session is active. Can you predict another user's session ID?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Session ID:</strong> <span id="session-id" class="highlight">1005</span>
+                </div>
+            </div>
+            <div class="session-details">
+                <div class="info-item">
+                    <span class="label">User:</span>
+                    <span id="user-name" class="value">User_1005</span>
+                </div>
+                <div id="secret-flag" class="info-item hidden">
+                    <span class="label">Admin Flag:</span>
+                    <span class="value">FLAG{WEAK_SESSION_ID_PREDICTION_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: The session IDs are sequential. Try changing the <code>session</code> cookie to <code>1</code> to access the admin session.</p>
+        </div>
+    </div>
+    <script>
+        // Set a weak sequential session cookie if not present
+        if (!document.cookie.includes('session=')) {
+            document.cookie = "session=1005; path=/";
+        }
+
+        const sessionCookie = document.cookie.split('; ').find(row => row.startsWith('session='));
+        const sessionId = sessionCookie ? sessionCookie.split('=')[1] : '1005';
+        
+        document.getElementById('session-id').textContent = sessionId;
+        document.getElementById('user-name').textContent = "User_" + sessionId;
+
+        if (sessionId === '1') {
+            document.getElementById('user-name').textContent = "ADMINISTRATOR";
+            document.getElementById('secret-flag').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

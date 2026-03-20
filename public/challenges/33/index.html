@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 33 - Command Injection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Network Diagnostic</h1>
+            <p>Ping a host to check connectivity. This tool is vulnerable to command injection.</p>
+            <div class="form-group">
+                <input type="text" id="host-input" placeholder="Enter IP or hostname (e.g., 8.8.8.8)" value="8.8.8.8">
+            </div>
+            <button class="modern-button" onclick="pingHost()">Ping</button>
+            <div id="output-area" class="output-area">
+                <div class="alert info">
+                    <strong>Output:</strong> <pre id="ping-output">PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data...</pre>
+                </div>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Injected!</strong> The flag is: <span class="flag">FLAG{COMMAND_INJECTION_SUCCESS}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to chain commands using <code>;</code> or <code>&&</code>. For example: <code>8.8.8.8 ; cat /etc/passwd</code>.</p>
+        </div>
+    </div>
+    <script>
+        function pingHost() {
+            const host = document.getElementById('host-input').value;
+            const output = document.getElementById('ping-output');
+            const result = document.getElementById('result');
+            
+            if (host.includes(';') || host.includes('&&') || host.includes('|')) {
+                output.textContent = "root:x:0:0:root:/root:/bin/bash\nbin:x:1:1:bin:/bin:/sbin/nologin\nflag: FLAG{COMMAND_INJECTION_SUCCESS}";
+                result.classList.remove('hidden');
+            } else {
+                output.textContent = `PING ${host} (${host}) 56(84) bytes of data...\n64 bytes from ${host}: icmp_seq=1 ttl=117 time=12.4 ms`;
+                result.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 70 - Insecure Direct Object Reference (IDOR) - Private Messages</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Private Messages</h1>
+            <p>View your private messages. Can you access other users' messages?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Logged in as:</strong> <span class="highlight">User_1001</span>
+                </div>
+            </div>
+            <div class="message-list">
+                <div class="info-item">
+                    <span class="label">Message ID:</span>
+                    <span id="message-id" class="value">MSG-9001</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">From:</span>
+                    <span id="sender-name" class="value">User_1002</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Content:</span>
+                    <span id="message-content" class="value">Hey, how are you?</span>
+                </div>
+                <div id="secret-flag" class="info-item hidden">
+                    <span class="label">Admin Flag:</span>
+                    <span class="value">FLAG{IDOR_PRIVATE_MESSAGES_LEAK_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>1</code> to access the admin's private messages.</p>
+        </div>
+    </div>
+    <script>
+        const messages = {
+            '9001': { from: 'User_1002', content: 'Hey, how are you?' },
+            '9002': { from: 'User_1003', content: 'Did you see the new update?' },
+            '1': { from: 'SYSTEM_ADMIN', content: 'CONFIDENTIAL: FLAG{IDOR_PRIVATE_MESSAGES_LEAK_VULNERABILITY}' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '9001';
+        
+        const message = messages[id] || { from: 'Unknown', content: 'N/A' };
+        document.getElementById('message-id').textContent = "MSG-" + id;
+        document.getElementById('sender-name').textContent = message.from;
+        document.getElementById('message-content').textContent = message.content;
+
+        if (id === '1') {
+            document.getElementById('secret-flag').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 62 - Union Based SQLi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Product Search</h1>
+            <p>Search for products by name. Can you use a <code>UNION</code> statement to extract data from other tables?</p>
+            <div class="form-group">
+                <label for="product">Product Name</label>
+                <input type="text" id="product" class="modern-input" placeholder="Enter product name...">
+            </div>
+            <button class="modern-button" onclick="searchProduct()">Search</button>
+            <div id="results" class="result-list">
+                <!-- Search results will appear here -->
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Data Extracted!</strong> The flag is: <span class="flag">FLAG{UNION_BASED_SQLI_DATA_EXFILTRATION}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to use <code>' UNION SELECT 1,2,3 --</code> to see how many columns the table has, then extract the flag.</p>
+        </div>
+    </div>
+    <script>
+        function searchProduct() {
+            const product = document.getElementById('product').value;
+            const resultsDiv = document.getElementById('results');
+            const result = document.getElementById('result');
+            
+            resultsDiv.innerHTML = '';
+            
+            if (product.includes("' UNION SELECT")) {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                item.innerHTML = "<strong>Extracted Data:</strong> FLAG{UNION_BASED_SQLI_DATA_EXFILTRATION}";
+                resultsDiv.appendChild(item);
+                result.classList.remove('hidden');
+            } else {
+                const item = document.createElement('div');
+                item.className = 'result-item';
+                item.textContent = "Product: " + product + " (In stock)";
+                resultsDiv.appendChild(item);
+            }
+        }
+    </script>
+</body>
+</html>

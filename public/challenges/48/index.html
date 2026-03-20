@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 48 - Stored XSS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Guestbook</h1>
+            <p>Leave a message for other visitors. Can you execute JavaScript in their browsers?</p>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <input type="text" id="message" class="modern-input" placeholder="Enter message...">
+            </div>
+            <button class="modern-button" onclick="addMessage()">Post Message</button>
+            <div id="messages" class="message-list">
+                <!-- Messages will appear here -->
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>XSS Successful!</strong> The flag is: <span class="flag">FLAG{STORED_XSS_PERSISTENT_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to post a message containing a script tag, like <code>&lt;script&gt;alert(1)&lt;/script&gt;</code>.</p>
+        </div>
+    </div>
+    <script>
+        function addMessage() {
+            const messageInput = document.getElementById('message');
+            const messagesDiv = document.getElementById('messages');
+            const result = document.getElementById('result');
+            
+            const message = messageInput.value;
+            const messageItem = document.createElement('div');
+            messageItem.className = 'message-item';
+            messageItem.innerHTML = message; // Vulnerable: innerHTML
+            
+            messagesDiv.appendChild(messageItem);
+            messageInput.value = '';
+
+            if (message.includes('<script>') && message.includes('alert')) {
+                result.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

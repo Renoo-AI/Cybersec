@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 61 - XSS Filter Bypass</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Search Engine</h1>
+            <p>This search engine filters <code>&lt;script&gt;</code> tags. Can you bypass the filter?</p>
+            <div class="form-group">
+                <label for="query">Search Query</label>
+                <input type="text" id="query" class="modern-input" placeholder="Enter search query...">
+            </div>
+            <button class="modern-button" onclick="search()">Search</button>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Results for:</strong> <span id="query-val" class="highlight">None</span>
+                </div>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Filter Bypassed!</strong> The flag is: <span class="flag">FLAG{XSS_FILTER_BYPASS_ENCODING_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try using other tags like <code>&lt;img&gt;</code> or <code>&lt;svg&gt;</code> with event handlers, or use encoding to bypass the filter.</p>
+        </div>
+    </div>
+    <script>
+        function search() {
+            const query = document.getElementById('query').value;
+            const queryVal = document.getElementById('query-val');
+            const result = document.getElementById('result');
+            
+            // Filter: remove <script> tags
+            const filteredQuery = query.replace(/<script.*?>.*?<\/script>/gi, '');
+            queryVal.innerHTML = filteredQuery; // Vulnerable: innerHTML
+            
+            if (query.includes('<img') && query.includes('onerror')) {
+                result.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 52 - DOM Based XSS</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Search Results</h1>
+            <p>Search for something on this page. Can you execute JavaScript through the URL?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Search Query:</strong> <span id="query-val" class="highlight">None</span>
+                </div>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>XSS Successful!</strong> The flag is: <span class="flag">FLAG{DOM_BASED_XSS_CLIENT_SIDE_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to include a script tag in the <code>q</code> URL parameter, like <code>?q=&lt;img src=x onerror=alert(1)&gt;</code>.</p>
+        </div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const q = urlParams.get('q');
+        
+        if (q) {
+            const queryVal = document.getElementById('query-val');
+            queryVal.innerHTML = q; // Vulnerable: innerHTML
+            
+            if (q.includes('<img') && q.includes('onerror')) {
+                document.getElementById('result').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

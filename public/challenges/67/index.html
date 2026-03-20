@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 67 - Insecure Direct Object Reference (IDOR) - User Profile</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>User Profile</h1>
+            <p>View your profile information. Can you access other users' profiles?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Logged in as:</strong> <span class="highlight">User_1001</span>
+                </div>
+            </div>
+            <div class="profile-details">
+                <div class="info-item">
+                    <span class="label">Username:</span>
+                    <span id="username-display" class="value">User_1001</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Email:</span>
+                    <span id="email-display" class="value">user1001@example.com</span>
+                </div>
+                <div id="secret-flag" class="info-item hidden">
+                    <span class="label">Admin Flag:</span>
+                    <span class="value">FLAG{IDOR_USER_PROFILE_LEAK_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>1</code> to access the admin's profile.</p>
+        </div>
+    </div>
+    <script>
+        const profiles = {
+            '1001': { username: 'User_1001', email: 'user1001@example.com' },
+            '1002': { username: 'User_1002', email: 'user1002@example.com' },
+            '1': { username: 'ADMINISTRATOR', email: 'admin@system.local' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '1001';
+        
+        const profile = profiles[id] || { username: 'Unknown', email: 'N/A' };
+        document.getElementById('username-display').textContent = profile.username;
+        document.getElementById('email-display').textContent = profile.email;
+
+        if (id === '1') {
+            document.getElementById('secret-flag').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

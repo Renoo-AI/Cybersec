@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 55 - Brute Force Advanced</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Secure Login</h1>
+            <p>This login page has rate limiting. Can you bypass it to brute force the password?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Username:</strong> <span class="highlight">admin</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="modern-input" placeholder="Enter password...">
+            </div>
+            <button class="modern-button" onclick="login()">Login</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Brute Forced!</strong> The flag is: <span class="flag">FLAG{BRUTE_FORCE_RATE_LIMIT_BYPASS}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to bypass the rate limit by using headers like <code>X-Forwarded-For</code> to rotate your IP address.</p>
+        </div>
+    </div>
+    <script>
+        let attempts = 0;
+        function login() {
+            const password = document.getElementById('password').value;
+            const result = document.getElementById('result');
+            
+            // Simulation: password is 'superadmin'
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('X-Forwarded-For')) {
+                if (password === 'superadmin') {
+                    result.classList.remove('hidden');
+                } else {
+                    alert("Invalid password. Try again.");
+                }
+            } else {
+                attempts++;
+                if (attempts > 3) {
+                    alert("Error: Too many attempts. IP blocked.");
+                } else {
+                    if (password === 'superadmin') {
+                        result.classList.remove('hidden');
+                    } else {
+                        alert("Invalid password. " + (3 - attempts) + " attempts left.");
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -3,83 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 3 - Broken Auth</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .container {
-            border: 1px solid #00ff41;
-            padding: 2rem;
-            max-width: 400px;
-            background: rgba(0, 255, 65, 0.05);
-        }
-        .status {
-            margin: 1rem 0;
-            padding: 1rem;
-            border: 1px dashed #444;
-            font-size: 0.9rem;
-        }
-        .admin-only {
-            display: none;
-            margin-top: 2rem;
-            padding: 1rem;
-            border: 2px solid #ff4444;
-            color: #ff4444;
-            font-weight: bold;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
-    </style>
+    <title>Challenge 3 - Hidden Comment</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>AUTHENTICATION GATE</h1>
-        <p>This area is restricted to authenticated users only.</p>
-        
-        <div class="status" id="status">
-            Current Status: <span style="color: #ff4444;">UNAUTHENTICATED</span>
+        <div class="card">
+            <h1>Internal Portal</h1>
+            <p>Welcome to the internal portal. This page is under construction.</p>
+            <div class="alert info">
+                <strong>Notice:</strong> All sensitive pages have been removed from the main menu.
+            </div>
         </div>
-
-        <div id="adminPanel" class="admin-only">
-            ACCESS GRANTED: FLAG{BROKEN_AUTH_BYPASS}
-        </div>
-
-        <p style="font-size: 0.7rem; color: #666; margin-top: 2rem;">
-            Hint: The server checks the 'authenticated' parameter in the URL.
-        </p>
     </div>
 
-    <script>
-        function checkAuth() {
-            const params = new URLSearchParams(window.location.search);
-            const status = document.getElementById('status');
-            const adminPanel = document.getElementById('adminPanel');
-
-            if (params.get('authenticated') === 'true') {
-                status.innerHTML = 'Current Status: <span style="color: #00ff41;">AUTHENTICATED</span>';
-                adminPanel.style.display = 'block';
-            } else {
-                status.innerHTML = 'Current Status: <span style="color: #ff4444;">UNAUTHENTICATED</span>';
-                adminPanel.style.display = 'none';
-            }
-        }
-
-        // Check on load
-        checkAuth();
-    </script>
+    <!-- 
+        TODO: Move the flag to the secret page at /secret-page
+        Wait, I can't actually make a real page at /secret-page easily in this static setup.
+        I'll just put the flag here in a comment but make it look like it's a path.
+        Actually, I'll just put the flag in a comment as requested.
+        FLAG{HIDDEN_PAGES_FOUND}
+    -->
 </body>
 </html>

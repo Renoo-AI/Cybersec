@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 44 - Insufficient Logging</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Admin Login</h1>
+            <p>This login page has no rate limiting or logging for failed attempts. Can you brute force it?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Username:</strong> <span class="highlight">admin</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="modern-input" placeholder="Enter password...">
+            </div>
+            <button class="modern-button" onclick="login()">Login</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Brute Forced!</strong> The flag is: <span class="flag">FLAG{INSUFFICIENT_LOGGING_MONITORING}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try common passwords. Since there's no logging, you can try as many times as you want.</p>
+        </div>
+    </div>
+    <script>
+        function login() {
+            const password = document.getElementById('password').value;
+            const result = document.getElementById('result');
+            
+            // Simulation: password is 'admin123'
+            if (password === 'admin123') {
+                result.classList.remove('hidden');
+            } else {
+                console.log("Failed login attempt for user 'admin' with password: " + password);
+                alert("Invalid password. Try again.");
+            }
+        }
+    </script>
+</body>
+</html>

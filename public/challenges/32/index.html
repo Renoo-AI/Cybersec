@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 32 - CSRF Basic</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Account Settings</h1>
+            <p>Update your email address. This form is vulnerable to CSRF.</p>
+            <div class="alert info">
+                <strong>Current Email:</strong> <span id="email-display" class="highlight">user@example.com</span>
+            </div>
+            <form id="email-form" onsubmit="return updateEmail(event)">
+                <div class="form-group">
+                    <input type="email" name="email" id="email-input" placeholder="New Email" required>
+                </div>
+                <button type="submit" class="modern-button">Update Email</button>
+            </form>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>CSRF Success!</strong> The flag is: <span class="flag">FLAG{CSRF_EMAIL_CHANGE_BYPASS}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: A CSRF attack would involve a malicious site making a POST request to this endpoint without your knowledge.</p>
+        </div>
+    </div>
+    <script>
+        function updateEmail(event) {
+            event.preventDefault();
+            const email = document.getElementById('email-input').value;
+            document.getElementById('email-display').textContent = email;
+            
+            if (email === 'attacker@evil.com') {
+                document.getElementById('result').classList.remove('hidden');
+            }
+            return false;
+        }
+    </script>
+</body>
+</html>

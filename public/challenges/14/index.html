@@ -3,50 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 14 - Hidden Input</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .container { border: 1px solid #00ff41; padding: 2rem; }
-        input[type="text"] { background: #000; border: 1px solid #00ff41; color: #00ff41; padding: 10px; margin-bottom: 10px; }
-        button { background: #00ff41; color: #000; border: none; padding: 10px 20px; cursor: pointer; font-weight: bold; }
-    </style>
+    <title>Challenge 14 - JS Password</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>USER SETTINGS</h1>
-        <form id="settingsForm" onsubmit="return handleSubmit(event)">
-            <p>Update your display name:</p>
-            <input type="text" name="display_name" value="Guest">
-            <input type="hidden" id="isAdmin" name="isAdmin" value="false">
-            <br>
-            <button type="submit">SAVE SETTINGS</button>
-        </form>
-        <div id="msg" style="margin-top: 2rem;"></div>
+        <div class="card">
+            <h1>Login</h1>
+            <p>The password for this page is hidden in the JavaScript source code. Can you find it?</p>
+            <div class="form-group">
+                <input type="password" id="pass-input" placeholder="Password">
+            </div>
+            <button class="modern-button" onclick="checkPass()">Login</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Logged in!</strong> The flag is: <span class="flag">FLAG{JS_SOURCE_PASSWORD}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: View the page source or use DevTools to find the 'checkPass' function.</p>
+        </div>
     </div>
-
     <script>
-        function handleSubmit(e) {
-            e.preventDefault();
-            const isAdmin = document.getElementById('isAdmin').value;
-            const msg = document.getElementById('msg');
-            
-            if (isAdmin === 'true') {
-                msg.innerHTML = '<span style="color: #ff4444">ADMIN ACCESS DETECTED! FLAG{HIDDEN_IS_NOT_SAFE_WIN}</span>';
+        function checkPass() {
+            const pass = document.getElementById('pass-input').value;
+            // The secret password is 'SuperSecret123'
+            if (pass === 'SuperSecret123') {
+                document.getElementById('result').classList.remove('hidden');
             } else {
-                msg.innerText = "Settings saved for Guest user.";
+                alert("Incorrect password!");
             }
-            return false;
         }
     </script>
 </body>

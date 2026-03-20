@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 43 - Known Vulnerabilities</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Outdated Library</h1>
+            <p>This page uses an outdated version of <code>jQuery (v1.12.4)</code>. Can you exploit a known vulnerability?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Library:</strong> <span class="highlight">jQuery 1.12.4</span>
+                </div>
+            </div>
+            <div class="vulnerability-info">
+                <p>Vulnerability: <code>CVE-2015-9251</code> (XSS via $.getScript)</p>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Exploited!</strong> The flag is: <span class="flag">FLAG{VULNERABLE_COMPONENTS_EXPOSURE}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to trigger an XSS by manipulating the URL or input to load a script via the outdated jQuery.</p>
+        </div>
+    </div>
+    <script>
+        // Simulation: If they "exploit" it (simulated via URL param)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('exploit')) {
+            document.getElementById('result').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

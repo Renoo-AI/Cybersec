@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 26 - User-Agent Check</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Mobile Access Only</h1>
+            <p>This page is only accessible via the 'CyberBrowser/1.0' mobile browser.</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Current User-Agent:</strong> <span id="ua-val" class="highlight">Unknown</span>
+                </div>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Welcome!</strong> The flag is: <span class="flag">FLAG{USER_AGENT_SPOOFING}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: You can change your User-Agent in DevTools (Network conditions) or using an extension.</p>
+        </div>
+    </div>
+    <script>
+        const ua = navigator.userAgent;
+        const uaVal = document.getElementById('ua-val');
+        const result = document.getElementById('result');
+
+        uaVal.textContent = ua;
+        if (ua.includes('CyberBrowser/1.0')) {
+            result.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

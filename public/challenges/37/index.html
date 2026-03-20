@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 37 - Weak Password</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Weak Password Login</h1>
+            <p>This login page uses a very common password. Can you guess it?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Username:</strong> <span class="highlight">admin</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="modern-input" placeholder="Enter password...">
+            </div>
+            <button class="modern-button" onclick="checkPassword()">Login</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Logged In!</strong> The flag is: <span class="flag">FLAG{WEAK_PASSWORDS_ARE_DANGEROUS}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try common passwords like <code>123456</code>, <code>password</code>, or <code>admin</code>.</p>
+        </div>
+    </div>
+    <script>
+        function checkPassword() {
+            const password = document.getElementById('password').value;
+            const result = document.getElementById('result');
+            
+            if (password === '123456') {
+                result.classList.remove('hidden');
+            } else {
+                alert("Invalid password. Try again.");
+            }
+        }
+    </script>
+</body>
+</html>

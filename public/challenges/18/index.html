@@ -3,45 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 18 - URL Tampering</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .container { border: 1px solid #00ff41; padding: 2rem; }
-        .status { font-size: 1.2rem; margin-top: 1rem; }
-    </style>
+    <title>Challenge 18 - Display None</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>USER PROFILE</h1>
-        <p>Current User: <strong id="user">guest</strong></p>
-        <div class="status" id="status">Access Level: Restricted</div>
-        <div id="flag" style="display:none; margin-top: 2rem; color: #ff4444; font-weight: bold; font-size: 1.5rem;">
-            FLAG{CHANGE_THE_PARAMETER_WIN}
+        <div class="card">
+            <h1>Hidden Content</h1>
+            <p>The flag is right here, but it's hidden with CSS. Can you find it?</p>
+            <div class="secret-container" style="display: none;">
+                <div class="alert success">
+                    <strong>Visible!</strong> The flag is: <span class="flag">FLAG{CSS_DISPLAY_NONE_BYPASS}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Use the inspector to find the element with <code>display: none</code> and change it to <code>block</code>.</p>
         </div>
     </div>
-
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        const user = params.get('user') || 'guest';
-        
-        document.getElementById('user').innerText = user;
-
-        if (user === 'admin') {
-            document.getElementById('status').innerText = 'Access Level: Administrator';
-            document.getElementById('status').style.color = '#ff4444';
-            document.getElementById('flag').style.display = 'block';
-        }
-    </script>
 </body>
 </html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 21 - LocalStorage Secret</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Storage Secrets</h1>
+            <p>The application stores a secret in your browser's local storage. Can you find it?</p>
+            <div class="alert info">
+                <strong>Check LocalStorage!</strong> Open DevTools (F12), go to the 'Application' tab, and look under 'Local Storage'.
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Found!</strong> The flag is: <span class="flag">FLAG{LOCAL_STORAGE_SECRET}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Local storage is often used to store persistent data, but it's not secure for secrets.</p>
+        </div>
+    </div>
+    <script>
+        localStorage.setItem('secret_flag', 'FLAG{LOCAL_STORAGE_SECRET}');
+    </script>
+</body>
+</html>

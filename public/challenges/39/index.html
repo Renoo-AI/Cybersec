@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 39 - Sensitive Data Exposure</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Server Configuration</h1>
+            <p>This page displays public server configuration. Is there anything sensitive here?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Server:</strong> <span class="highlight">Apache/2.4.41 (Ubuntu)</span>
+                </div>
+            </div>
+            <div class="config-list">
+                <div class="config-item">
+                    <span class="label">Port:</span>
+                    <span class="value">80</span>
+                </div>
+                <div class="config-item">
+                    <span class="label">SSL:</span>
+                    <span class="value">Enabled</span>
+                </div>
+                <div class="config-item">
+                    <span class="label">Debug Mode:</span>
+                    <span class="value">Disabled</span>
+                </div>
+                <div class="config-item hidden-config">
+                    <span class="label">Backup Key:</span>
+                    <span class="value">FLAG{SENSITIVE_DATA_EXPOSURE_IN_HTML}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Check the page source or use the inspector to find hidden configuration items.</p>
+        </div>
+    </div>
+</body>
+</html>

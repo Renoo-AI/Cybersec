@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 68 - Weak Password Policy</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Account Registration</h1>
+            <p>Create a new account. Can you bypass the weak password policy?</p>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" class="modern-input" placeholder="Enter username...">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" class="modern-input" placeholder="Enter password...">
+            </div>
+            <button class="modern-button" onclick="register()">Register</button>
+            <div id="status-container" class="status-container hidden">
+                <div id="status-alert" class="alert">
+                    <span id="status-message"></span>
+                </div>
+            </div>
+            <p class="hint">Tip: The password policy only checks for length. Try using a common password like <code>password123</code>.</p>
+        </div>
+    </div>
+    <script>
+        function register() {
+            const password = document.getElementById('password').value;
+            const statusContainer = document.getElementById('status-container');
+            const statusAlert = document.getElementById('status-alert');
+            const statusMessage = document.getElementById('status-message');
+            
+            statusContainer.classList.remove('hidden');
+            
+            if (password === 'password123') {
+                statusAlert.className = 'alert success';
+                statusMessage.innerHTML = "Registration successful! <br><br><strong>Flag:</strong> FLAG{WEAK_PASSWORD_POLICY_VULNERABILITY}";
+            } else if (password.length < 8) {
+                statusAlert.className = 'alert danger';
+                statusMessage.textContent = "Password must be at least 8 characters long.";
+            } else {
+                statusAlert.className = 'alert info';
+                statusMessage.textContent = "Registration successful, but you didn't find the vulnerability.";
+            }
+        }
+    </script>
+</body>
+</html>

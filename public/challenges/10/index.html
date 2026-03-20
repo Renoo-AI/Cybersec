@@ -3,42 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 10 - Base64 Cookie</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .container { border: 1px solid #00ff41; padding: 2rem; }
-        .cookie-display { background: #1a1a1a; padding: 1rem; border-radius: 4px; margin-top: 1rem; font-size: 0.9rem; word-break: break-all; }
-    </style>
+    <title>Challenge 10 - Price Tamper</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>ENCODED SESSION</h1>
-        <p>Your session token is encoded.</p>
-        <div class="cookie-display">
-            Token: <strong>cm9sZT11c2Vy</strong>
-        </div>
-        <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.7;">Hint: cm9sZT11c2Vy is Base64 for role=user. What is role=admin?</p>
-        <div id="flag" style="display:none; margin-top: 2rem; color: #ff4444; font-weight: bold;">
-            FLAG{DECODE_THEN_EDIT_WIN}
+        <div class="card">
+            <h1>Checkout</h1>
+            <p>You are about to purchase a premium item. Can you get it for free?</p>
+            <div class="product-card">
+                <div class="product-info">
+                    <h3>Premium Flag</h3>
+                    <p>Unlock the secret flag with this purchase.</p>
+                </div>
+                <div class="product-price">
+                    <span id="display-price">$100.00</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <button id="buy-btn" class="modern-button" onclick="handlePurchase()">Buy Now</button>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Purchase Successful!</strong> The flag is: <span class="flag">FLAG{PRICE_MANIPULATION_SUCCESS}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Check the URL parameters. Maybe you can change the price?</p>
         </div>
     </div>
     <script>
-        const params = new URLSearchParams(window.location.search);
-        // cm9sZT1hZG1pbg== is Base64 for role=admin
-        if (params.get('token') === 'cm9sZT1hZG1pbg==') {
-            document.getElementById('flag').style.display = 'block';
-            document.querySelector('.cookie-display').innerHTML = 'Token: <strong>cm9sZT1hZG1pbg==</strong>';
+        const urlParams = new URLSearchParams(window.location.search);
+        const priceParam = urlParams.get('price');
+        const displayPrice = document.getElementById('display-price');
+        
+        if (priceParam !== null) {
+            displayPrice.textContent = '$' + parseFloat(priceParam).toFixed(2);
+        }
+
+        function handlePurchase() {
+            const currentPrice = parseFloat(urlParams.get('price') || '100');
+            if (currentPrice <= 0) {
+                document.getElementById('result').classList.remove('hidden');
+            } else {
+                alert('Insufficient funds! You need more money to pay $' + currentPrice.toFixed(2));
+            }
         }
     </script>
 </body>

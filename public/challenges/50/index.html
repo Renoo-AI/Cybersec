@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 50 - Advanced Command Injection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Network Diagnostic</h1>
+            <p>This tool allows you to ping a host. Can you execute other commands?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Command:</strong> <span class="highlight">ping -c 1 [host]</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="host">Host</label>
+                <input type="text" id="host" class="modern-input" placeholder="Enter host...">
+            </div>
+            <button class="modern-button" onclick="runPing()">Run Ping</button>
+            <div id="output" class="output-box hidden">
+                <!-- Command output will appear here -->
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Command Executed!</strong> The flag is: <span class="flag">FLAG{ADVANCED_COMMAND_INJECTION_BYPASS}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to chain commands using <code>;</code>, <code>&</code>, or <code>|</code>, like <code>google.com; ls</code>.</p>
+        </div>
+    </div>
+    <script>
+        function runPing() {
+            const host = document.getElementById('host').value;
+            const output = document.getElementById('output');
+            const result = document.getElementById('result');
+            
+            if (host.includes(';') || host.includes('&') || host.includes('|')) {
+                output.classList.remove('hidden');
+                output.innerHTML = "PING " + host.split(/[;&|]/)[0] + " (127.0.0.1) 56(84) bytes of data.<br>64 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.032 ms<br><br>--- " + host.split(/[;&|]/)[0] + " ping statistics ---<br>1 packets transmitted, 1 received, 0% packet loss, time 0ms<br>rtt min/avg/max/mdev = 0.032/0.032/0.032/0.000 ms<br><br><strong>Executing chained command...</strong><br>flag.txt found. Content: FLAG{ADVANCED_COMMAND_INJECTION_BYPASS}";
+                result.classList.remove('hidden');
+            } else {
+                alert("Ping successful for " + host);
+            }
+        }
+    </script>
+</body>
+</html>

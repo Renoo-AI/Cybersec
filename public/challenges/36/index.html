@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 36 - Rate Limit Bypass</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Rate Limited API</h1>
+            <p>This API only allows 3 requests per minute. Can you bypass the limit?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Requests Remaining:</strong> <span id="limit-val" class="highlight">3</span>
+                </div>
+            </div>
+            <button class="modern-button" onclick="makeRequest()">Make Request</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Bypassed!</strong> The flag is: <span class="flag">FLAG{RATE_LIMIT_BYPASS_HEADERS}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try adding headers like <code>X-Forwarded-For</code> or <code>X-Real-IP</code> to spoof your identity.</p>
+        </div>
+    </div>
+    <script>
+        let remaining = 3;
+        function makeRequest() {
+            const result = document.getElementById('result');
+            const limitVal = document.getElementById('limit-val');
+            
+            // Simulation: If they "know" the bypass, they can keep going
+            // For the game, we check if they've tried a bypass header (simulated via URL param)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('X-Forwarded-For')) {
+                result.classList.remove('hidden');
+                limitVal.textContent = "Unlimited (Spoofed)";
+            } else {
+                if (remaining > 0) {
+                    remaining--;
+                    limitVal.textContent = remaining;
+                    alert("Request successful! " + remaining + " left.");
+                } else {
+                    alert("Error: Rate limit exceeded. Try again in 60 seconds.");
+                }
+            }
+        }
+    </script>
+</body>
+</html>

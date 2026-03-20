@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 71 - Insecure Direct Object Reference (IDOR) - Settings</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Account Settings</h1>
+            <p>Update your account settings. Can you access other users' settings?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Logged in as:</strong> <span class="highlight">User_1001</span>
+                </div>
+            </div>
+            <div class="settings-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="modern-input" value="user1001@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="notifications">Notifications</label>
+                    <select id="notifications" class="modern-input">
+                        <option value="enabled">Enabled</option>
+                        <option value="disabled">Disabled</option>
+                    </select>
+                </div>
+                <div id="secret-flag" class="info-item hidden">
+                    <span class="label">Admin Flag:</span>
+                    <span class="value">FLAG{IDOR_SETTINGS_LEAK_VULNERABILITY}</span>
+                </div>
+                <button class="modern-button" onclick="saveSettings()">Save Settings</button>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>1</code> to access the admin's settings.</p>
+        </div>
+    </div>
+    <script>
+        const settings = {
+            '1001': { email: 'user1001@example.com', notifications: 'enabled' },
+            '1002': { email: 'user1002@example.com', notifications: 'disabled' },
+            '1': { email: 'admin@system.local', notifications: 'enabled', flag: 'FLAG{IDOR_SETTINGS_LEAK_VULNERABILITY}' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '1001';
+        
+        const userSettings = settings[id] || { email: '', notifications: 'enabled' };
+        document.getElementById('email').value = userSettings.email;
+        document.getElementById('notifications').value = userSettings.notifications;
+
+        if (id === '1') {
+            document.getElementById('secret-flag').classList.remove('hidden');
+        }
+
+        function saveSettings() {
+            alert("Settings saved successfully!");
+        }
+    </script>
+</body>
+</html>

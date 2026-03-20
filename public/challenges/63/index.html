@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 63 - IDOR Metadata</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Document Metadata</h1>
+            <p>View metadata for your documents. Can you view metadata for other users' documents?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>My Doc ID:</strong> <span class="highlight">DOC-801</span>
+                </div>
+            </div>
+            <div class="metadata-info">
+                <div class="info-item">
+                    <span class="label">Document ID:</span>
+                    <span id="doc-id" class="value">DOC-801</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Author:</span>
+                    <span id="author-name" class="value">John Doe</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Created:</span>
+                    <span id="created-at" class="value">2023-10-01</span>
+                </div>
+                <div id="secret-metadata" class="info-item hidden">
+                    <span class="label">Internal Flag:</span>
+                    <span class="value">FLAG{IDOR_METADATA_LEAK_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>DOC-1</code> to access the admin's document metadata.</p>
+        </div>
+    </div>
+    <script>
+        const docs = {
+            'DOC-801': { name: 'John Doe', created: '2023-10-01' },
+            'DOC-802': { name: 'Jane Smith', created: '2023-10-05' },
+            'DOC-1': { name: 'ADMINISTRATOR', created: '2020-01-01' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || 'DOC-801';
+        
+        const doc = docs[id] || { name: 'Unknown', created: 'N/A' };
+        document.getElementById('doc-id').textContent = id;
+        document.getElementById('author-name').textContent = doc.name;
+        document.getElementById('created-at').textContent = doc.created;
+
+        if (id === 'DOC-1') {
+            document.getElementById('secret-metadata').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

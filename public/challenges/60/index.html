@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 60 - IDOR Info Leak</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Order Details</h1>
+            <p>View your order details. Can you view someone else's order and leak their sensitive info?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>My Order ID:</strong> <span class="highlight">ORD-701</span>
+                </div>
+            </div>
+            <div class="order-info">
+                <div class="info-item">
+                    <span class="label">Order ID:</span>
+                    <span id="order-id" class="value">ORD-701</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Customer:</span>
+                    <span id="customer-name" class="value">John Doe</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Total:</span>
+                    <span id="order-total" class="value">$49.99</span>
+                </div>
+                <div id="secret-info" class="info-item hidden">
+                    <span class="label">Admin Secret:</span>
+                    <span class="value">FLAG{IDOR_SENSITIVE_INFO_LEAK_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>ORD-1</code> to access the admin's order.</p>
+        </div>
+    </div>
+    <script>
+        const orders = {
+            'ORD-701': { name: 'John Doe', total: '$49.99' },
+            'ORD-702': { name: 'Jane Smith', total: '$129.50' },
+            'ORD-1': { name: 'ADMINISTRATOR', total: '$0.00' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || 'ORD-701';
+        
+        const order = orders[id] || { name: 'Unknown', total: '$0.00' };
+        document.getElementById('order-id').textContent = id;
+        document.getElementById('customer-name').textContent = order.name;
+        document.getElementById('order-total').textContent = order.total;
+
+        if (id === 'ORD-1') {
+            document.getElementById('secret-info').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

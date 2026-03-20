@@ -3,42 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 9 - Cookie Role</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .container { border: 1px solid #00ff41; padding: 2rem; }
-        .cookie-display { background: #1a1a1a; padding: 1rem; border-radius: 4px; margin-top: 1rem; font-size: 0.9rem; }
-    </style>
+    <title>Challenge 9 - Hidden isAdmin</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>SESSION MANAGER</h1>
-        <p>Your session is active.</p>
-        <div class="cookie-display">
-            Cookie: <strong>role=user</strong>
-        </div>
-        <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.7;">Hint: Can you change your role to admin in the browser cookies?</p>
-        <div id="flag" style="display:none; margin-top: 2rem; color: #ff4444; font-weight: bold;">
-            FLAG{COOKIES_ARE_NOT_VAULTS}
+        <div class="card">
+            <h1>Admin Form</h1>
+            <p>This form has a hidden field that determines your role. Can you become an admin?</p>
+            <form id="admin-form" onsubmit="return handleSubmit(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" value="guest" readonly>
+                </div>
+                <input type="hidden" name="isAdmin" value="false">
+                <button type="submit" class="modern-button">Submit</button>
+            </form>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Admin Access!</strong> The flag is: <span class="flag">FLAG{HIDDEN_INPUT_TAMPERING}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Inspect the form and change the hidden input value to 'true'.</p>
         </div>
     </div>
     <script>
-        // In this simulation, we check for a URL parameter 'role' to mimic cookie editing
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('role') === 'admin') {
-            document.getElementById('flag').style.display = 'block';
-            document.querySelector('.cookie-display').innerHTML = 'Cookie: <strong>role=admin</strong>';
+        function handleSubmit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const isAdmin = formData.get('isAdmin');
+            
+            if (isAdmin === 'true') {
+                document.getElementById('result').classList.remove('hidden');
+            } else {
+                alert('Access Denied: You are not an admin.');
+            }
+            return false;
         }
     </script>
 </body>

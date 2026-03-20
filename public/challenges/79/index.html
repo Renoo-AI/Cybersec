@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 79 - Insecure Direct Object Reference (IDOR) - User Roles</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Role Management</h1>
+            <p>View your assigned roles. Can you access other users' roles?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Logged in as:</strong> <span class="highlight">User_1001</span>
+                </div>
+            </div>
+            <div class="role-list">
+                <div class="info-item">
+                    <span class="label">User ID:</span>
+                    <span id="user-id" class="value">1001</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Role:</span>
+                    <span id="user-role" class="value">Standard User</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Permissions:</span>
+                    <span id="user-perms" class="value">Read, Write</span>
+                </div>
+                <div id="secret-flag" class="info-item hidden">
+                    <span class="label">Admin Flag:</span>
+                    <span class="value">FLAG{IDOR_USER_ROLES_LEAK_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>1</code> to access the admin's role information.</p>
+        </div>
+    </div>
+    <script>
+        const roles = {
+            '1001': { role: 'Standard User', perms: 'Read, Write' },
+            '1002': { role: 'Guest', perms: 'Read Only' },
+            '1': { role: 'SUPER_ADMIN', perms: 'ALL_ACCESS', flag: 'FLAG{IDOR_USER_ROLES_LEAK_VULNERABILITY}' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '1001';
+        
+        const roleInfo = roles[id] || { role: 'Unknown', perms: 'N/A' };
+        document.getElementById('user-id').textContent = id;
+        document.getElementById('user-role').textContent = roleInfo.role;
+        document.getElementById('user-perms').textContent = roleInfo.perms;
+
+        if (id === '1') {
+            document.getElementById('secret-flag').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 74 - Insecure Direct Object Reference (IDOR) - User Logs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Activity Logs</h1>
+            <p>View your activity logs. Can you access other users' activity logs?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Logged in as:</strong> <span class="highlight">User_1001</span>
+                </div>
+            </div>
+            <div class="log-list">
+                <div class="info-item">
+                    <span class="label">Log ID:</span>
+                    <span id="log-id" class="value">LOG-6001</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Action:</span>
+                    <span id="log-action" class="value">Login</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Timestamp:</span>
+                    <span id="log-time" class="value">2023-10-15 10:30:00</span>
+                </div>
+                <div id="secret-flag" class="info-item hidden">
+                    <span class="label">Admin Flag:</span>
+                    <span class="value">FLAG{IDOR_USER_LOGS_LEAK_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>1</code> to access the admin's activity logs.</p>
+        </div>
+    </div>
+    <script>
+        const logs = {
+            '6001': { action: 'Login', time: '2023-10-15 10:30:00' },
+            '6002': { action: 'Update Profile', time: '2023-10-15 11:45:00' },
+            '1': { action: 'SYSTEM_ACCESS', time: '2020-01-01 00:00:00', flag: 'FLAG{IDOR_USER_LOGS_LEAK_VULNERABILITY}' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '6001';
+        
+        const log = logs[id] || { action: 'Unknown', time: 'N/A' };
+        document.getElementById('log-id').textContent = "LOG-" + id;
+        document.getElementById('log-action').textContent = log.action;
+        document.getElementById('log-time').textContent = log.time;
+
+        if (id === '1') {
+            document.getElementById('secret-flag').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

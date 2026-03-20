@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 23 - JS Obfuscation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Obfuscated Code</h1>
+            <p>The flag is hidden in this obfuscated JavaScript. Can you decode it?</p>
+            <div class="alert info">
+                <strong>Check the Source!</strong> The script at the bottom is hard to read.
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Decoded!</strong> The flag is: <span class="flag">FLAG{JS_OBFUSCATION_DECODED}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: You can use a JS beautifier or just look closely at the string manipulations.</p>
+        </div>
+    </div>
+    <script>
+        (function(_0x1234, _0x5678) {
+            const _0x9abc = function(_0xdef0) {
+                while (--_0xdef0) {
+                    _0x1234['push'](_0x1234['shift']());
+                }
+            };
+            _0x9abc(++_0x5678);
+        }(['FLAG{JS_OBFUSCATION_DECODED}', 'log', 'secret'], 0x1));
+        const _0x4321 = function(_0x8765) {
+            const _0x2468 = ['FLAG{JS_OBFUSCATION_DECODED}', 'log', 'secret'];
+            return _0x2468[_0x8765];
+        };
+        console[_0x4321(0x1)](_0x4321(0x0));
+    </script>
+</body>
+</html>

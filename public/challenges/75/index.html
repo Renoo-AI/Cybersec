@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 75 - Insecure Direct Object Reference (IDOR) - User Preferences</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>User Preferences</h1>
+            <p>View your application preferences. Can you access other users' preferences?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Logged in as:</strong> <span class="highlight">User_1001</span>
+                </div>
+            </div>
+            <div class="preference-list">
+                <div class="info-item">
+                    <span class="label">Theme:</span>
+                    <span id="pref-theme" class="value">Light</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Language:</span>
+                    <span id="pref-lang" class="value">English</span>
+                </div>
+                <div id="secret-flag" class="info-item hidden">
+                    <span class="label">Admin Flag:</span>
+                    <span class="value">FLAG{IDOR_USER_PREFERENCES_LEAK_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>1</code> to access the admin's preferences.</p>
+        </div>
+    </div>
+    <script>
+        const preferences = {
+            '1001': { theme: 'Light', lang: 'English' },
+            '1002': { theme: 'Dark', lang: 'Spanish' },
+            '1': { theme: 'SYSTEM_ADMIN_THEME', lang: 'ROOT_LANG', flag: 'FLAG{IDOR_USER_PREFERENCES_LEAK_VULNERABILITY}' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '1001';
+        
+        const pref = preferences[id] || { theme: 'Unknown', lang: 'N/A' };
+        document.getElementById('pref-theme').textContent = pref.theme;
+        document.getElementById('pref-lang').textContent = pref.lang;
+
+        if (id === '1') {
+            document.getElementById('secret-flag').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

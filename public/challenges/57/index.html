@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 57 - CSRF Token Bypass</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Change Email</h1>
+            <p>Update your email address. This form uses a CSRF token for protection. Can you bypass it?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>CSRF Token:</strong> <span id="token-val" class="highlight">abc123token</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">New Email</label>
+                <input type="email" id="email" class="modern-input" placeholder="Enter new email...">
+            </div>
+            <input type="hidden" id="csrf-token" value="abc123token">
+            <button class="modern-button" onclick="updateEmail()">Update Email</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>CSRF Bypassed!</strong> The flag is: <span class="flag">FLAG{CSRF_TOKEN_BYPASS_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to remove the <code>csrf-token</code> parameter or send an empty token to see if the server still accepts the request.</p>
+        </div>
+    </div>
+    <script>
+        function updateEmail() {
+            const email = document.getElementById('email').value;
+            const token = document.getElementById('csrf-token').value;
+            const result = document.getElementById('result');
+            
+            // Simulation: If they "bypass" it (simulated via empty token)
+            if (token === '') {
+                result.classList.remove('hidden');
+                alert("Success: Email updated without valid token!");
+            } else {
+                alert("Email updated successfully with token.");
+            }
+        }
+    </script>
+</body>
+</html>

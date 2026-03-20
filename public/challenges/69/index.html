@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 69 - Insecure Direct Object Reference (IDOR) - Order History</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Order History</h1>
+            <p>View your order history. Can you access other users' orders?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Logged in as:</strong> <span class="highlight">User_1001</span>
+                </div>
+            </div>
+            <div class="order-list">
+                <div class="info-item">
+                    <span class="label">Order ID:</span>
+                    <span id="order-id" class="value">ORD-5001</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Product:</span>
+                    <span id="product-name" class="value">Laptop</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Status:</span>
+                    <span id="order-status" class="value">Delivered</span>
+                </div>
+                <div id="secret-flag" class="info-item hidden">
+                    <span class="label">Admin Flag:</span>
+                    <span class="value">FLAG{IDOR_ORDER_HISTORY_LEAK_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>1</code> to access the admin's order history.</p>
+        </div>
+    </div>
+    <script>
+        const orders = {
+            '5001': { product: 'Laptop', status: 'Delivered' },
+            '5002': { product: 'Smartphone', status: 'Processing' },
+            '1': { product: 'SECRET_FLAG_ORDER', status: 'COMPLETED' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '5001';
+        
+        const order = orders[id] || { product: 'Unknown', status: 'N/A' };
+        document.getElementById('order-id').textContent = "ORD-" + id;
+        document.getElementById('product-name').textContent = order.product;
+        document.getElementById('order-status').textContent = order.status;
+
+        if (id === '1') {
+            document.getElementById('secret-flag').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

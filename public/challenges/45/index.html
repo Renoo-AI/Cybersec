@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 45 - SSRF Basic</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Image Proxy</h1>
+            <p>This service allows you to fetch images from other URLs. Can you access internal services?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Internal Service:</strong> <span class="highlight">http://localhost:8080/admin</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="url">Image URL</label>
+                <input type="text" id="url" class="modern-input" placeholder="Enter image URL...">
+            </div>
+            <button class="modern-button" onclick="fetchImage()">Fetch Image</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>SSRF Successful!</strong> The flag is: <span class="flag">FLAG{SSRF_INTERNAL_SERVICE_EXPOSURE}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to fetch the internal service URL to see if it's accessible through the proxy.</p>
+        </div>
+    </div>
+    <script>
+        function fetchImage() {
+            const url = document.getElementById('url').value;
+            const result = document.getElementById('result');
+            
+            if (url === 'http://localhost:8080/admin') {
+                result.classList.remove('hidden');
+            } else {
+                alert("Error: Could not fetch image from " + url);
+            }
+        }
+    </script>
+</body>
+</html>

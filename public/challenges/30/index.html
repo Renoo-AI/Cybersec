@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 30 - SQL Injection Basic</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>User Search</h1>
+            <p>Search for a user by their ID. Can you extract the admin's secret?</p>
+            <div class="form-group">
+                <input type="text" id="search-input" placeholder="User ID (e.g., 1)" value="1">
+            </div>
+            <button class="modern-button" onclick="searchUser()">Search</button>
+            <div id="result-area" class="result-area">
+                <div class="alert info">
+                    <strong>Results:</strong> <span id="result-text">User: Guest (ID: 1)</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try a basic SQL injection like <code>' OR 1=1 --</code>.</p>
+        </div>
+    </div>
+    <script>
+        function searchUser() {
+            const query = document.getElementById('search-input').value;
+            const resultText = document.getElementById('result-text');
+            
+            // Simulation of SQL Injection
+            if (query.includes("' OR 1=1") || query.includes("' OR '1'='1")) {
+                resultText.innerHTML = `
+                    <div class="alert success">
+                        <strong>SQL Injection Successful!</strong> 
+                        <br>User: Admin (ID: 0)
+                        <br>Secret: <span class="flag">FLAG{SQL_INJECTION_BASIC_SUCCESS}</span>
+                        <br>User: Guest (ID: 1)
+                    </div>
+                `;
+            } else if (query === '1') {
+                resultText.textContent = "User: Guest (ID: 1)";
+            } else if (query === '0') {
+                resultText.textContent = "Error: Access Denied to Admin profile.";
+            } else {
+                resultText.textContent = "No user found for ID: " + query;
+            }
+        }
+    </script>
+</body>
+</html>

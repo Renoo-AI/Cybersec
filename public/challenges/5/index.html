@@ -3,31 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 5 - Hidden Page</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .container { border: 1px solid #00ff41; padding: 2rem; }
-    </style>
+    <title>Challenge 5 - Cookie Role</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>ADMIN PORTAL</h1>
-        <p>This page is not linked anywhere.</p>
-        <p>Congratulations on finding it!</p>
-        <div style="margin-top: 2rem; font-size: 1.5rem; font-weight: bold;">
-            FLAG{HIDDEN_PAGES_EXIST}
+        <div class="card">
+            <h1>User Profile</h1>
+            <p>Welcome back, <span id="username" class="highlight">guest</span>!</p>
+            <div id="admin-section" class="hidden">
+                <div class="alert success">
+                    <strong>Admin Access!</strong> The flag is: <span class="flag">FLAG{COOKIE_TAMPERING_EASY}</span>
+                </div>
+            </div>
+            <div id="user-section">
+                <div class="alert info">
+                    <strong>Notice:</strong> Your current role is <code>user</code>. Only <code>admin</code> can see the flag.
+                </div>
+                <p>Check your browser cookies!</p>
+            </div>
         </div>
     </div>
+
+    <script>
+        // Set initial cookie if not present
+        if (!document.cookie.includes('role=')) {
+            document.cookie = "role=user; path=/";
+        }
+
+        function checkRole() {
+            const cookies = document.cookie.split(';');
+            let role = 'user';
+            for (let c of cookies) {
+                if (c.trim().startsWith('role=')) {
+                    role = c.trim().split('=')[1];
+                }
+            }
+
+            const usernameEl = document.getElementById('username');
+            const adminSection = document.getElementById('admin-section');
+            const userSection = document.getElementById('user-section');
+
+            if (role === 'admin') {
+                usernameEl.textContent = 'Administrator';
+                adminSection.classList.remove('hidden');
+                userSection.classList.add('hidden');
+            } else {
+                usernameEl.textContent = 'guest';
+                adminSection.classList.add('hidden');
+                userSection.classList.remove('hidden');
+            }
+        }
+
+        // Check every second to respond to manual cookie changes in DevTools
+        setInterval(checkRole, 1000);
+        checkRole();
+    </script>
 </body>
 </html>

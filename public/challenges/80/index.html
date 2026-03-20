@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 80 - Insecure Direct Object Reference (IDOR) - User Security Questions</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Security Questions</h1>
+            <p>View your security questions. Can you access other users' security questions?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Logged in as:</strong> <span class="highlight">User_1001</span>
+                </div>
+            </div>
+            <div class="question-list">
+                <div class="info-item">
+                    <span class="label">User ID:</span>
+                    <span id="user-id" class="value">1001</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Question:</span>
+                    <span id="user-question" class="value">What was the name of your first pet?</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Answer:</span>
+                    <span id="user-answer" class="value">Buddy</span>
+                </div>
+                <div id="secret-flag" class="info-item hidden">
+                    <span class="label">Admin Flag:</span>
+                    <span class="value">FLAG{IDOR_USER_SECURITY_QUESTIONS_LEAK_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>id</code> parameter in the URL to <code>1</code> to access the admin's security questions.</p>
+        </div>
+    </div>
+    <script>
+        const questions = {
+            '1001': { question: 'What was the name of your first pet?', answer: 'Buddy' },
+            '1002': { question: 'What is your mother\'s maiden name?', answer: 'Smith' },
+            '1': { question: 'SYSTEM_ADMIN_QUESTION', answer: 'FLAG{IDOR_USER_SECURITY_QUESTIONS_LEAK_VULNERABILITY}', flag: 'FLAG{IDOR_USER_SECURITY_QUESTIONS_LEAK_VULNERABILITY}' }
+        };
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '1001';
+        
+        const qInfo = questions[id] || { question: 'Unknown', answer: 'N/A' };
+        document.getElementById('user-id').textContent = id;
+        document.getElementById('user-question').textContent = qInfo.question;
+        document.getElementById('user-answer').textContent = qInfo.answer;
+
+        if (id === '1') {
+            document.getElementById('secret-flag').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

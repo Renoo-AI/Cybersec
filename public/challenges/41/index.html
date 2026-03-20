@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 41 - Security Misconfiguration</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Directory Listing</h1>
+            <p>This server has directory listing enabled. Can you find the secret file?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Current Directory:</strong> <span class="highlight">/public/assets/</span>
+                </div>
+            </div>
+            <div class="directory-list">
+                <div class="dir-item">
+                    <span class="icon">📁</span>
+                    <span class="name">images/</span>
+                </div>
+                <div class="dir-item">
+                    <span class="icon">📁</span>
+                    <span class="name">css/</span>
+                </div>
+                <div class="dir-item">
+                    <span class="icon">📁</span>
+                    <span class="name">js/</span>
+                </div>
+                <div class="dir-item secret-item hidden">
+                    <span class="icon">📄</span>
+                    <span class="name">.env.backup</span>
+                </div>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Found it!</strong> The flag is: <span class="flag">FLAG{DIRECTORY_LISTING_EXPOSURE}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Check the page source or use the inspector to find hidden files in the directory listing.</p>
+        </div>
+    </div>
+</body>
+</html>

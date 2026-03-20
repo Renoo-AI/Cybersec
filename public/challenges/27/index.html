@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 27 - Header Injection</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Custom Header</h1>
+            <p>The server is looking for a custom header <code>X-Admin-Key</code>. Can you provide it?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Status:</strong> Waiting for correct header...
+                </div>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Validated!</strong> The flag is: <span class="flag">FLAG{CUSTOM_HEADER_INJECTION}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Use a tool like Postman, Burp Suite, or a browser extension to add custom headers to your request.</p>
+        </div>
+    </div>
+    <script>
+        // In a real scenario, the server checks the header.
+        // We simulate this by checking a specific URL parameter for this game's progression.
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('X-Admin-Key') === 'SuperSecretKey123') {
+            document.getElementById('result').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

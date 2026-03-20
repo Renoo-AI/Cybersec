@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 34 - File Upload Bypass</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Profile Picture</h1>
+            <p>Upload your profile picture. Only <code>.jpg</code> and <code>.png</code> are allowed.</p>
+            <div class="form-group">
+                <input type="file" id="file-input" accept=".jpg,.png">
+            </div>
+            <button class="modern-button" onclick="uploadFile()">Upload</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Bypassed!</strong> The flag is: <span class="flag">FLAG{FILE_UPLOAD_EXTENSION_BYPASS}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: The client-side check is weak. Can you upload a <code>.php</code> file by changing the extension or bypassing the check?</p>
+        </div>
+    </div>
+    <script>
+        function uploadFile() {
+            const input = document.getElementById('file-input');
+            const file = input.files[0];
+            const result = document.getElementById('result');
+            
+            if (file) {
+                const ext = file.name.split('.').pop().toLowerCase();
+                if (ext === 'php') {
+                    result.classList.remove('hidden');
+                } else if (ext === 'jpg' || ext === 'png') {
+                    alert("Success: Image uploaded!");
+                } else {
+                    alert("Error: Invalid file type!");
+                }
+            } else {
+                alert("Please select a file.");
+            }
+        }
+    </script>
+</body>
+</html>

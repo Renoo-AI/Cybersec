@@ -1,0 +1,135 @@
+:root {
+    --brand-primary: #0066FF;
+    --brand-secondary: #F0F7FF;
+    --ui-bg: #F8FAFC;
+    --ui-text: #1E293B;
+    --ui-muted: #64748B;
+    --ui-border: #E2E8F0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--ui-bg);
+    color: var(--ui-text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.card {
+    background: white;
+    padding: 40px;
+    border-radius: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--ui-border);
+    text-align: center;
+}
+
+h1 {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 24px;
+    letter-spacing: -0.025em;
+}
+
+p {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: var(--ui-muted);
+}
+
+.highlight {
+    color: var(--brand-primary);
+    font-weight: 700;
+}
+
+.hidden {
+    display: none;
+}
+
+.alert {
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    font-size: 14px;
+    text-align: left;
+}
+
+.alert.info {
+    background-color: #EFF6FF;
+    color: #1D4ED8;
+    border: 1px solid #BFDBFE;
+}
+
+.alert.success {
+    background-color: #ECFDF5;
+    color: #065F46;
+    border: 1px solid #A7F3D0;
+}
+
+.flag {
+    display: block;
+    margin-top: 12px;
+    padding: 12px;
+    background: #F1F5F9;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--brand-primary);
+    word-break: break-all;
+}
+
+.file-list {
+    text-align: left;
+    margin-bottom: 24px;
+}
+
+.file-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--ui-border);
+}
+
+.file-item .name {
+    font-size: 14px;
+    color: var(--ui-text);
+}
+
+.delete-btn {
+    background-color: #EF4444;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.delete-btn:hover {
+    background-color: #DC2626;
+}
+
+.hint {
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ui-muted);
+    margin-top: 20px;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 49 - Error Based SQLi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>User Search</h1>
+            <p>Search for users by their username. Can you trigger a database error to reveal information?</p>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" class="modern-input" placeholder="Enter username...">
+            </div>
+            <button class="modern-button" onclick="searchUser()">Search</button>
+            <div id="error-msg" class="alert error hidden">
+                <!-- Error message will appear here -->
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Information Leaked!</strong> The flag is: <span class="flag">FLAG{ERROR_BASED_SQLI_DATABASE_EXPOSURE}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to trigger an error by using single quotes or other SQL characters, like <code>' OR 1=1 --</code>.</p>
+        </div>
+    </div>
+    <script>
+        function searchUser() {
+            const username = document.getElementById('username').value;
+            const errorMsg = document.getElementById('error-msg');
+            const result = document.getElementById('result');
+            
+            if (username.includes("'")) {
+                errorMsg.classList.remove('hidden');
+                errorMsg.innerHTML = "<strong>Database Error:</strong> Syntax error in SQL statement: <code>SELECT * FROM users WHERE username = '" + username + "'</code>. Flag leaked: FLAG{ERROR_BASED_SQLI_DATABASE_EXPOSURE}";
+                result.classList.remove('hidden');
+            } else {
+                alert("User not found.");
+            }
+        }
+    </script>
+</body>
+</html>

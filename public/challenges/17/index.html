@@ -3,58 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 17 - Stored XSS</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .container { border: 1px solid #00ff41; padding: 2rem; width: 500px; }
-        textarea { width: 100%; height: 100px; background: #000; border: 1px solid #333; color: #00ff41; padding: 10px; box-sizing: border-box; margin-bottom: 10px; }
-        button { width: 100%; padding: 10px; background: #00ff41; color: #000; border: none; cursor: pointer; font-weight: bold; }
-        .comments { margin-top: 2rem; text-align: left; }
-        .comment { border-bottom: 1px solid #333; padding: 10px 0; }
-    </style>
+    <title>Challenge 17 - Debug Param</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>GUESTBOOK</h1>
-        <textarea id="commentInput" placeholder="Leave a comment..."></textarea>
-        <button onclick="postComment()">POST COMMENT</button>
-        <div class="comments" id="commentList">
-            <div class="comment"><strong>User123:</strong> Nice site!</div>
+        <div class="card">
+            <h1>Debug Mode</h1>
+            <p>The application is running in production mode. Can you enable debug mode?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Status:</strong> Production Mode
+                </div>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Debug Enabled!</strong> The flag is: <span class="flag">FLAG{DEBUG_MODE_PARAMETER}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try adding a URL parameter like <code>?debug=true</code>.</p>
         </div>
     </div>
-
     <script>
-        function postComment() {
-            const val = document.getElementById('commentInput').value;
-            const list = document.getElementById('commentList');
-            
-            const div = document.createElement('div');
-            div.className = 'comment';
-            // VULNERABLE: Using innerHTML for user content
-            div.innerHTML = `<strong>You:</strong> ${val}`;
-            list.prepend(div);
-
-            if (val.includes('<script>alert')) {
-                setTimeout(() => {
-                    const flagDiv = document.createElement('div');
-                    flagDiv.style.color = '#ff4444';
-                    flagDiv.style.fontWeight = 'bold';
-                    flagDiv.style.marginTop = '1rem';
-                    flagDiv.innerText = 'STORED XSS DETECTED! FLAG{STORED_XSS_MASTER_WIN}';
-                    list.prepend(flagDiv);
-                }, 500);
-            }
+        const urlParams = new URLSearchParams(window.location.search);
+        const debug = urlParams.get('debug');
+        
+        if (debug === 'true') {
+            document.getElementById('result').classList.remove('hidden');
+            document.getElementById('status-info').innerHTML = `
+                <div class="alert success">
+                    <strong>Status:</strong> Debug Mode Enabled
+                </div>
+            `;
         }
     </script>
 </body>

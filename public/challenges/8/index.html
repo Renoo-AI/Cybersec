@@ -3,50 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 8 - Path Traversal</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .container { border: 1px solid #00ff41; padding: 2rem; width: 500px; }
-        .file-content { background: #000; padding: 1rem; border: 1px solid #333; text-align: left; font-size: 0.8rem; min-height: 100px; white-space: pre-wrap; }
-    </style>
+    <title>Challenge 8 - Enable Button</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>FILE VIEWER</h1>
-        <p>Viewing: <span id="filename">welcome.txt</span></p>
-        <div class="file-content" id="content">
-            Welcome to the secure file server.
-            Use the ?file= parameter to view other documents.
+        <div class="card">
+            <h1>Disabled Action</h1>
+            <p>The button below is disabled. Can you enable it to get the flag?</p>
+            <div class="form-group">
+                <button id="flag-btn" class="modern-button" disabled onclick="revealFlag()">Get Flag</button>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Enabled!</strong> The flag is: <span class="flag">FLAG{BUTTON_ENABLED_VIA_DOM}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Inspect the element and remove the 'disabled' attribute.</p>
         </div>
     </div>
-
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const file = params.get('file') || 'welcome.txt';
-        
-        const filenameEl = document.getElementById('filename');
-        const contentEl = document.getElementById('content');
-
-        filenameEl.innerText = file;
-
-        if (file === '../../etc/passwd' || file === '../secret/flag.txt') {
-            contentEl.innerText = "root:x:0:0:root:/root:/bin/bash\nbin:x:1:1:bin:/bin:/sbin/nologin\n\nFLAG{DOT_DOT_SLASH_WIN}";
-            contentEl.style.color = "#ff4444";
-        } else if (file === 'about.txt') {
-            contentEl.innerText = "This server was built with security in mind.\nAll files are strictly monitored.";
-        } else {
-            contentEl.innerText = "Error: File not found or access denied.";
+        function revealFlag() {
+            document.getElementById('result').classList.remove('hidden');
         }
     </script>
 </body>

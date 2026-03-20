@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 53 - Blind SQLi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>User Check</h1>
+            <p>Check if a username exists. The server only responds with "Exists" or "Does not exist". Can you extract information?</p>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" class="modern-input" placeholder="Enter username...">
+            </div>
+            <button class="modern-button" onclick="checkUser()">Check User</button>
+            <div id="status-msg" class="alert info hidden">
+                <!-- Status message will appear here -->
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Blind SQLi Successful!</strong> The flag is: <span class="flag">FLAG{BLIND_SQLI_BOOLEAN_INFERENCE}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to use boolean logic to infer information, like <code>admin' AND (SELECT 1)=1 --</code>.</p>
+        </div>
+    </div>
+    <script>
+        function checkUser() {
+            const username = document.getElementById('username').value;
+            const statusMsg = document.getElementById('status-msg');
+            const result = document.getElementById('result');
+            
+            statusMsg.classList.remove('hidden');
+            
+            if (username === 'admin') {
+                statusMsg.textContent = "User exists.";
+            } else if (username.includes("' AND") || username.includes("' OR")) {
+                statusMsg.textContent = "User exists (Blind SQLi detected).";
+                result.classList.remove('hidden');
+            } else {
+                statusMsg.textContent = "User does not exist.";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -3,47 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 16 - File Guessing</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .container { border: 1px solid #00ff41; padding: 2rem; }
-        .terminal { background: #000; padding: 1rem; border: 1px solid #333; text-align: left; font-size: 0.8rem; min-height: 100px; }
-    </style>
+    <title>Challenge 16 - B64 Cookie</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>BACKUP SERVER</h1>
-        <p>Directory listing is disabled for security.</p>
-        <div class="terminal" id="output">
-            $ ls -la<br>
-            ls: cannot open directory '.': Permission denied
+        <div class="card">
+            <h1>Session Check</h1>
+            <p>Your session cookie is encoded. Can you decode it and change your role?</p>
+            <div id="user-info">
+                <div class="alert info">
+                    <strong>Status:</strong> Logged in as <span id="role-display" class="highlight">guest</span>
+                </div>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Admin Access!</strong> The flag is: <span class="flag">FLAG{BASE64_COOKIE_TAMPERING}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: The cookie 'session' is Base64 encoded. Decode it, change 'guest' to 'admin', and re-encode it.</p>
         </div>
-        <p style="margin-top: 2rem; font-size: 0.8rem; opacity: 0.7;">Hint: Developers often leave backups like backup.zip, config.old, or db.sql.</p>
     </div>
-
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const file = params.get('file');
-        
-        if (file === 'db.sql' || file === 'backup.zip' || file === 'config.php.bak') {
-            document.getElementById('output').innerHTML = `
-                $ cat ${file}<br>
-                -- Database Backup --<br>
-                -- 2026-03-19 --<br><br>
-                <span style="color: #ff4444">FLAG{BACKUP_FILES_MATTER_WIN}</span>
-            `;
+        // Set initial cookie if not present
+        if (!document.cookie.includes('session=')) {
+            document.cookie = "session=" + btoa("role=guest") + "; path=/";
         }
+
+        function checkSession() {
+            const cookies = document.cookie.split(';');
+            let session = '';
+            for (let c of cookies) {
+                if (c.trim().startsWith('session=')) {
+                    session = c.trim().split('=')[1];
+                }
+            }
+
+            try {
+                const decoded = atob(session);
+                const role = decoded.split('=')[1];
+                const roleDisplay = document.getElementById('role-display');
+                const result = document.getElementById('result');
+
+                if (role === 'admin') {
+                    roleDisplay.textContent = 'Administrator';
+                    result.classList.remove('hidden');
+                } else {
+                    roleDisplay.textContent = 'guest';
+                    result.classList.add('hidden');
+                }
+            } catch (e) {
+                // Invalid base64
+            }
+        }
+
+        setInterval(checkSession, 1000);
+        checkSession();
     </script>
 </body>
 </html>

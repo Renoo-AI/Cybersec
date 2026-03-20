@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 28 - IDOR Basic</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>User Profile</h1>
+            <p>You are viewing your own profile. Can you view someone else's?</p>
+            <div id="profile-card" class="profile-card">
+                <div class="profile-header">
+                    <div class="avatar">G</div>
+                    <div class="profile-info">
+                        <h3 id="user-name">Guest User</h3>
+                        <p id="user-role">Role: User</p>
+                    </div>
+                </div>
+                <div id="admin-content" class="hidden">
+                    <div class="alert success">
+                        <strong>Admin Data!</strong> The flag is: <span class="flag">FLAG{IDOR_PROFILE_ACCESS}</span>
+                    </div>
+                </div>
+            </div>
+            <p class="hint">Tip: Check the URL parameter <code>?id=1</code>. Maybe <code>id=0</code> is the admin?</p>
+        </div>
+    </div>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id') || '1';
+        
+        const userName = document.getElementById('user-name');
+        const userRole = document.getElementById('user-role');
+        const adminContent = document.getElementById('admin-content');
+        const avatar = document.querySelector('.avatar');
+
+        if (id === '0') {
+            userName.textContent = 'System Administrator';
+            userRole.textContent = 'Role: Super Admin';
+            adminContent.classList.remove('hidden');
+            avatar.textContent = 'A';
+            avatar.style.backgroundColor = '#0066FF';
+        } else {
+            userName.textContent = 'Guest User (ID: ' + id + ')';
+            userRole.textContent = 'Role: Standard User';
+            adminContent.classList.add('hidden');
+            avatar.textContent = 'G';
+        }
+    </script>
+</body>
+</html>

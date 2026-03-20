@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 64 - Insecure API Key</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>API Dashboard</h1>
+            <p>Access your API dashboard. Can you find the insecurely stored API key?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Dashboard Status:</strong> <span class="highlight">Active</span>
+                </div>
+            </div>
+            <div class="dashboard-content">
+                <div class="info-item">
+                    <span class="label">User:</span>
+                    <span class="value">Developer</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">API Usage:</span>
+                    <span class="value">120 / 1000 requests</span>
+                </div>
+                <div id="secret-key" class="info-item hidden">
+                    <span class="label">Secret Key:</span>
+                    <span class="value">FLAG{INSECURE_API_KEY_STORAGE_VULNERABILITY}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Check the <code>localStorage</code> or <code>sessionStorage</code> for any sensitive information.</p>
+        </div>
+    </div>
+    <script>
+        // Insecurely storing the API key in localStorage
+        localStorage.setItem('api_key', 'FLAG{INSECURE_API_KEY_STORAGE_VULNERABILITY}');
+        
+        // Check if the user has found the key (simulated for the challenge)
+        if (window.location.hash === '#show-key') {
+            document.getElementById('secret-key').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

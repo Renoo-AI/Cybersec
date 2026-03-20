@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 56 - PHP Deserialization</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>PHP Session Manager</h1>
+            <p>This application uses PHP serialized objects for session management. Can you manipulate the object?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>Current Session:</strong> <span id="session-val" class="highlight">O:4:"User":2:{s:4:"name";s:5:"guest";s:4:"role";s:4:"user";}</span>
+                </div>
+            </div>
+            <button class="modern-button" onclick="updateSession()">Update Session</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Admin Session!</strong> The flag is: <span class="flag">FLAG{PHP_DESERIALIZATION_OBJECT_INJECTION}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try changing the <code>role</code> to <code>admin</code> in the PHP serialized session object.</p>
+        </div>
+    </div>
+    <script>
+        function updateSession() {
+            const sessionStr = prompt("Enter new PHP serialized session object:", 'O:4:"User":2:{s:4:"name";s:5:"guest";s:4:"role";s:4:"user";}');
+            if (sessionStr) {
+                document.getElementById('session-val').textContent = sessionStr;
+                if (sessionStr.includes('s:4:"role";s:5:"admin";')) {
+                    document.getElementById('result').classList.remove('hidden');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

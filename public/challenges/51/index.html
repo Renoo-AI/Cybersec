@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 51 - IDOR Update</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Update Profile</h1>
+            <p>Update your profile information. Can you update someone else's profile?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>My Profile ID:</strong> <span class="highlight">601</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="profile-id">Profile ID</label>
+                <input type="number" id="profile-id" class="modern-input" value="601">
+            </div>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" class="modern-input" placeholder="Enter name...">
+            </div>
+            <button class="modern-button" onclick="updateProfile()">Update Profile</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Admin Profile Updated!</strong> The flag is: <span class="flag">FLAG{IDOR_UPDATE_ACCESS_CONTROL_FAILURE}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to update the profile with ID 1. The server might not be checking ownership correctly.</p>
+        </div>
+    </div>
+    <script>
+        function updateProfile() {
+            const profileId = document.getElementById('profile-id').value;
+            const result = document.getElementById('result');
+            
+            if (profileId === '1') {
+                result.classList.remove('hidden');
+                alert("Success: Admin profile updated!");
+            } else {
+                alert("Profile ID " + profileId + " updated successfully.");
+            }
+        }
+    </script>
+</body>
+</html>

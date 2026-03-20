@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 47 - IDOR Delete</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>My Files</h1>
+            <p>You can delete your own files. Can you delete someone else's?</p>
+            <div id="status-info">
+                <div class="alert info">
+                    <strong>My File ID:</strong> <span class="highlight">501</span>
+                </div>
+            </div>
+            <div class="file-list">
+                <div class="file-item">
+                    <span class="name">my_notes.txt (ID: 501)</span>
+                    <button class="delete-btn" onclick="deleteFile(501)">Delete</button>
+                </div>
+                <div class="file-item">
+                    <span class="name">secret_admin_notes.txt (ID: 1)</span>
+                    <button class="delete-btn" onclick="deleteFile(1)">Delete</button>
+                </div>
+            </div>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Admin File Deleted!</strong> The flag is: <span class="flag">FLAG{IDOR_DELETE_ACCESS_CONTROL_FAILURE}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to delete the file with ID 1. The server might not be checking ownership correctly.</p>
+        </div>
+    </div>
+    <script>
+        function deleteFile(id) {
+            const result = document.getElementById('result');
+            
+            if (id === 1) {
+                result.classList.remove('hidden');
+                alert("Success: Admin file deleted!");
+            } else {
+                alert("File ID " + id + " deleted successfully.");
+            }
+        }
+    </script>
+</body>
+</html>

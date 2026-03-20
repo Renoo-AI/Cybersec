@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge 54 - Content-Type Bypass</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Avatar Upload</h1>
+            <p>Upload your avatar image. Only <code>image/jpeg</code> and <code>image/png</code> are allowed. Can you bypass the check?</p>
+            <div class="form-group">
+                <label for="avatar">Select File</label>
+                <input type="file" id="avatar" class="modern-input">
+            </div>
+            <button class="modern-button" onclick="uploadAvatar()">Upload Avatar</button>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Bypass Successful!</strong> The flag is: <span class="flag">FLAG{FILE_UPLOAD_CONTENT_TYPE_BYPASS}</span>
+                </div>
+            </div>
+            <p class="hint">Tip: Try to upload a <code>.php</code> or <code>.js</code> file but intercept the request to change the <code>Content-Type</code> header to <code>image/jpeg</code>.</p>
+        </div>
+    </div>
+    <script>
+        function uploadAvatar() {
+            const avatarInput = document.getElementById('avatar');
+            const result = document.getElementById('result');
+            
+            if (avatarInput.files.length > 0) {
+                const file = avatarInput.files[0];
+                // Simulation: If they "bypass" it (simulated via filename)
+                if (file.name.endsWith('.php') || file.name.endsWith('.js')) {
+                    alert("Error: Invalid file type. Only images are allowed.");
+                } else {
+                    alert("File " + file.name + " uploaded successfully.");
+                }
+            } else {
+                alert("Please select a file.");
+            }
+            
+            // For the game, we check if they've tried a bypass (simulated via URL param)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('bypass') === 'content-type') {
+                result.classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -3,54 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 6 - IDOR</title>
-    <style>
-        body {
-            background-color: #0a0a0a;
-            color: #00ff41;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .profile-card { border: 1px solid #00ff41; padding: 2rem; width: 300px; }
-        .avatar { width: 80px; height: 80px; background: #333; border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
-    </style>
+    <title>Challenge 6 - Base64 Decode</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="profile-card">
-        <div class="avatar" id="avatar">👤</div>
-        <h2 id="name">Guest User</h2>
-        <p id="bio">Welcome to your profile.</p>
-        <div id="flag" style="display:none; color: #ff4444; font-weight: bold; border-top: 1px dashed #444; padding-top: 1rem; margin-top: 1rem;">
-            FLAG{IDOR_FOUND_YOU}
+    <div class="container">
+        <div class="card">
+            <h1>Encoded Token</h1>
+            <p>Your session token is encoded. Can you decode it to find the secret?</p>
+            <div class="alert info">
+                <strong>Token:</strong> <code id="token">cm9sZT1ndWVzdA==</code>
+            </div>
+            <p>The flag is hidden inside the decoded value if you can find the right string.</p>
+            <div id="result" class="hidden">
+                <div class="alert success">
+                    <strong>Decoded!</strong> The flag is: <span class="flag">FLAG{BASE64_IS_NOT_ENCRYPTION}</span>
+                </div>
+            </div>
         </div>
     </div>
-
     <script>
-        const params = new URLSearchParams(window.location.search);
-        const id = params.get('id') || '1';
-        
-        const nameEl = document.getElementById('name');
-        const bioEl = document.getElementById('bio');
-        const avatarEl = document.getElementById('avatar');
-        const flagEl = document.getElementById('flag');
-
-        if (id === '2') {
-            nameEl.innerText = 'Administrator';
-            bioEl.innerText = 'System owner. Keep out!';
-            avatarEl.innerText = '⚡';
-            flagEl.style.display = 'block';
-        } else {
-            nameEl.innerText = 'Guest User';
-            bioEl.innerText = 'Welcome to your profile.';
-            avatarEl.innerText = '👤';
-            flagEl.style.display = 'none';
-        }
+        // This is a simulation. In a real challenge, the user would decode it externally.
+        // But for the game to progress, we check if they "know" it.
+        // Actually, let's make it interactive.
+        const token = "cm9sZT1ndWVzdA==";
+        console.log("Hint: atob('" + token + "')");
     </script>
 </body>
 </html>
