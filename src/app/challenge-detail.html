@@ -54,10 +54,10 @@
       </div>
       <div class="text-[10px] font-mono text-hacker-green/50">ID: {{ currentChallenge().id }}</div>
     </div>
-    <div class="flex-1 relative bg-black">
+    <div class="flex-1 relative bg-black min-h-[400px]">
       <iframe 
         [src]="targetUrl()" 
-        class="w-full h-full border-none"
+        class="absolute inset-0 w-full h-full border-none"
         title="Challenge Target"
       ></iframe>
     </div>
