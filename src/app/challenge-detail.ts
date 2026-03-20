@@ -52,6 +52,7 @@ export class ChallengeDetail {
   showExplanation = signal(false);
   flagInput = '';
   confetti = signal(false);
+  systemMessages = signal<{type: string, text: string}[]>([]);
 
   constructor() {
     // React to route params
@@ -63,6 +64,13 @@ export class ChallengeDetail {
         if (challenge) {
           this.gameState.setCurrent(challenge.id);
           this.resetChallengeState();
+          
+          // Initialize system messages
+          this.systemMessages.set([
+            {type: 'SYSTEM', text: 'Environment ready. All systems operational.'},
+            {type: 'AUTH', text: `Session verified. ${this.gameState.totalFlags()} flags in vault.`},
+            {type: 'AI', text: 'Yo! Welcome to the lab. We got 80 challenges for you to crush. Find the flags and send them in the chat box below! 🚀'}
+          ]);
         }
       }
     });
@@ -83,25 +91,34 @@ export class ChallengeDetail {
 
   showNextHint() {
     const current = this.activeHintIndex();
-    if (current < 2) {
+    if (current < this.currentChallenge().hints.length - 1) {
       this.activeHintIndex.set(current + 1);
-      const hints = ['Nice start! Here\'s a little nudge.', 'Getting warmer! Try using your browser tools.', 'Okay, here\'s the keys to the kingdom!'];
-      this.gameState.byteMessage.set(hints[this.activeHintIndex()]);
+      const hintText = this.currentChallenge().hints[this.activeHintIndex()];
+      this.gameState.byteMessage.set('Check the logs, I sent a hint there! 💡');
       this.gameState.byteMood.set('thinking');
+      this.systemMessages.update(msgs => [...msgs, {type: 'AI', text: `Hint #${this.activeHintIndex() + 1}: ${hintText}`}]);
     }
   }
 
   submitFlag() {
-    if (this.flagInput.trim() === this.currentChallenge().flag) {
+    const input = this.flagInput.trim();
+    if (!input) return;
+
+    this.systemMessages.update(msgs => [...msgs, {type: 'USER', text: input}]);
+
+    if (input === this.currentChallenge().flag) {
       this.gameState.solve(this.currentChallenge().id);
       this.gameState.byteMessage.set('BOOM! Flag secured! You\'re a natural! 🔥');
       this.gameState.byteMood.set('excited');
+      this.systemMessages.update(msgs => [...msgs, {type: 'SUCCESS', text: `Flag accepted! Challenge #${this.currentChallenge().id} solved.`}]);
       this.showExplanation.set(true);
       this.confetti.set(true);
       setTimeout(() => this.confetti.set(false), 3000);
     } else {
       this.gameState.byteMessage.set('Hmm, that flag doesn\'t look right. Try again!');
       this.gameState.byteMood.set('thinking');
+      this.systemMessages.update(msgs => [...msgs, {type: 'AI', text: 'That flag is incorrect. Keep digging!'}]);
     }
+    this.flagInput = '';
   }
 }

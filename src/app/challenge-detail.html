@@ -21,14 +21,18 @@
     </div>
   </div>
   <div class="flex gap-3">
+    <div class="flex items-center gap-3">
+      <span class="text-[10px] font-bold text-ui-muted uppercase tracking-widest hidden md:block">Need help?</span>
+      <button (click)="showNextHint()" class="w-12 h-12 bg-brand-secondary text-brand-primary rounded-2xl flex items-center justify-center hover:bg-blue-100 transition-all shadow-sm group relative" title="Get Hint">
+        <mat-icon>smart_toy</mat-icon>
+        <div class="absolute -top-1 -right-1 w-3 h-3 bg-brand-primary rounded-full border-2 border-white animate-pulse"></div>
+      </button>
+    </div>
     <button (click)="viewCode()" class="modern-button-secondary flex items-center gap-2">
       <mat-icon class="text-sm">code</mat-icon> View Code
     </button>
     <button (click)="openTarget()" class="modern-button-secondary flex items-center gap-2">
       <mat-icon class="text-sm">open_in_new</mat-icon> Open Target
-    </button>
-    <button (click)="showNextHint()" class="modern-button flex items-center gap-2 shadow-lg shadow-brand-primary/20">
-      <mat-icon class="text-sm">lightbulb</mat-icon> Get Hint
     </button>
   </div>
 </header>
@@ -74,25 +78,41 @@
     </div>
   </div>
 
-  <!-- Flag Submission -->
-  <div class="mt-10 modern-card border-brand-primary/20 bg-brand-secondary/10">
-    <div class="flex flex-col md:flex-row items-center gap-6">
-      <div class="flex-1 w-full">
-        <label for="flag-input" class="text-[11px] font-bold text-ui-muted uppercase tracking-widest mb-3 block">Submit Captured Flag</label>
-        <div class="relative">
-          <mat-icon class="absolute left-4 top-1/2 -translate-y-1/2 text-ui-muted">vpn_key</mat-icon>
+  <!-- Flag Submission (Chat Style) -->
+  <div class="mt-12 max-w-2xl mx-auto">
+    <div class="relative group">
+      <div class="absolute -inset-1 bg-gradient-to-r from-brand-primary to-blue-400 rounded-2xl blur opacity-10 group-hover:opacity-20 transition duration-1000 group-hover:duration-200"></div>
+      <div class="relative bg-white border-2 border-ui-border rounded-2xl p-2 flex items-center gap-2 shadow-2xl focus-within:border-brand-primary transition-colors">
+        <div class="flex-1 relative">
+          <div class="absolute left-4 top-1/2 -translate-y-1/2 text-ui-muted">
+            <mat-icon class="text-lg">vpn_key</mat-icon>
+          </div>
           <input 
             id="flag-input" 
             [(ngModel)]="flagInput" 
-            placeholder="FLAG{...}" 
-            class="modern-input pl-12 py-4 text-lg font-mono"
+            placeholder="Enter flag here... FLAG{...}" 
+            class="w-full bg-transparent border-none pl-12 pr-4 py-4 text-lg font-mono focus:outline-none focus:ring-0"
             (keyup.enter)="submitFlag()"
           >
         </div>
+        <button 
+          (click)="submitFlag()" 
+          [disabled]="!flagInput"
+          class="w-14 h-14 bg-brand-primary text-white rounded-xl flex items-center justify-center shadow-lg shadow-brand-primary/30 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:hover:scale-100"
+        >
+          <mat-icon>send</mat-icon>
+        </button>
       </div>
-      <button (click)="submitFlag()" class="modern-button px-10 py-4 text-lg shadow-lg shadow-brand-primary/20 w-full md:w-auto mt-6 md:mt-0">
-        Verify Flag
-      </button>
+    </div>
+    <div class="flex justify-center gap-8 mt-4">
+      <div class="flex items-center gap-2">
+        <div class="w-1.5 h-1.5 rounded-full bg-brand-primary animate-pulse"></div>
+        <span class="text-[10px] font-bold text-ui-muted uppercase tracking-widest">80 Labs Available</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+        <span class="text-[10px] font-bold text-ui-muted uppercase tracking-widest">{{ gameState.totalFlags() }} Solved</span>
+      </div>
     </div>
   </div>
 
@@ -116,18 +136,21 @@
   <!-- Activity Log -->
   <div class="mt-16">
     <div class="flex items-center gap-2 mb-4">
-      <mat-icon class="text-ui-muted text-sm">history</mat-icon>
-      <h5 class="text-[11px] font-bold text-ui-muted uppercase tracking-widest">Activity Log</h5>
+      <mat-icon class="text-ui-muted text-sm">smart_toy</mat-icon>
+      <h5 class="text-[11px] font-bold text-ui-muted uppercase tracking-widest">Byte AI Assistant</h5>
     </div>
     <div class="p-6 bg-ui-sidebar border border-ui-border rounded-2xl font-mono text-[11px] text-ui-muted space-y-2 max-h-40 overflow-y-auto">
-      <div class="flex gap-3">
-        <span class="text-brand-primary font-bold">[SYSTEM]</span>
-        <span>Environment ready. All systems operational.</span>
-      </div>
-      <div class="flex gap-3">
-        <span class="text-brand-primary font-bold">[AUTH]</span>
-        <span>Session verified. {{ gameState.totalFlags() }} flags in vault.</span>
-      </div>
+      @for (msg of systemMessages(); track $index) {
+        <div class="flex gap-3">
+          <span 
+            [class.text-brand-primary]="msg.type !== 'AI' && msg.type !== 'SUCCESS'"
+            [class.text-blue-500]="msg.type === 'AI'"
+            [class.text-green-600]="msg.type === 'SUCCESS'"
+            class="font-bold"
+          >[{{ msg.type }}]</span>
+          <span>{{ msg.text }}</span>
+        </div>
+      }
       @if (gameState.isSolved(currentChallenge().id)) {
         <div class="flex gap-3 text-green-600 font-bold">
           <span>[SUCCESS]</span>
