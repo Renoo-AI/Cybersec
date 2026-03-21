@@ -91,8 +91,6 @@ import {CHALLENGES, GameStateService} from './game-state';
       </main>
 
       <!-- Home Preview Overlay -->
-
-      <!-- Home Preview Overlay -->
       @if (gameState.showHomePreview()) {
         <div class="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 animate-in fade-in duration-300">
           <div class="absolute inset-0 bg-ui-text/60 backdrop-blur-md" (click)="gameState.showHomePreview.set(false)" (mousedown)="gameState.updateByteForPreview()" (keydown.enter)="gameState.showHomePreview.set(false)" tabindex="0" role="button" aria-label="Close preview"></div>
@@ -191,6 +189,11 @@ export class ChallengeLayout {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
+    const target = event.target as HTMLElement;
+    if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+      return;
+    }
+
     if (event.key === 'h' || event.key === 'H') {
       this.gameState.toggleHomePreview(); if(this.gameState.showHomePreview()) this.gameState.updateByteForPreview();
     } else if (event.key === 'Escape' && this.gameState.showHomePreview()) {

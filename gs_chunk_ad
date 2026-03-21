@@ -1,0 +1,100 @@
+    explanation: { bug: "Directory Listing Enabled", why: "Exposing file structures to the public.", prevention: "Disable directory listing on the server." }
+  },
+
+  // LEVEL 3: MEDIUM (41-60)
+  {
+    id: 41, slug: "sqli-login", title: "SQLi Login", level: "Medium",
+    objective: "Login uses SQL → try what payload?",
+    flag: "FLAG{SQL_INJECTION_BYPASS}", skill: "SQLi",
+    hints: ["Try ' OR 1=1 --", "Try admin' --", "Use comments to ignore the rest of the query."],
+    explanation: { bug: "SQL Injection", why: "Direct input in SQL queries.", prevention: "Use parameterized queries." }
+  },
+  {
+    id: 42, slug: "xss-echo", title: "XSS Echo", level: "Medium",
+    objective: "Input echoed → XSS test?",
+    flag: "FLAG{XSS_ECHO_SUCCESS}", skill: "XSS",
+    hints: ["Try <img src=x onerror=alert(1)>.", "Check if the payload is filtered.", "Try different event handlers."],
+    explanation: { bug: "Reflected XSS", why: "Echoing input without encoding.", prevention: "Use context-aware output encoding." }
+  },
+  {
+    id: 43, slug: "persistent-xss", title: "Persistent XSS", level: "Medium",
+    objective: "Stored message → persistent XSS?",
+    flag: "FLAG{PERSISTENT_XSS_WIN}", skill: "XSS",
+    hints: ["Submit a script in a message or profile field.", "Check if it runs when you view the page later.", "This is the most dangerous XSS."],
+    explanation: { bug: "Stored XSS", why: "Malicious scripts saved to the database.", prevention: "Sanitize all stored content." }
+  },
+  {
+    id: 44, slug: "file-upload-ext", title: "File Upload Ext", level: "Medium",
+    objective: "File upload → try what extension?",
+    flag: "FLAG{FILE_UPLOAD_BYPASS}", skill: "File Upload",
+    hints: ["Try uploading .php, .jsp, or .exe.", "Try double extensions like .jpg.php.", "Try bypass filters with .phtml."],
+    explanation: { bug: "Unrestricted File Upload", why: "Allowing executable files to be uploaded.", prevention: "Validate file types and content." }
+  },
+  {
+    id: 45, slug: "url-decode", title: "URL Decode", level: "Medium",
+    objective: "URL encoded string → decode it",
+    flag: "FLAG{URL_DECODING_SUCCESS}", skill: "Encoding",
+    hints: ["Use a URL decoder tool.", "%20 is space, %3C is <, etc.", "Look for hidden commands in the encoded string."],
+    explanation: { bug: "Encoded Payload", why: "Hiding attacks in URL encoding.", prevention: "Decode and sanitize all parameters." }
+  },
+  {
+    id: 46, slug: "hidden-api", title: "Hidden API", level: "Medium",
+    objective: "Hidden API endpoint → find how?",
+    flag: "FLAG{API_DISCOVERY_SUCCESS}", skill: "API Recon",
+    hints: ["Check JS files for fetch() or axios calls.", "Look at the Network tab for API requests.", "Try common paths like /api/v1/."],
+    explanation: { bug: "Unprotected API", why: "Assuming APIs are hidden if not linked.", prevention: "Secure all API endpoints." }
+  },
+  {
+    id: 47, slug: "id-reuse", title: "ID Reuse", level: "Medium",
+    objective: "Response contains ID → reuse it?",
+    flag: "FLAG{ID_REUSE_EXPLOIT}", skill: "Session Management",
+    hints: ["Find an ID in a response (e.g., a session ID).", "Try using it in another request.", "Check if it grants access to another session."],
+    explanation: { bug: "Predictable Session IDs", why: "Using weak or reusable IDs.", prevention: "Use cryptographically strong random IDs." }
+  },
+  {
+    id: 48, slug: "json-edit", title: "JSON Edit", level: "Medium",
+    objective: "JSON response editable → modify?",
+    flag: "FLAG{JSON_TAMPER_SUCCESS}", skill: "API Security",
+    hints: ["Intercept a JSON response.", "Modify the fields (e.g., change 'is_admin': false to true).", "See if the UI or server accepts the change."],
+    explanation: { bug: "Insecure Client State", why: "Trusting JSON data from the client.", prevention: "Validate all data on the server." }
+  },
+  {
+    id: 49, slug: "cookie-admin", title: "Cookie Admin", level: "Medium",
+    objective: "Role in cookie → change to admin?",
+    flag: "FLAG{COOKIE_ADMIN_BYPASS}", skill: "Cookie Manipulation",
+    hints: ["Find the 'role' or 'admin' cookie.", "Change its value.", "Refresh the page."],
+    explanation: { bug: "Insecure Cookie Auth", why: "Storing roles in editable cookies.", prevention: "Use server-side session stores." }
+  },
+  {
+    id: 50, slug: "csrf-missing", title: "CSRF Missing", level: "Medium",
+    objective: "CSRF token missing → what attack?",
+    flag: "FLAG{CSRF_ATTACK_SUCCESS}", skill: "CSRF",
+    hints: ["Check if forms have a hidden CSRF token.", "If missing, you can perform actions on behalf of a user.", "Try to craft a malicious form."],
+    explanation: { bug: "Missing CSRF Protection", why: "Allowing cross-site requests to perform actions.", prevention: "Use CSRF tokens or SameSite cookies." }
+  },
+  {
+    id: 51, slug: "password-reset-abuse", title: "Password Reset", level: "Medium",
+    objective: "Password reset → abuse how?",
+    flag: "FLAG{RESET_TOKEN_EXPLOIT}", skill: "Auth Logic",
+    hints: ["Try to guess the reset token.", "Check if the token is in the URL.", "Try to reset another user's password."],
+    explanation: { bug: "Weak Password Reset", why: "Predictable or insecure reset tokens.", prevention: "Use strong, one-time reset tokens." }
+  },
+  {
+    id: 52, slug: "search-inject", title: "Search Inject", level: "Medium",
+    objective: "Search input → inject what?",
+    flag: "FLAG{SEARCH_INJECTION_WIN}", skill: "Injection",
+    hints: ["Try SQLi or XSS in the search box.", "Check how the results are displayed.", "Look for error messages."],
+    explanation: { bug: "Search Injection", why: "Unsanitized search parameters.", prevention: "Sanitize all search inputs." }
+  },
+  {
+    id: 53, slug: "param-brute", title: "Param Brute", level: "Medium",
+    objective: "Parameter ignored → brute values?",
+    flag: "FLAG{PARAM_BRUTE_SUCCESS}", skill: "Fuzzing",
+    hints: ["Try different values for a parameter.", "Use a script to automate the process.", "Look for changes in the response."],
+    explanation: { bug: "Predictable Parameters", why: "Allowing brute force of parameters.", prevention: "Use rate limiting and complex IDs." }
+  },
+  {
+    id: 54, slug: "traversal-deep", title: "Traversal Deep", level: "Medium",
+    objective: "File path → try traversal?",
+    flag: "FLAG{DEEP_TRAVERSAL_WIN}", skill: "Path Traversal",
+    hints: ["Try multiple ../ levels.", "Try to access system files like /etc/shadow.", "Use encoding to bypass filters."],

@@ -1,0 +1,100 @@
+    flag: "FLAG{COMMAND_INJECTION_FOUND}", skill: "Command Injection",
+    hints: ["Use command separators like ; or &&.", "Try ping 8.8.8.8 ; id.", "Check the output for command results."],
+    explanation: { bug: "Command Injection", why: "Executing shell commands with user input.", prevention: "Avoid shell execution APIs." }
+  },
+  {
+    id: 27, slug: "json-cookie", title: "JSON Cookie", level: "Easy",
+    objective: "Cookie contains JSON → modify what field?",
+    flag: "FLAG{JSON_COOKIE_TAMPER}", skill: "Cookie Manipulation",
+    hints: ["Parse the JSON in the cookie.", "Look for 'admin': false.", "Change it to true."],
+    explanation: { bug: "Insecure JSON Session", why: "Trusting JSON data in cookies.", prevention: "Sign and encrypt session data." }
+  },
+  {
+    id: 28, slug: "js-password-check", title: "JS Password Check", level: "Easy",
+    objective: "Password check in JS → what do you do?",
+    flag: "FLAG{JS_PASSWORD_BYPASS}", skill: "Reverse Engineering",
+    hints: ["Find the checkPassword function.", "Read the logic to find the correct string.", "Or bypass the check entirely."],
+    explanation: { bug: "Client-Side Auth", why: "Auth logic exposed to client.", prevention: "Move auth to server." }
+  },
+  {
+    id: 29, slug: "config-leak", title: "Config Leak", level: "Easy",
+    objective: "Page loads /config.js → what to look for?",
+    flag: "FLAG{CONFIG_FILE_LEAK}", skill: "Information Disclosure",
+    hints: ["Open config.js in a new tab.", "Look for API keys or database credentials.", "Check for internal URLs."],
+    explanation: { bug: "Sensitive Config Exposure", why: "Exposing config files to the public.", prevention: "Keep config files out of the web root." }
+  },
+  {
+    id: 30, slug: "backup-guess", title: "Backup Guessing", level: "Easy",
+    objective: "Hidden backup files → guess which names?",
+    flag: "FLAG{BACKUP_GUESS_SUCCESS}", skill: "Fuzzing",
+    hints: ["Try backup.sql, .old, .bak, .swp.", "Check for common directory names like /backup/.", "Use a wordlist."],
+    explanation: { bug: "Predictable Backups", why: "Leaving backups in accessible places.", prevention: "Secure backup storage." }
+  },
+  {
+    id: 31, slug: "length-bypass", title: "Length Bypass", level: "Easy",
+    objective: "JS checks length===10 → bypass how?",
+    flag: "FLAG{LENGTH_CHECK_BYPASS}", skill: "Client-Side Bypass",
+    hints: ["Modify the input field's value in the console.", "Or change the JS check to return true.", "Submit the form."],
+    explanation: { bug: "Weak Client Validation", why: "Easily bypassed logic.", prevention: "Server-side validation." }
+  },
+  {
+    id: 32, slug: "xss-filter-bypass", title: "XSS Filter Bypass", level: "Easy",
+    objective: "Input filtered <script> → bypass idea?",
+    flag: "FLAG{XSS_FILTER_BYPASS}", skill: "XSS",
+    hints: ["Try different tags like <img> or <body>.", "Use event handlers like onload or onerror.", "Try encoding the payload."],
+    explanation: { bug: "Incomplete XSS Filter", why: "Blacklisting tags is ineffective.", prevention: "Use a robust sanitization library." }
+  },
+  {
+    id: 33, slug: "api-key-source", title: "API Key Source", level: "Easy",
+    objective: "API key in source → how use it?",
+    flag: "FLAG{API_KEY_EXPOSURE}", skill: "Information Disclosure",
+    hints: ["Find the key in the HTML or JS.", "Try using it in an API request.", "Check if it grants extra permissions."],
+    explanation: { bug: "Hardcoded API Key", why: "Exposing keys in client code.", prevention: "Use environment variables and backends." }
+  },
+  {
+    id: 34, slug: "admin-zero", title: "Admin Zero", level: "Easy",
+    objective: "URL: ?admin=0 → what change?",
+    flag: "FLAG{ADMIN_PARAM_TAMPER}", skill: "Parameter Tampering",
+    hints: ["Change admin=0 to admin=1.", "Check if you get admin access.", "Simple boolean parameters are common targets."],
+    explanation: { bug: "Insecure Privilege Flag", why: "Trusting client for role definition.", prevention: "Server-side role management." }
+  },
+  {
+    id: 35, slug: "post-tamper", title: "POST Tamper", level: "Easy",
+    objective: "Form uses POST → can you tamper?",
+    flag: "FLAG{POST_REQUEST_TAMPER}", skill: "Request Manipulation",
+    hints: ["Use a tool like Burp Suite or DevTools Network tab.", "Edit the request body before it's sent.", "Change values like 'price' or 'role'."],
+    explanation: { bug: "Insecure POST Data", why: "Assuming POST is safer than GET.", prevention: "Validate all input on the server." }
+  },
+  {
+    id: 36, slug: "redirect-stop", title: "Redirect Stop", level: "Easy",
+    objective: "Page redirects → how stop it?",
+    flag: "FLAG{REDIRECT_BYPASS_SUCCESS}", skill: "Traffic Interception",
+    hints: ["Use a proxy to intercept the response.", "Remove the 'Location' header.", "Or disable JS redirects in the browser."],
+    explanation: { bug: "Client-Side Redirect", why: "Relying on client to follow redirects.", prevention: "Enforce access control before redirecting." }
+  },
+  {
+    id: 37, slug: "localstorage-token", title: "LocalStorage Token", level: "Easy",
+    objective: "Token in localStorage → what inspect?",
+    flag: "FLAG{LOCALSTORAGE_TOKEN_LEAK}", skill: "Web Storage Analysis",
+    hints: ["Open DevTools > Application > Local Storage.", "Look for keys like 'token' or 'session'.", "Try decoding the value."],
+    explanation: { bug: "Insecure Token Storage", why: "LocalStorage is accessible to XSS.", prevention: "Use HttpOnly cookies for sensitive tokens." }
+  },
+  {
+    id: 38, slug: "param-pollution", title: "Param Pollution", level: "Easy",
+    objective: "Parameter not used → try adding new one",
+    flag: "FLAG{PARAM_POLLUTION_SUCCESS}", skill: "HPP",
+    hints: ["Try adding ?admin=true to a URL that doesn't have it.", "See if the server picks it up.", "This is called Parameter Pollution."],
+    explanation: { bug: "HTTP Parameter Pollution", why: "Server accepting unexpected parameters.", prevention: "Strictly define allowed parameters." }
+  },
+  {
+    id: 39, slug: "eval-risk", title: "Eval Risk", level: "Easy",
+    objective: "JS uses eval() → what risk?",
+    flag: "FLAG{EVAL_IS_EVIL_WIN}", skill: "Code Injection",
+    hints: ["Find where eval() is used.", "Try to inject JS code into the input it processes.", "eval() executes any string as code."],
+    explanation: { bug: "Code Injection via eval()", why: "eval() is extremely dangerous with user input.", prevention: "Never use eval() with untrusted data." }
+  },
+  {
+    id: 40, slug: "upload-path", title: "Upload Path", level: "Easy",
+    objective: "Image path reveals /uploads → next step?",
+    flag: "FLAG{UPLOADS_DIR_DISCOVERY}", skill: "Reconnaissance",
+    hints: ["Visit the /uploads directory directly.", "See if directory listing is enabled.", "Look for other users' files."],
