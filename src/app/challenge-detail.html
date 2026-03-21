@@ -23,6 +23,9 @@
   <div class="flex gap-3">
     <div class="flex items-center gap-3">
       <span class="text-[10px] font-bold text-ui-muted uppercase tracking-widest hidden md:block">Need help?</span>
+    <button (click)="gameState.toggleHomePreview()" class="w-12 h-12 bg-ui-sidebar text-ui-text rounded-2xl flex items-center justify-center hover:bg-ui-border transition-all shadow-sm group" title="Dashboard Preview">
+      <mat-icon>home</mat-icon>
+    </button>
       <button (click)="showNextHint()" class="w-12 h-12 bg-brand-secondary text-brand-primary rounded-2xl flex items-center justify-center hover:bg-blue-100 transition-all shadow-sm group relative" title="Get Hint">
         <mat-icon>smart_toy</mat-icon>
         <div class="absolute -top-1 -right-1 w-3 h-3 bg-brand-primary rounded-full border-2 border-white animate-pulse"></div>
@@ -79,7 +82,7 @@
   </div>
 
   <!-- Flag Submission (Chat Style) -->
-  <div class="mt-12 max-w-2xl mx-auto">
+  <div class="mt-12 max-w-2xl mx-auto" [class.animate-shake]="shake()">
     <div class="relative group">
       <div class="absolute -inset-1 bg-gradient-to-r from-brand-primary to-blue-400 rounded-2xl blur opacity-10 group-hover:opacity-20 transition duration-1000 group-hover:duration-200"></div>
       <div class="relative bg-white border-2 border-ui-border rounded-2xl p-2 flex items-center gap-2 shadow-2xl focus-within:border-brand-primary transition-colors">
@@ -182,21 +185,32 @@
         </button>
       </div>
       
-      <div class="space-y-8">
-        <div class="p-6 bg-green-50 rounded-2xl border border-green-100">
-          <h5 class="text-[11px] font-bold text-green-700 uppercase tracking-widest mb-3">The Vulnerability</h5>
-          <p class="text-ui-text font-medium">{{ currentChallenge().explanation.bug }}</p>
+
+      <div class="space-y-6">
+        <div class="p-6 bg-brand-primary/5 rounded-2xl border border-brand-primary/10">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-8 h-8 bg-brand-primary text-white rounded-lg flex items-center justify-center">
+              <mat-icon class="text-sm">psychology</mat-icon>
+            </div>
+            <h5 class="text-[10px] font-bold text-brand-primary uppercase tracking-widest">The Vulnerability</h5>
+          </div>
+          <p class="text-ui-text font-semibold text-lg">{{ currentChallenge().explanation.bug }}</p>
         </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div>
-            <h5 class="text-[11px] font-bold text-ui-muted uppercase tracking-widest mb-3">Impact</h5>
-            <p class="text-sm text-ui-text leading-relaxed">{{ currentChallenge().explanation.why }}</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="p-5 bg-ui-sidebar rounded-2xl border border-ui-border">
+            <h5 class="text-[10px] font-bold text-ui-muted uppercase tracking-widest mb-3">Why it worked</h5>
+            <p class="text-sm text-ui-text leading-relaxed font-medium">{{ currentChallenge().explanation.why }}</p>
           </div>
-          <div>
-            <h5 class="text-[11px] font-bold text-ui-muted uppercase tracking-widest mb-3">Prevention</h5>
-            <p class="text-sm text-ui-text leading-relaxed">{{ currentChallenge().explanation.prevention }}</p>
+          <div class="p-5 bg-green-50 rounded-2xl border border-green-100">
+            <h5 class="text-[10px] font-bold text-green-700 uppercase tracking-widest mb-3">How to prevent</h5>
+            <p class="text-sm text-green-800 leading-relaxed font-medium">{{ currentChallenge().explanation.prevention }}</p>
           </div>
+        </div>
+
+        <div class="p-4 bg-blue-50 rounded-xl border border-blue-100 flex items-center gap-3">
+           <mat-icon class="text-blue-500">stars</mat-icon>
+           <span class="text-xs font-bold text-blue-700">+1 XP EARNED • STREAK: {{ gameState.streak() }} 🔥</span>
         </div>
       </div>
 

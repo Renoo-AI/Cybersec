@@ -1,0 +1,50 @@
+    explanation: { bug: "Deep Path Traversal", why: "Insufficient path validation.", prevention: "Use absolute paths and chroot." }
+  },
+  {
+    id: 55, slug: "error-leak", title: "Error Leak", level: "Medium",
+    objective: "Server error leaks path → use it?",
+    flag: "FLAG{ERROR_PATH_LEAK}", skill: "Information Disclosure",
+    hints: ["Trigger an error (e.g., by sending invalid input).", "Read the stack trace or error message.", "Look for internal file paths."],
+    explanation: { bug: "Verbose Error Messages", why: "Leaking internal system info.", prevention: "Use custom error pages." }
+  },
+  {
+    id: 56, slug: "debug-enable", title: "Debug Enable", level: "Medium",
+    objective: "Debug mode → enable how?",
+    flag: "FLAG{DEBUG_MODE_WIN}", skill: "Feature Tampering",
+    hints: ["Look for 'debug' in JS or cookies.", "Try setting it to 1 or true.", "Check for new menu items."],
+    explanation: { bug: "Exposed Debug Mode", why: "Leaving debug tools in production.", prevention: "Remove debug code before deployment." }
+  },
+  {
+    id: 57, slug: "method-swap", title: "Method Swap", level: "Medium",
+    objective: "API accepts GET → change to POST?",
+    flag: "FLAG{METHOD_SWAP_SUCCESS}", skill: "API Security",
+    hints: ["Try changing the HTTP method.", "See if the server responds differently.", "Some APIs are insecure with certain methods."],
+    explanation: { bug: "Insecure HTTP Methods", why: "Allowing sensitive actions via GET.", prevention: "Enforce correct HTTP methods." }
+  },
+  {
+    id: 58, slug: "js-beautify", title: "JS Beautify", level: "Medium",
+    objective: "JS minified → beautify and read",
+    flag: "FLAG{JS_REVERSE_SUCCESS}", skill: "Reverse Engineering",
+    hints: ["Use a JS beautifier tool.", "Read the code to find hidden logic.", "Look for obfuscated strings."],
+    explanation: { bug: "Obfuscated Logic", why: "Assuming minification is security.", prevention: "Never store secrets in client code." }
+  },
+  {
+    id: 59, slug: "iframe-source", title: "Iframe Source", level: "Medium",
+    objective: "Hidden iframe → inspect source",
+    flag: "FLAG{IFRAME_SOURCE_LEAK}", skill: "Web Analysis",
+    hints: ["Find the <iframe> tag in the HTML.", "Check its 'src' attribute.", "Visit the iframe source directly."],
+    explanation: { bug: "Hidden Iframe Exposure", why: "Using iframes to hide content.", prevention: "Secure all embedded content." }
+  },
+  {
+    id: 60, slug: "open-redirect", title: "Open Redirect", level: "Medium",
+    objective: "Redirect param → open redirect?",
+    flag: "FLAG{OPEN_REDIRECT_WIN}", skill: "Redirect Exploit",
+    hints: ["Look for parameters like ?next= or ?url=.", "Try changing the value to an external site.", "Check if the page redirects there."],
+    explanation: { bug: "Open Redirect", why: "Trusting user-provided redirect URLs.", prevention: "Use a whitelist of allowed redirect domains." }
+  },
+
+  // LEVEL 4: HARD (61-80)
+  {
+    id: 61, slug: "jwt-decode", title: "JWT Decode", level: "Medium",
+    objective: "JWT token → decode what part?",
+    flag: "FLAG{JWT_DECODE_SUCCESS}", skill: "JWT Security",

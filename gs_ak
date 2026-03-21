@@ -1,0 +1,50 @@
+    explanation: { bug: "XSS Filter Bypass", why: "Filters failing to handle encoding.", prevention: "Use robust, context-aware encoding." }
+  },
+  {
+    id: 69, slug: "traversal-encode", title: "Traversal Encode", level: "Medium",
+    objective: "Path traversal blocked → double encode",
+    flag: "FLAG{TRAVERSAL_ENCODE_WIN}", skill: "Path Traversal",
+    hints: ["Try %252e%252e%252f for ../.", "Double encoding can bypass some filters.", "Check how the server decodes parameters."],
+    explanation: { bug: "Double Encoding Bypass", why: "Inconsistent decoding across layers.", prevention: "Decode once and validate strictly." }
+  },
+  {
+    id: 70, slug: "command-inject-filter", title: "Command Filter", level: "Medium",
+    objective: "Command injection filtered → bypass?",
+    flag: "FLAG{COMMAND_FILTER_BYPASS}", skill: "Command Injection",
+    hints: ["Try alternative separators like | or `.", "Use environment variables.", "Try to bypass with wildcards."],
+    explanation: { bug: "Incomplete Command Filter", why: "Blacklisting characters is insufficient.", prevention: "Use parameterized APIs." }
+  },
+  {
+    id: 71, slug: "sqli-filter", title: "SQLi Filter", level: "Medium",
+    objective: "SQLi filtered ' → try alternative",
+    flag: "FLAG{SQLI_FILTER_BYPASS}", skill: "SQLi",
+    hints: ["Try using double quotes (\").", "Use hex encoding for strings.", "Try different comment styles."],
+    explanation: { bug: "Weak SQLi Filter", why: "Blacklisting single quotes is not enough.", prevention: "Use prepared statements." }
+  },
+  {
+    id: 72, slug: "hpp-exploit", title: "HPP Exploit", level: "Medium",
+    objective: "Parameter pollution → use how?",
+    flag: "FLAG{HPP_EXPLOIT_SUCCESS}", skill: "HPP",
+    hints: ["Send multiple parameters with the same name.", "See which one the server uses.", "Try to bypass logic with the second parameter."],
+    explanation: { bug: "HTTP Parameter Pollution", why: "Inconsistent parameter handling.", prevention: "Validate and sanitize all parameters." }
+  },
+  {
+    id: 73, slug: "cors-misconfig", title: "CORS Misconfig", level: "Medium",
+    objective: "CORS misconfig → exploit?",
+    flag: "FLAG{CORS_EXPLOIT_SUCCESS}", skill: "CORS Security",
+    hints: ["Check for Access-Control-Allow-Origin: *.", "Try to send a request from another domain.", "Look for sensitive data in the response."],
+    explanation: { bug: "Permissive CORS Policy", why: "Allowing any domain to access data.", prevention: "Use a strict whitelist of allowed origins." }
+  },
+  {
+    id: 74, slug: "ssrf-input", title: "SSRF Input", level: "Medium",
+    objective: "SSRF input → what URL?",
+    flag: "FLAG{SSRF_EXPLOIT_SUCCESS}", skill: "SSRF",
+    hints: ["Try to make the server fetch an internal URL.", "Try http://localhost/ or http://169.254.169.254/.", "Look for internal services."],
+    explanation: { bug: "Server-Side Request Forgery", why: "Allowing the server to fetch arbitrary URLs.", prevention: "Whitelist allowed domains and protocols." }
+  },
+  {
+    id: 75, slug: "subdomain-test", title: "Subdomain Test", level: "Medium",
+    objective: "Subdomain found → test separately",
+    flag: "FLAG{SUBDOMAIN_DISCOVERY_WIN}", skill: "Recon",
+    hints: ["Use a tool to find subdomains.", "Check for dev. or staging. subdomains.", "These often have weaker security."],
+    explanation: { bug: "Unprotected Subdomains", why: "Dev subdomains often lack production security.", prevention: "Secure all subdomains equally." }

@@ -1,0 +1,50 @@
+    hints: ["Find the key in the HTML or JS.", "Try using it in an API request.", "Check if it grants extra permissions."],
+    explanation: { bug: "Hardcoded API Key", why: "Exposing keys in client code.", prevention: "Use environment variables and backends." }
+  },
+  {
+    id: 34, slug: "admin-zero", title: "Admin Zero", level: "Easy",
+    objective: "URL: ?admin=0 → what change?",
+    flag: "FLAG{ADMIN_PARAM_TAMPER}", skill: "Parameter Tampering",
+    hints: ["Change admin=0 to admin=1.", "Check if you get admin access.", "Simple boolean parameters are common targets."],
+    explanation: { bug: "Insecure Privilege Flag", why: "Trusting client for role definition.", prevention: "Server-side role management." }
+  },
+  {
+    id: 35, slug: "post-tamper", title: "POST Tamper", level: "Easy",
+    objective: "Form uses POST → can you tamper?",
+    flag: "FLAG{POST_REQUEST_TAMPER}", skill: "Request Manipulation",
+    hints: ["Use a tool like Burp Suite or DevTools Network tab.", "Edit the request body before it's sent.", "Change values like 'price' or 'role'."],
+    explanation: { bug: "Insecure POST Data", why: "Assuming POST is safer than GET.", prevention: "Validate all input on the server." }
+  },
+  {
+    id: 36, slug: "redirect-stop", title: "Redirect Stop", level: "Easy",
+    objective: "Page redirects → how stop it?",
+    flag: "FLAG{REDIRECT_BYPASS_SUCCESS}", skill: "Traffic Interception",
+    hints: ["Use a proxy to intercept the response.", "Remove the 'Location' header.", "Or disable JS redirects in the browser."],
+    explanation: { bug: "Client-Side Redirect", why: "Relying on client to follow redirects.", prevention: "Enforce access control before redirecting." }
+  },
+  {
+    id: 37, slug: "localstorage-token", title: "LocalStorage Token", level: "Easy",
+    objective: "Token in localStorage → what inspect?",
+    flag: "FLAG{LOCALSTORAGE_TOKEN_LEAK}", skill: "Web Storage Analysis",
+    hints: ["Open DevTools > Application > Local Storage.", "Look for keys like 'token' or 'session'.", "Try decoding the value."],
+    explanation: { bug: "Insecure Token Storage", why: "LocalStorage is accessible to XSS.", prevention: "Use HttpOnly cookies for sensitive tokens." }
+  },
+  {
+    id: 38, slug: "param-pollution", title: "Param Pollution", level: "Easy",
+    objective: "Parameter not used → try adding new one",
+    flag: "FLAG{PARAM_POLLUTION_SUCCESS}", skill: "HPP",
+    hints: ["Try adding ?admin=true to a URL that doesn't have it.", "See if the server picks it up.", "This is called Parameter Pollution."],
+    explanation: { bug: "HTTP Parameter Pollution", why: "Server accepting unexpected parameters.", prevention: "Strictly define allowed parameters." }
+  },
+  {
+    id: 39, slug: "eval-risk", title: "Eval Risk", level: "Easy",
+    objective: "JS uses eval() → what risk?",
+    flag: "FLAG{EVAL_IS_EVIL_WIN}", skill: "Code Injection",
+    hints: ["Find where eval() is used.", "Try to inject JS code into the input it processes.", "eval() executes any string as code."],
+    explanation: { bug: "Code Injection via eval()", why: "eval() is extremely dangerous with user input.", prevention: "Never use eval() with untrusted data." }
+  },
+  {
+    id: 40, slug: "upload-path", title: "Upload Path", level: "Easy",
+    objective: "Image path reveals /uploads → next step?",
+    flag: "FLAG{UPLOADS_DIR_DISCOVERY}", skill: "Reconnaissance",
+    hints: ["Visit the /uploads directory directly.", "See if directory listing is enabled.", "Look for other users' files."],

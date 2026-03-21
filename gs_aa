@@ -1,0 +1,50 @@
+import { signal, computed } from '@angular/core';
+
+export interface Challenge {
+  id: number;
+  slug: string;
+  title: string;
+  level: 'Super Beginner' | 'Easy' | 'Medium';
+  objective: string;
+  flag: string;
+  skill: string;
+  hints: string[];
+  explanation: {
+    bug: string;
+    why: string;
+    prevention: string;
+  };
+}
+
+export const CHALLENGES: Challenge[] = [
+  // LEVEL 1: VERY EASY (1-20)
+  {
+    id: 1, slug: "admin-param", title: "Admin Parameter", level: "Super Beginner",
+    objective: "URL has ?user=guest → how to become admin?",
+    flag: "FLAG{PARAMETER_TAMPERING_BASIC}", skill: "URL Parameter Manipulation",
+    hints: ["Look at the URL address bar.", "Change 'guest' to 'admin'.", "Press Enter to refresh the page."],
+    explanation: { bug: "Insecure Parameter Handling", why: "Trusting client-side parameters for authorization.", prevention: "Use server-side session management." }
+  },
+  {
+    id: 2, slug: "view-source", title: "View Source", level: "Super Beginner",
+    objective: "Page says 'view-source for secret' → where do you look?",
+    flag: "FLAG{SOURCE_CODE_IS_NOT_HIDDEN}", skill: "Inspecting Page Source",
+    hints: ["Right-click and select 'View Page Source'.", "Look for comments like <!-- ... -->", "Check the bottom of the file."],
+    explanation: { bug: "Information Disclosure", why: "Sensitive data left in comments.", prevention: "Remove all comments and sensitive data from production code." }
+  },
+  {
+    id: 3, slug: "hidden-comment", title: "Hidden Comment", level: "Super Beginner",
+    objective: "Hidden comment contains /secret-page → what next?",
+    flag: "FLAG{HIDDEN_PAGES_FOUND}", skill: "Source Code Analysis",
+    hints: ["Find the path in the HTML comments.", "Append that path to the current URL.", "Visit the new page."],
+    explanation: { bug: "Information Leakage", why: "Internal paths exposed in comments.", prevention: "Audit code for internal references." }
+  },
+  {
+    id: 4, slug: "robots-txt", title: "Robots.txt", level: "Super Beginner",
+    objective: "robots.txt shows /admin → what do you do?",
+    flag: "FLAG{ROBOTS_ARE_NOT_SECURITY}", skill: "Reconnaissance",
+    hints: ["Visit /robots.txt in your browser.", "Look for 'Disallow' entries.", "Try visiting the disallowed paths."],
+    explanation: { bug: "Security by Obscurity", why: "Relying on robots.txt to hide pages.", prevention: "Use proper authentication for all sensitive areas." }
+  },
+  {
+    id: 5, slug: "cookie-role", title: "Cookie Role", level: "Super Beginner",

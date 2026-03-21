@@ -1,0 +1,50 @@
+    hints: ["Open the Console tab.", "Read the error message carefully.", "It might contain a path or a secret."],
+    explanation: { bug: "Verbose Error Reporting", why: "Leaking internal details in errors.", prevention: "Use generic error messages for users." }
+  },
+  {
+    id: 20, slug: "login-bypass-js", title: "Login Bypass JS", level: "Super Beginner",
+    objective: "Login form no backend → how bypass?",
+    flag: "FLAG{NO_BACKEND_LOGIN}", skill: "Client-Side Auth Bypass",
+    hints: ["Check the login function in the JS source.", "See if it just checks a string.", "Try to find the hardcoded password."],
+    explanation: { bug: "Client-Side Authentication", why: "Auth handled entirely in JS.", prevention: "Always use a secure backend for auth." }
+  },
+
+  // LEVEL 2: EASY (21-40)
+  {
+    id: 21, slug: "idor-id", title: "IDOR ID", level: "Easy",
+    objective: "?id=1 → how access another user?",
+    flag: "FLAG{IDOR_VULNERABILITY}", skill: "IDOR",
+    hints: ["Change the ID in the URL.", "Try id=2 or id=0.", "Check if you see someone else's data."],
+    explanation: { bug: "IDOR", why: "Missing access control on IDs.", prevention: "Verify user ownership of requested resources." }
+  },
+  {
+    id: 22, slug: "api-tamper", title: "API Tamper", level: "Easy",
+    objective: "API returns user data → how change request?",
+    flag: "FLAG{API_REQUEST_TAMPER}", skill: "API Security",
+    hints: ["Intercept the request in the Network tab.", "Try changing the method or parameters.", "Look for hidden fields in the response."],
+    explanation: { bug: "Insecure API Endpoint", why: "Trusting client-side API calls.", prevention: "Implement strict server-side validation." }
+  },
+  {
+    id: 23, slug: "reflected-xss-test", title: "Reflected XSS", level: "Easy",
+    objective: "Input reflected in page → test what payload?",
+    flag: "FLAG{REFLECTED_XSS_FOUND}", skill: "XSS",
+    hints: ["Try <script>alert(1)</script>.", "Check if the script executes.", "Look for other tags like <img> with onerror."],
+    explanation: { bug: "Reflected XSS", why: "Unsanitized input reflected in HTML.", prevention: "Encode output and sanitize input." }
+  },
+  {
+    id: 24, slug: "stored-xss-test", title: "Stored XSS", level: "Easy",
+    objective: "Comment field stores input → what vuln?",
+    flag: "FLAG{STORED_XSS_FOUND}", skill: "XSS",
+    hints: ["Submit a script as a comment.", "Refresh the page to see if it runs.", "This affects all users."],
+    explanation: { bug: "Stored XSS", why: "Saving malicious scripts to the DB.", prevention: "Sanitize data before saving." }
+  },
+  {
+    id: 25, slug: "path-traversal-test", title: "Path Traversal", level: "Easy",
+    objective: "File viewer uses ?file= → try what pattern?",
+    flag: "FLAG{PATH_TRAVERSAL_FOUND}", skill: "Path Traversal",
+    hints: ["Try ../../../etc/passwd.", "Or try to access files outside the web root.", "Use null bytes if needed."],
+    explanation: { bug: "Path Traversal", why: "Unrestricted file path access.", prevention: "Whitelist allowed files." }
+  },
+  {
+    id: 26, slug: "command-injection-test", title: "Command Injection", level: "Easy",
+    objective: "Server uses ping → how inject command?",

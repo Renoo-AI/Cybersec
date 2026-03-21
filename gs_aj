@@ -1,0 +1,50 @@
+    hints: ["JWT has 3 parts: Header, Payload, Signature.", "Decode the payload (middle part).", "Look for user info or roles."],
+    explanation: { bug: "JWT Information Leak", why: "Storing sensitive info in JWT payload.", prevention: "Don't store PII in JWTs." }
+  },
+  {
+    id: 62, slug: "jwt-unsigned", title: "JWT Unsigned", level: "Medium",
+    objective: "JWT unsigned → exploit how?",
+    flag: "FLAG{JWT_UNSIGNED_EXPLOIT}", skill: "JWT Security",
+    hints: ["Check if the signature is verified.", "Try changing the algorithm to 'none'.", "Modify the payload and see if it's accepted."],
+    explanation: { bug: "JWT None Algorithm", why: "Allowing unsigned JWTs.", prevention: "Enforce strong signature verification." }
+  },
+  {
+    id: 63, slug: "cookie-sign-tamper", title: "Cookie Sign", level: "Medium",
+    objective: "Cookie signed? → try tampering",
+    flag: "FLAG{COOKIE_SIGN_BYPASS}", skill: "Cookie Security",
+    hints: ["Check if the cookie has a signature.", "Try to find the signing key.", "Try to forge a new signature."],
+    explanation: { bug: "Weak Cookie Signing", why: "Using weak keys for signing.", prevention: "Use strong, secret signing keys." }
+  },
+  {
+    id: 64, slug: "rate-limit-bypass", title: "Rate Limit", level: "Medium",
+    objective: "Rate limit → bypass how?",
+    flag: "FLAG{RATE_LIMIT_BYPASS}", skill: "API Security",
+    hints: ["Try using different IP addresses (proxies).", "Try adding headers like X-Forwarded-For.", "Check if the limit is per-session."],
+    explanation: { bug: "Weak Rate Limiting", why: "Easily bypassed limits.", prevention: "Implement robust rate limiting." }
+  },
+  {
+    id: 65, slug: "brute-force-auth", title: "Brute Force", level: "Medium",
+    objective: "Login brute force → automate?",
+    flag: "FLAG{BRUTE_FORCE_SUCCESS}", skill: "Auth Security",
+    hints: ["Use a tool like Hydra or a custom script.", "Try common passwords.", "Look for a lack of account lockout."],
+    explanation: { bug: "Lack of Brute Force Protection", why: "Allowing unlimited login attempts.", prevention: "Implement account lockout and CAPTCHA." }
+  },
+  {
+    id: 66, slug: "idor-api", title: "IDOR API", level: "Medium",
+    objective: "IDOR with /api/user/2 → escalate",
+    flag: "FLAG{IDOR_API_SUCCESS}", skill: "IDOR",
+    hints: ["Try changing the user ID in the API path.", "Check if you can see other users' private data.", "This is a common API flaw."],
+    explanation: { bug: "API IDOR", why: "Missing authorization on API paths.", prevention: "Verify user permissions for every API call." }
+  },
+  {
+    id: 67, slug: "upload-filter-bypass", title: "Upload Filter", level: "Medium",
+    objective: "File upload filter → bypass?",
+    flag: "FLAG{UPLOAD_FILTER_BYPASS}", skill: "File Upload",
+    hints: ["Try changing the MIME type in the request.", "Try using null bytes in the filename.", "Try different file signatures."],
+    explanation: { bug: "Weak File Filter", why: "Relying on easily spoofed metadata.", prevention: "Perform deep file inspection." }
+  },
+  {
+    id: 68, slug: "xss-encode", title: "XSS Encode", level: "Medium",
+    objective: "XSS filter → encode payload",
+    flag: "FLAG{XSS_ENCODE_BYPASS}", skill: "XSS",
+    hints: ["Use URL encoding or HTML entities.", "Try double encoding.", "Use JS functions like String.fromCharCode()."],

@@ -52,6 +52,7 @@ export class ChallengeDetail {
   showExplanation = signal(false);
   flagInput = '';
   confetti = signal(false);
+  shake = signal(false);
   systemMessages = signal<{type: string, text: string}[]>([]);
 
   constructor() {
@@ -118,6 +119,7 @@ export class ChallengeDetail {
       this.gameState.byteMessage.set('Hmm, that flag doesn\'t look right. Try again!');
       this.gameState.byteMood.set('thinking');
       this.systemMessages.update(msgs => [...msgs, {type: 'AI', text: 'That flag is incorrect. Keep digging!'}]);
+      this.shake.set(true); setTimeout(() => this.shake.set(false), 500);
     }
     this.flagInput = '';
   }

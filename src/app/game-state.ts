@@ -1,4 +1,4 @@
-import { signal, computed } from '@angular/core';
+import { signal, computed, effect } from '@angular/core';
 
 export interface Challenge {
   id: number;
@@ -589,6 +589,19 @@ export const CHALLENGES: Challenge[] = [
 export class GameStateService {
   solvedChallenges = signal<number[]>([]);
   currentChallengeId = signal<number>(1);
+  xp = signal<number>(0);
+  streak = signal<number>(0);
+  lastSolvedId = signal<number | null>(null);
+
+  levelTitle = computed(() => {
+    const xpValue = this.xp();
+    if (xpValue >= 50) return 'Operator';
+    if (xpValue >= 25) return 'Hacker';
+    if (xpValue >= 10) return 'Explorer';
+    return 'Beginner';
+  });
+
+  showHomePreview = signal(false);
   
   // Byte AI Companion State
   byteMessage = signal('Welcome, teammate! I\'m Byte. Ready to hack some systems?');
@@ -596,6 +609,35 @@ export class GameStateService {
   
   totalFlags = computed(() => this.solvedChallenges().length);
   
+  constructor() {
+    // Load from localStorage
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('exploit_lab_progress');
+      if (saved) {
+        try {
+          const data = JSON.parse(saved);
+          if (data.solvedChallenges) this.solvedChallenges.set(data.solvedChallenges);
+          if (data.currentChallengeId) this.currentChallengeId.set(data.currentChallengeId);
+          if (data.xp) this.xp.set(data.xp);
+          if (data.streak) this.streak.set(data.streak);
+        } catch (e) {
+          console.error('Failed to load progress', e);
+        }
+      }
+
+      // Auto-save effect
+      effect(() => {
+        const state = {
+          solvedChallenges: this.solvedChallenges(),
+          currentChallengeId: this.currentChallengeId(),
+          xp: this.xp(),
+          streak: this.streak()
+        };
+        localStorage.setItem('exploit_lab_progress', JSON.stringify(state));
+      });
+    }
+  }
+
   isSolved(id: number) {
     return this.solvedChallenges().includes(id);
   }
@@ -603,10 +645,49 @@ export class GameStateService {
   solve(id: number) {
     if (!this.isSolved(id)) {
       this.solvedChallenges.update(prev => [...prev, id]);
+      this.xp.update(v => v + 1);
+      this.streak.update(v => v + 1);
+      this.lastSolvedId.set(id);
     }
   }
 
   setCurrent(id: number) {
     this.currentChallengeId.set(id);
   }
+
+  toggleHomePreview() {
+    this.showHomePreview.update(v => !v);
+  }
+
+  updateByteForPreview() {
+    const progress = this.totalFlags() / CHALLENGES.length;
+    if (progress === 0) {
+      this.byteMessage.set("Let's warm up, teammate! Try the easier rooms first. 👀");
+    } else if (progress > 0.8) {
+      this.byteMessage.set("You're almost at the final vault... don't stop now! 🔥");
+    } else {
+      this.byteMessage.set("Checking your progress... You're getting close to mastering this level. 🚀");
+    }
+    this.byteMood.set('thinking');
+  }
+
+  onChallengeClick(id: number) {
+    if (this.isSolved(id)) {
+      this.byteMessage.set('Already cracked this one! 😎');
+      this.byteMood.set('happy');
+    } else {
+      this.byteMessage.set("Target locked. Let's get that flag! 🎯");
+      this.byteMood.set('excited');
+    }
+  }
+
+
+  getProgressByLevel(level: number): number {
+    const ranges = [[1, 20], [21, 40], [41, 60], [61, 80]];
+    const range = ranges[level - 1];
+    const levelChallenges = CHALLENGES.filter(c => c.id >= range[0] && c.id <= range[1]);
+    const solvedInLevel = levelChallenges.filter(c => this.isSolved(c.id)).length;
+    return (solvedInLevel / levelChallenges.length) * 100;
+  }
+
 }
