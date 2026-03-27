@@ -1,0 +1,50 @@
+    flag: "FLAG{CSS_IS_NOT_SECURITY}", skill: "CSS Manipulation",
+    hints: ["Find the div with 'display: none' or 'visibility: hidden'.", "Change the CSS property to 'block' or 'visible'.", "The flag is inside."],
+    explanation: { bug: "Hidden Content Exposure", why: "Hiding data with CSS still sends it to the client.", prevention: "Don't send data the user shouldn't see." }
+  },
+  {
+    id: 13, slug: "maxlength-bypass", title: "MaxLength Bypass", level: "Super Beginner",
+    objective: "Input max length 5 → how bypass?",
+    flag: "FLAG{MAXLENGTH_BYPASSED}", skill: "HTML Attribute Tampering",
+    hints: ["Inspect the input field.", "Change the 'maxlength' attribute to a larger number.", "Or remove it entirely."],
+    explanation: { bug: "Client-Side Length Limit", why: "Enforcing length only in HTML.", prevention: "Validate length on the server." }
+  },
+  {
+    id: 14, slug: "js-password", title: "JS Password", level: "Super Beginner",
+    objective: "JS file contains password → where to find?",
+    flag: "FLAG{HARDCODED_PASSWORD_JS}", skill: "Static Analysis",
+    hints: ["Check the 'Sources' tab in DevTools.", "Look through linked .js files.", "Search for 'password' or 'key'."],
+    explanation: { bug: "Hardcoded Credentials", why: "Storing passwords in public JS files.", prevention: "Use secure backends for authentication." }
+  },
+  {
+    id: 15, slug: "file-guessing", title: "File Guessing", level: "Super Beginner",
+    objective: "Page says 'not found' → try what files?",
+    flag: "FLAG{DIRECTORY_BRUTEFORCE}", skill: "Fuzzing",
+    hints: ["Try common files like config.php, .env, or backup.zip.", "Check for index.old or test.html.", "Look for sensitive file patterns."],
+    explanation: { bug: "Predictable Resource Location", why: "Leaving sensitive files in the web root.", prevention: "Restrict access to sensitive files." }
+  },
+  {
+    id: 16, slug: "b64-cookie-tamper", title: "B64 Cookie", level: "Super Beginner",
+    objective: "Cookie is Base64 → what do you do?",
+    flag: "FLAG{ENCODED_COOKIE_TAMPER}", skill: "Encoding Manipulation",
+    hints: ["Decode the cookie value.", "Modify the contents.", "Re-encode and save."],
+    explanation: { bug: "Weak Session Management", why: "Using simple encoding for sessions.", prevention: "Use cryptographically secure tokens." }
+  },
+  {
+    id: 17, slug: "debug-param", title: "Debug Param", level: "Super Beginner",
+    objective: "URL param debug=false → what change?",
+    flag: "FLAG{DEBUG_MODE_ENABLED}", skill: "Feature Flag Tampering",
+    hints: ["Change debug=false to debug=true.", "Check if new info or buttons appear.", "Debug modes often leak data."],
+    explanation: { bug: "Exposed Debugging Features", why: "Leaving debug modes active in production.", prevention: "Disable debug features in production." }
+  },
+  {
+    id: 18, slug: "display-none", title: "Display None", level: "Super Beginner",
+    objective: "Page uses display:none → how show?",
+    flag: "FLAG{CSS_HIDDEN_REVEAL}", skill: "CSS Debugging",
+    hints: ["Inspect the page for hidden elements.", "Toggle the 'display' property in the styles pane.", "Look for hidden flags."],
+    explanation: { bug: "Insecure Data Hiding", why: "CSS hiding is not security.", prevention: "Server-side rendering of authorized content only." }
+  },
+  {
+    id: 19, slug: "console-error", title: "Console Error", level: "Super Beginner",
+    objective: "Console shows error → what to inspect?",
+    flag: "FLAG{CONSOLE_LEAKS_INFO}", skill: "Console Debugging",

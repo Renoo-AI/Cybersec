@@ -1,0 +1,50 @@
+  },
+  {
+    id: 76, slug: "backup-subdomain", title: "Backup Subdomain", level: "Medium",
+    objective: "Backup subdomain → access?",
+    flag: "FLAG{BACKUP_SUBDOMAIN_WIN}", skill: "Recon",
+    hints: ["Look for subdomains like backup. or old.", "Check for directory listing.", "Look for sensitive files."],
+    explanation: { bug: "Exposed Backup Infrastructure", why: "Leaving backups on accessible subdomains.", prevention: "Restrict access to backup servers." }
+  },
+  {
+    id: 77, slug: "api-versioning", title: "API Versioning", level: "Medium",
+    objective: "API versioning → try v1/v2",
+    flag: "FLAG{API_VERSION_EXPLOIT}", skill: "API Security",
+    hints: ["Try changing the version in the API path.", "Older versions might have known bugs.", "Check if v1 is still active."],
+    explanation: { bug: "Insecure Legacy API", why: "Leaving old, vulnerable APIs active.", prevention: "Deprecate and secure old API versions." }
+  },
+  {
+    id: 78, slug: "admin-panel-fuzz", title: "Admin Fuzz", level: "Medium",
+    objective: "Hidden admin panel → fuzz paths",
+    flag: "FLAG{ADMIN_PANEL_DISCOVERY}", skill: "Fuzzing",
+    hints: ["Try paths like /admin_portal, /manage, /control.", "Use a wordlist for admin panels.", "Look for login pages."],
+    explanation: { bug: "Hidden Admin Interface", why: "Relying on obscurity for admin security.", prevention: "Use strong auth and IP whitelisting." }
+  },
+  {
+    id: 79, slug: "debug-log-leak", title: "Debug Log Leak", level: "Medium",
+    objective: "Debug logs → extract secrets",
+    flag: "FLAG{DEBUG_LOG_LEAK_WIN}", skill: "Information Disclosure",
+    hints: ["Look for files like debug.log or error.log.", "Check for sensitive info like session IDs.", "Look for database queries."],
+    explanation: { bug: "Sensitive Data in Logs", why: "Logging PII or secrets.", prevention: "Sanitize logs and restrict access." }
+  },
+  {
+    id: 80, slug: "multi-step-exploit", title: "Multi-Step", level: "Medium",
+    objective: "Multi-step exploit → chain 3 bugs",
+    flag: "FLAG{CHAIN_EXPLOIT_MASTER}", skill: "Chaining",
+    hints: ["Find a leak, use it to bypass auth, then escalate.", "Real attacks are rarely single-step.", "Think like an attacker."],
+    explanation: { bug: "Chained Vulnerabilities", why: "Small bugs combining into a major breach.", prevention: "Implement Defense in Depth." }
+  }
+];
+
+export class GameStateService {
+  solvedChallenges = signal<number[]>([]);
+  currentChallengeId = signal<number>(1);
+
+  // Byte AI Companion State
+  byteMessage = signal('Welcome, teammate! I\'m Byte. Ready to hack some systems?');
+  byteMood = signal<'idle' | 'happy' | 'thinking' | 'excited'>('idle');
+
+  totalFlags = computed(() => this.solvedChallenges().length);
+
+  isSolved(id: number) {
+    return this.solvedChallenges().includes(id);

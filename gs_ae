@@ -1,0 +1,50 @@
+    flag: "FLAG{COMMAND_INJECTION_FOUND}", skill: "Command Injection",
+    hints: ["Use command separators like ; or &&.", "Try ping 8.8.8.8 ; id.", "Check the output for command results."],
+    explanation: { bug: "Command Injection", why: "Executing shell commands with user input.", prevention: "Avoid shell execution APIs." }
+  },
+  {
+    id: 27, slug: "json-cookie", title: "JSON Cookie", level: "Easy",
+    objective: "Cookie contains JSON → modify what field?",
+    flag: "FLAG{JSON_COOKIE_TAMPER}", skill: "Cookie Manipulation",
+    hints: ["Parse the JSON in the cookie.", "Look for 'admin': false.", "Change it to true."],
+    explanation: { bug: "Insecure JSON Session", why: "Trusting JSON data in cookies.", prevention: "Sign and encrypt session data." }
+  },
+  {
+    id: 28, slug: "js-password-check", title: "JS Password Check", level: "Easy",
+    objective: "Password check in JS → what do you do?",
+    flag: "FLAG{JS_PASSWORD_BYPASS}", skill: "Reverse Engineering",
+    hints: ["Find the checkPassword function.", "Read the logic to find the correct string.", "Or bypass the check entirely."],
+    explanation: { bug: "Client-Side Auth", why: "Auth logic exposed to client.", prevention: "Move auth to server." }
+  },
+  {
+    id: 29, slug: "config-leak", title: "Config Leak", level: "Easy",
+    objective: "Page loads /config.js → what to look for?",
+    flag: "FLAG{CONFIG_FILE_LEAK}", skill: "Information Disclosure",
+    hints: ["Open config.js in a new tab.", "Look for API keys or database credentials.", "Check for internal URLs."],
+    explanation: { bug: "Sensitive Config Exposure", why: "Exposing config files to the public.", prevention: "Keep config files out of the web root." }
+  },
+  {
+    id: 30, slug: "backup-guess", title: "Backup Guessing", level: "Easy",
+    objective: "Hidden backup files → guess which names?",
+    flag: "FLAG{BACKUP_GUESS_SUCCESS}", skill: "Fuzzing",
+    hints: ["Try backup.sql, .old, .bak, .swp.", "Check for common directory names like /backup/.", "Use a wordlist."],
+    explanation: { bug: "Predictable Backups", why: "Leaving backups in accessible places.", prevention: "Secure backup storage." }
+  },
+  {
+    id: 31, slug: "length-bypass", title: "Length Bypass", level: "Easy",
+    objective: "JS checks length===10 → bypass how?",
+    flag: "FLAG{LENGTH_CHECK_BYPASS}", skill: "Client-Side Bypass",
+    hints: ["Modify the input field's value in the console.", "Or change the JS check to return true.", "Submit the form."],
+    explanation: { bug: "Weak Client Validation", why: "Easily bypassed logic.", prevention: "Server-side validation." }
+  },
+  {
+    id: 32, slug: "xss-filter-bypass", title: "XSS Filter Bypass", level: "Easy",
+    objective: "Input filtered <script> → bypass idea?",
+    flag: "FLAG{XSS_FILTER_BYPASS}", skill: "XSS",
+    hints: ["Try different tags like <img> or <body>.", "Use event handlers like onload or onerror.", "Try encoding the payload."],
+    explanation: { bug: "Incomplete XSS Filter", why: "Blacklisting tags is ineffective.", prevention: "Use a robust sanitization library." }
+  },
+  {
+    id: 33, slug: "api-key-source", title: "API Key Source", level: "Easy",
+    objective: "API key in source → how use it?",
+    flag: "FLAG{API_KEY_EXPOSURE}", skill: "Information Disclosure",

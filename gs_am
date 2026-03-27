@@ -1,0 +1,12 @@
+  }
+
+  solve(id: number) {
+    if (!this.isSolved(id)) {
+      this.solvedChallenges.update(prev => [...prev, id]);
+    }
+  }
+
+  setCurrent(id: number) {
+    this.currentChallengeId.set(id);
+  }
+}

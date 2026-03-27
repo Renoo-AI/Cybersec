@@ -1,0 +1,55 @@
+
+> ai-studio-angular-app@0.0.0 dev /app
+> cross-env ng serve --port=3000 --host=0.0.0.0 --define="GEMINI_API_KEY=\'${GEMINI_API_KEY}\'" ${DISABLE_HMR:+--live-reload=false}
+
+
+Warning: This is a simple server for use in testing or debugging Angular applications
+locally. It hasn't been reviewed for security issues.
+
+Binding this server to an open connection can result in compromising your application or
+computer. Using a different host than the one passed to the "--host" flag might result in
+websocket connection issues.
+
+❯ Building...
+✔ Building...
+Browser bundles
+Initial chunk files  | Names            |  Raw size
+main.js              | main             | 145.15 kB |
+styles.css           | styles           |  53.48 kB |
+
+                     | Initial total    | 198.63 kB
+
+
+Server bundles
+Initial chunk files  | Names            |  Raw size
+main.server.mjs      | main.server      | 146.47 kB |
+server.mjs           | server           |   1.84 kB |
+polyfills.server.mjs | polyfills.server | 268 bytes |
+
+Application bundle generation complete. [3.701 seconds] - 2026-03-21T17:06:52.275Z
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  ➜  Local:   http://localhost:3000/
+  ➜  Network: http://192.168.0.2:3000/
+ERROR: Bad Request ("http://localhost:3000/").
+URL with hostname "localhost" is not allowed.
+
+For more information, see https://angular.dev/best-practices/security#preventing-server-side-request-forgery-ssrf
+ERROR: Bad Request ("http://localhost:3000/").
+URL with hostname "localhost" is not allowed.
+
+For more information, see https://angular.dev/best-practices/security#preventing-server-side-request-forgery-ssrf
+ERROR: Bad Request ("http://127.0.0.1:3000/").
+URL with hostname "127.0.0.1" is not allowed.
+
+For more information, see https://angular.dev/best-practices/security#preventing-server-side-request-forgery-ssrf
+ERROR: Bad Request ("http://127.0.0.1:3000/").
+URL with hostname "127.0.0.1" is not allowed.
+
+For more information, see https://angular.dev/best-practices/security#preventing-server-side-request-forgery-ssrf
+ERROR: Bad Request ("http://192.168.0.2:3000/").
+URL with hostname "192.168.0.2" is not allowed.
+
+For more information, see https://angular.dev/best-practices/security#preventing-server-side-request-forgery-ssrf
+ ELIFECYCLE  Command failed.
