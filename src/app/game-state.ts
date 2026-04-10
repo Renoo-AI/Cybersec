@@ -592,7 +592,7 @@ export class GameStateService {
   
   // Byte AI Companion State
   byteMessage = signal('Welcome, teammate! I\'m Byte. Ready to hack some systems?');
-  byteMood = signal<'idle' | 'happy' | 'thinking' | 'excited'>('idle');
+  byteMood = signal<'idle' | 'happy' | 'thinking' | 'excited' | 'tactical'>('idle');
   
   totalFlags = computed(() => this.solvedChallenges().length);
   
@@ -608,5 +608,26 @@ export class GameStateService {
 
   setCurrent(id: number) {
     this.currentChallengeId.set(id);
+    // Phase 2: Byte logic for levels 21+
+    if (id >= 21) {
+      this.byteMood.set('tactical');
+      this.byteMessage.set('SENTINEL Tactical Handler online. Monitoring enterprise perimeter...');
+    } else {
+      this.byteMood.set('idle');
+    }
+  }
+
+  // Phase 3: QR Sync Logic
+  syncDevice(payload: string) {
+    try {
+      const data = JSON.parse(atob(payload));
+      if (data.progress && Array.isArray(data.progress)) {
+        this.solvedChallenges.set(data.progress);
+        return true;
+      }
+    } catch (e) {
+      console.error('Sync failed:', e);
+    }
+    return false;
   }
 }

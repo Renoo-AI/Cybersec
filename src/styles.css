@@ -6,17 +6,31 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   --color-brand-primary: #0066ff;
-  --color-brand-secondary: #f0f4ff;
-  --color-ui-bg: #ffffff;
-  --color-ui-sidebar: #f8f9fa;
-  --color-ui-border: #e2e8f0;
-  --color-ui-text: #1a202c;
-  --color-ui-muted: #64748b;
+  --color-brand-secondary: #0f172a;
+  --color-ui-bg: #0a0e17;
+  --color-ui-sidebar: #0f172a;
+  --color-ui-border: #1e293b;
+  --color-ui-text: #f8fafc;
+  --color-ui-muted: #94a3b8;
+  
+  --color-neon-blue: #00d2ff;
+  --color-neon-purple: #9d50bb;
+
+  --animate-scan: scan 2s linear infinite;
+
+  @keyframes scan {
+    0% { top: 0; }
+    50% { top: 100%; }
+    100% { top: 0; }
+  }
 }
 
 @layer base {
   body {
-    @apply bg-ui-bg text-ui-text font-sans antialiased;
+    @apply bg-ui-bg text-ui-text font-sans antialiased overflow-x-hidden;
+    background-image: 
+      radial-gradient(circle at 50% 50%, rgba(0, 102, 255, 0.05) 0%, transparent 50%),
+      linear-gradient(rgba(10, 14, 23, 0.8) 0%, rgba(10, 14, 23, 0.8) 100%);
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -24,8 +38,19 @@
   }
 }
 
+.cyber-grid {
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: -1;
+}
+
 .modern-card {
-  @apply bg-white border border-ui-border rounded-xl p-6 shadow-sm transition-all duration-200 hover:shadow-md;
+  @apply bg-ui-sidebar/50 backdrop-blur-md border border-ui-border rounded-xl p-6 shadow-2xl transition-all duration-300 hover:border-brand-primary/50;
 }
 
 .modern-button {

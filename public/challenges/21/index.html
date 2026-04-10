@@ -3,27 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Challenge 21 - LocalStorage Secret</title>
+    <title>SENTINEL - User Settings</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="card">
-            <h1>Storage Secrets</h1>
-            <p>The application stores a secret in your browser's local storage. Can you find it?</p>
-            <div class="alert info">
-                <strong>Check LocalStorage!</strong> Open DevTools (F12), go to the 'Application' tab, and look under 'Local Storage'.
-            </div>
-            <div id="result" class="hidden">
-                <div class="alert success">
-                    <strong>Found!</strong> The flag is: <span class="flag">FLAG{LOCAL_STORAGE_SECRET}</span>
+    <div class="enterprise-container">
+        <nav class="sidebar">
+            <div class="logo">SENTINEL</div>
+            <ul>
+                <li>Dashboard</li>
+                <li class="active">Settings</li>
+                <li>Security</li>
+                <li>Logs</li>
+            </ul>
+        </nav>
+        <main class="content">
+            <header>
+                <h1>User Settings</h1>
+                <div class="user-profile">Admin User</div>
+            </header>
+            <div class="settings-grid">
+                <div class="settings-card">
+                    <h3>Profile Information</h3>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="text" value="admin" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="text" value="admin@sentinel.corp" disabled>
+                    </div>
+                </div>
+                <div class="settings-card">
+                    <h3>Security Tokens</h3>
+                    <p class="text-muted">Active session tokens are stored securely in your browser environment.</p>
+                    <div class="token-status">
+                        <span class="status-dot online"></span>
+                        Session Active
+                    </div>
                 </div>
             </div>
-            <p class="hint">Tip: Local storage is often used to store persistent data, but it's not secure for secrets.</p>
-        </div>
+        </main>
     </div>
     <script>
-        localStorage.setItem('secret_flag', 'FLAG{LOCAL_STORAGE_SECRET}');
+        // Phase 2: Hide flag in localStorage as auth_token
+        localStorage.setItem('auth_token', 'FLAG{IDOR_VULNERABILITY_REALISM}');
     </script>
 </body>
 </html>

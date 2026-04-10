@@ -34,7 +34,7 @@ import {CHALLENGES, GameStateService} from './game-state';
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div class="modern-card">
-          <div class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6">
+          <div class="w-12 h-12 bg-blue-50/10 rounded-xl flex items-center justify-center mb-6">
             <mat-icon class="text-brand-primary">terminal</mat-icon>
           </div>
           <h3 class="text-xl font-bold mb-4">Getting Started</h3>
@@ -55,15 +55,15 @@ import {CHALLENGES, GameStateService} from './game-state';
         </div>
 
         <div class="modern-card">
-          <div class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center mb-6">
-            <mat-icon class="text-purple-600">psychology</mat-icon>
+          <div class="w-12 h-12 bg-purple-50/10 rounded-xl flex items-center justify-center mb-6">
+            <mat-icon class="text-purple-600">sync</mat-icon>
           </div>
-          <h3 class="text-xl font-bold mb-4">Byte AI Companion</h3>
+          <h3 class="text-xl font-bold mb-4">Tactical QR Sync</h3>
           <p class="text-ui-muted text-sm leading-relaxed mb-6">
-            Byte is your personal security mentor. He'll guide you through complex concepts and provide helpful hints when you're stuck.
+            Scan this code with your mobile device to sync your progress instantly. No account required.
           </p>
-          <div class="p-4 bg-ui-sidebar rounded-xl border border-ui-border italic text-xs text-ui-muted">
-            "Security is a mindset, not just a set of tools. Let's build it together."
+          <div class="flex justify-center p-4 bg-white rounded-xl">
+            <img [src]="getQrUrl()" alt="Sync QR" class="w-32 h-32">
           </div>
         </div>
       </div>
@@ -77,4 +77,13 @@ import {CHALLENGES, GameStateService} from './game-state';
 export class Dashboard {
   gameState = inject(GameStateService);
   challenges = CHALLENGES;
+
+  getQrUrl() {
+    const payload = {
+      sessionId: Math.random().toString(36).substring(7),
+      progress: this.gameState.solvedChallenges()
+    };
+    const b64 = btoa(JSON.stringify(payload));
+    return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${b64}`;
+  }
 }

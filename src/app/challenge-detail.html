@@ -69,7 +69,7 @@
         <span class="text-[10px] font-bold text-green-600 uppercase">Live Instance</span>
       </div>
     </div>
-    <div class="flex-1 relative bg-white">
+    <div class="flex-1 relative bg-[#0a0e17]">
       <iframe 
         [src]="targetUrl()" 
         class="w-full h-full border-none"
@@ -133,13 +133,26 @@
     }
   </div>
 
-  <!-- Activity Log -->
+  <!-- Activity Log / Tactical Handler -->
   <div class="mt-16">
-    <div class="flex items-center gap-2 mb-4">
-      <mat-icon class="text-ui-muted text-sm">smart_toy</mat-icon>
-      <h5 class="text-[11px] font-bold text-ui-muted uppercase tracking-widest">Byte AI Assistant</h5>
+    <div class="flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2">
+        <mat-icon class="text-ui-muted text-sm">smart_toy</mat-icon>
+        <h5 class="text-[11px] font-bold text-ui-muted uppercase tracking-widest">
+          {{ gameState.byteMood() === 'tactical' ? 'Tactical Remote Handler' : 'Byte AI Assistant' }}
+        </h5>
+      </div>
+      @if (gameState.byteMood() === 'tactical') {
+        <div class="flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-brand-primary animate-pulse"></span>
+          <span class="text-[10px] font-bold text-brand-primary uppercase tracking-widest">ENCRYPTED LINK ACTIVE</span>
+        </div>
+      }
     </div>
-    <div class="p-6 bg-ui-sidebar border border-ui-border rounded-2xl font-mono text-[11px] text-ui-muted space-y-2 max-h-40 overflow-y-auto">
+
+    <div [class.border-brand-primary/30]="gameState.byteMood() === 'tactical'" 
+         [class.bg-brand-secondary/10]="gameState.byteMood() === 'tactical'"
+         class="p-6 bg-ui-sidebar border border-ui-border rounded-2xl font-mono text-[11px] text-ui-muted space-y-2 max-h-40 overflow-y-auto transition-all duration-500">
       @for (msg of systemMessages(); track $index) {
         <div class="flex gap-3">
           <span 
