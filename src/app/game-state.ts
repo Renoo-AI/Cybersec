@@ -163,7 +163,7 @@ export const CHALLENGES: Challenge[] = [
   {
     id: 21, slug: "idor-id", title: "IDOR ID", level: "Easy",
     objective: "?id=1 → how access another user?",
-    flag: "FLAG{IDOR_VULNERABILITY}", skill: "IDOR",
+    flag: "FLAG{IDOR_VULNERABILITY_REALISM}", skill: "IDOR",
     hints: ["Change the ID in the URL.", "Try id=2 or id=0.", "Check if you see someone else's data."],
     explanation: { bug: "IDOR", why: "Missing access control on IDs.", prevention: "Verify user ownership of requested resources." }
   },
@@ -611,7 +611,7 @@ export class GameStateService {
     // Phase 2: Byte logic for levels 21+
     if (id >= 21) {
       this.byteMood.set('tactical');
-      this.byteMessage.set('SENTINEL Tactical Handler online. Monitoring enterprise perimeter...');
+      this.byteMessage.set('SENTINEL Tactical Remote Handler online. Monitoring enterprise perimeter for anomalies...');
     } else {
       this.byteMood.set('idle');
     }

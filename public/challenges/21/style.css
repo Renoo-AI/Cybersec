@@ -14,6 +14,9 @@
 }
 
 body {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    background-color: #0a0e17 !important;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-color: var(--ui-bg);
     color: var(--ui-text);
@@ -86,6 +89,8 @@ h1 {
 }
 
 .settings-card {
+    transform: translateZ(0);
+    backface-visibility: hidden;
     background: #0f172a;
     border: 1px solid var(--ui-border);
     border-radius: 16px;

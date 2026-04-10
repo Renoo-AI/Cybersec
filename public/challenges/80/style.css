@@ -14,6 +14,7 @@
 }
 
 body {
+    background-color: #0a0e17 !important;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-color: var(--ui-bg) !important;
     color: var(--ui-text);

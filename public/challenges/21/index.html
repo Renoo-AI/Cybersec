@@ -20,18 +20,18 @@
         <main class="content">
             <header>
                 <h1>User Settings</h1>
-                <div class="user-profile">Admin User</div>
+                <div class="user-profile" id="user-display">Loading...</div>
             </header>
             <div class="settings-grid">
                 <div class="settings-card">
                     <h3>Profile Information</h3>
                     <div class="form-group">
                         <label>Username</label>
-                        <input type="text" value="admin" disabled>
+                        <input type="text" id="username-val" value="" disabled>
                     </div>
                     <div class="form-group">
                         <label>Email</label>
-                        <input type="text" value="admin@sentinel.corp" disabled>
+                        <input type="text" id="email-val" value="" disabled>
                     </div>
                 </div>
                 <div class="settings-card">
@@ -46,8 +46,26 @@
         </main>
     </div>
     <script>
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id') || '1';
+
+        const users = {
+            '1': { name: 'Admin User', username: 'admin', email: 'admin@sentinel.corp' },
+            '2': { name: 'Guest User', username: 'guest', email: 'guest@sentinel.corp' },
+            '0': { name: 'System Root', username: 'root', email: 'root@sentinel.corp' }
+        };
+
+        const user = users[id] || users['2'];
+        document.getElementById('user-display').textContent = user.name;
+        document.getElementById('username-val').value = user.username;
+        document.getElementById('email-val').value = user.email;
+
         // Phase 2: Hide flag in localStorage as auth_token
-        localStorage.setItem('auth_token', 'FLAG{IDOR_VULNERABILITY_REALISM}');
+        if (id === '0') {
+            localStorage.setItem('auth_token', 'FLAG{IDOR_VULNERABILITY_REALISM}');
+        } else {
+            localStorage.removeItem('auth_token');
+        }
     </script>
 </body>
 </html>
