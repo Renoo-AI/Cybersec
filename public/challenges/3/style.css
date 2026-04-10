@@ -22,11 +22,18 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+
+    background-color: #0a0e17 !important;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .container {
     width: 100%;
     max-width: 500px;
+
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 .card {
@@ -36,6 +43,9 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     border: 1px solid var(--ui-border);
     text-align: center;
+
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 h1 {

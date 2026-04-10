@@ -61,22 +61,42 @@ import {CHALLENGES, GameStateService} from './game-state';
         </nav>
 
         <!-- Byte AI Companion (Sidebar Bottom) -->
-        <div class="p-6 bg-white border-t border-ui-border mt-auto shadow-[0_-4px_12px_rgba(0,0,0,0.02)]">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-2xl bg-brand-primary flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-primary/20">
-              B
+        @if (gameState.currentChallengeId() < 21) {
+          <div class="p-6 bg-white border-t border-ui-border mt-auto shadow-[0_-4px_12px_rgba(0,0,0,0.02)]">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-2xl bg-brand-primary flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-brand-primary/20">
+                B
+              </div>
+              <div>
+                <div class="text-xs font-bold text-ui-text">Byte</div>
+                <div class="text-[10px] text-ui-muted uppercase tracking-wider font-semibold">AI Mentor</div>
+              </div>
             </div>
-            <div>
-              <div class="text-xs font-bold text-ui-text">Byte</div>
-              <div class="text-[10px] text-ui-muted uppercase tracking-wider font-semibold">AI Mentor</div>
+            <div class="p-3 bg-ui-sidebar rounded-xl border border-ui-border">
+              <p class="text-[11px] leading-relaxed text-ui-muted italic">
+                "{{ gameState.byteMessage() }}"
+              </p>
             </div>
           </div>
-          <div class="p-3 bg-ui-sidebar rounded-xl border border-ui-border">
-            <p class="text-[11px] leading-relaxed text-ui-muted italic">
-              "{{ gameState.byteMessage() }}"
-            </p>
+        } @else {
+          <!-- Tactical Remote Handler (Phase 2) -->
+          <div class="p-6 bg-brand-secondary border-t border-ui-border mt-auto">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg bg-ui-border flex items-center justify-center text-brand-primary font-mono text-lg border border-brand-primary/30">
+                <mat-icon>terminal</mat-icon>
+              </div>
+              <div>
+                <div class="text-xs font-bold text-white uppercase tracking-tighter">TACTICAL HANDLER</div>
+                <div class="text-[9px] text-brand-primary uppercase tracking-widest font-bold">LINK: ENCRYPTED</div>
+              </div>
+            </div>
+            <div class="p-3 bg-black/40 rounded-lg border border-brand-primary/20 backdrop-blur-md">
+              <p class="text-[10px] leading-relaxed text-brand-primary font-mono">
+                <span class="opacity-50">></span> {{ gameState.byteMessage() }}
+              </p>
+            </div>
           </div>
-        </div>
+        }
       </aside>
 
       <!-- Main Content Area -->
